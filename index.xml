@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fahri NH</title>
+    <link>/</link>
+    <description>Recent content on Fahri NH</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2021 &lt;a href=&#34;https://fahri.id&#34;&gt;Fahri NH&lt;/a&gt;
+</copyright>
+    <lastBuildDate>Fri, 16 Oct 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Chapter 1</title>
+      <link>/docs/example-doc/chapter-1/</link>
+      <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/example-doc/chapter-1/</guid>
+      <description>&lt;p&gt;This is chapter 1 of example doc.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Chapter 1</title>
+      <link>/docs/example-doc/nested-chapter/chapter-1/</link>
+      <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/example-doc/nested-chapter/chapter-1/</guid>
+      <description>&lt;p&gt;This is chapter 1 of nested chapter.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Chapter 2</title>
+      <link>/docs/example-doc/chapter-2/</link>
+      <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/example-doc/chapter-2/</guid>
+      <description>&lt;p&gt;This is chapter 2 of example doc.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Chapter 2</title>
+      <link>/docs/example-doc/nested-chapter/chapter-2/</link>
+      <pubDate>Fri, 16 Oct 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/docs/example-doc/nested-chapter/chapter-2/</guid>
+      <description>&lt;p&gt;This is chapter 2 of nested chapter.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir)</title>
+      <link>/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/</link>
+      <pubDate>Wed, 29 Apr 2020 10:58:39 +0700</pubDate>
+      
+      <guid>/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/</guid>
+      <description>&lt;p&gt;We will build a web application that supports local db synced with remote db. This post is a continuation from the previous post: &lt;a href=&#34;/posts/how-to-build-watermelondb-sync-backend-in-elixir/&#34;&gt;How to Build WatermelonDB Sync Backend in Elixir&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>How to Build WatermelonDB Sync Backend in Elixir</title>
+      <link>/posts/how-to-build-watermelondb-sync-backend-in-elixir/</link>
+      <pubDate>Fri, 24 Apr 2020 21:27:12 +0700</pubDate>
+      
+      <guid>/posts/how-to-build-watermelondb-sync-backend-in-elixir/</guid>
+      <description>WatermelonDB is a reactive database for React frontend application that supports data synchronization. This tutorial explains the concept and shows step by step how to build sync backend using Phoenix (Elixir)</description>
+    </item>
+    
+    <item>
+      <title>Generate Sequential UUIDv4 in Elixir</title>
+      <link>/posts/generate-sequential-uuidv4-in-elixir/</link>
+      <pubDate>Sun, 19 Apr 2020 12:38:13 +0700</pubDate>
+      
+      <guid>/posts/generate-sequential-uuidv4-in-elixir/</guid>
+      <description>&lt;p&gt;The idea is simple. Sequential UUIDv4 (128 bit) consists of &lt;code&gt;unix timestamp (32 bit) + random bytes (96 bit)&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>File Downloading in Headless Chrome Using ChromeDriver and Hound</title>
+      <link>/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</link>
+      <pubDate>Mon, 16 Sep 2019 13:10:45 +0700</pubDate>
+      
+      <guid>/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</guid>
+      <description>&lt;p&gt;Recently, I am making a simple Elixir application performing some actions to a website in an automated way.&lt;/p&gt;
+&lt;p&gt;The automated testing tool is a perfect candidate to be used to help to build application like that.
+I use &lt;a href=&#34;https://github.com/HashNuke/hound&#34;&gt;Hound&lt;/a&gt; as browser automation library
+and Chrome as a controlled browser.
+For the browser driver, I use &lt;a href=&#34;https://chromedriver.chromium.org/&#34;&gt;ChromeDriver&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>How to Update Pomera DM100 Firmware</title>
+      <link>/posts/how-to-update-pomera-dm100-firmware/</link>
+      <pubDate>Wed, 22 Nov 2017 06:13:35 +0700</pubDate>
+      
+      <guid>/posts/how-to-update-pomera-dm100-firmware/</guid>
+      <description>&lt;p&gt;Pomera DM100 is a distraction-free digital writing tool. Think mini laptop with only text editor application loaded.&lt;/p&gt;
+&lt;p&gt;It comes from Japan. It means its manual is in all Japanese. It becomes hard when you want to do the crucial procedure (like &lt;strong&gt;upgrading firmware&lt;/strong&gt;) &lt;strong&gt;AND&lt;/strong&gt; Google Translate doesn&amp;rsquo;t help you much.&lt;/p&gt;
+&lt;p&gt;I can only follow some steps in &lt;a href=&#34;https://translate.google.co.id/translate?hl=en&amp;amp;sl=ja&amp;amp;u=http://www.kingjim.co.jp/support/pomera/software/dm100&amp;amp;prev=search&#34;&gt;its updating guide web page&lt;/a&gt; and the rest of important steps in &lt;a href=&#34;http://www.kingjim.co.jp/resource/media/support/pomera/update_dm100.pdf&#34;&gt;PDF&lt;/a&gt; are not translatable by Google Translate.&lt;/p&gt;
+&lt;p&gt;In the end, I have successfully updated my Pomera DM100 to the latest firmware.&lt;/p&gt;
+&lt;p&gt;Here are the steps:&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)</title>
+      <link>/posts/java-how-to-autodetect-the-charset/</link>
+      <pubDate>Wed, 08 Nov 2017 04:42:36 +0700</pubDate>
+      
+      <guid>/posts/java-how-to-autodetect-the-charset/</guid>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TLDR;&lt;/h2&gt;
+&lt;p&gt;Required dependencies (&lt;code&gt;pom.xml&lt;/code&gt;) :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;com.ibm.icu&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;icu4j&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;60.1&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+      &amp;lt;groupId&amp;gt;commons-io&amp;lt;/groupId&amp;gt;
+      &amp;lt;artifactId&amp;gt;commons-io&amp;lt;/artifactId&amp;gt;
+      &amp;lt;version&amp;gt;2.6&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Autodetect the charset encoding of a text file or input stream then &amp;lsquo;remove&amp;rsquo; (skip) Byte Order Mark (BOM) while reading based on detected charset  :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;File inputFile = new File(&amp;quot;/Users/fahri/Downloads/UNKNOWN_TEXT.txt&amp;quot;);
+
+BOMInputStream bomInputStream = new BOMInputStream(new BufferedInputStream(new FileInputStream(inputFile)),
+        ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
+
+System.out.println(&amp;quot;HAS BOM : &amp;quot; + bomInputStream.hasBOM());
+
+CharsetDetector detector = new CharsetDetector();
+detector.setText(bomInputStream);
+
+CharsetMatch charsetMatch = detector.detect();
+System.out.println(&amp;quot;CHARSET MATCH : &amp;quot; + charsetMatch.getName());
+
+BufferedReader br = new BufferedReader(new InputStreamReader(bomInputStream, charsetMatch.getName()));
+for (String line = br.readLine(); line != null; line = br.readLine()) {
+    System.out.println(line);
+}
+br.close();
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

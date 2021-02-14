@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>UUIDv4 on Fahri NH</title>
+    <link>/tags/uuidv4/</link>
+    <description>Recent content in UUIDv4 on Fahri NH</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2021 &lt;a href=&#34;https://fahri.id&#34;&gt;Fahri NH&lt;/a&gt;
+</copyright>
+    <lastBuildDate>Sun, 19 Apr 2020 12:38:13 +0700</lastBuildDate><atom:link href="/tags/uuidv4/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Generate Sequential UUIDv4 in Elixir</title>
+      <link>/posts/generate-sequential-uuidv4-in-elixir/</link>
+      <pubDate>Sun, 19 Apr 2020 12:38:13 +0700</pubDate>
+      
+      <guid>/posts/generate-sequential-uuidv4-in-elixir/</guid>
+      <description>&lt;p&gt;The idea is simple. Sequential UUIDv4 (128 bit) consists of &lt;code&gt;unix timestamp (32 bit) + random bytes (96 bit)&lt;/code&gt;&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

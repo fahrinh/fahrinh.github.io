@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Fahri NH</title>
+    <link>/categories/</link>
+    <description>Recent content in Categories on Fahri NH</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2021 &lt;a href=&#34;https://fahri.id&#34;&gt;Fahri NH&lt;/a&gt;
+</copyright>
+    <lastBuildDate>Wed, 29 Apr 2020 10:58:39 +0700</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Phoenix</title>
+      <link>/categories/phoenix/</link>
+      <pubDate>Wed, 29 Apr 2020 10:58:39 +0700</pubDate>
+      
+      <guid>/categories/phoenix/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>React</title>
+      <link>/categories/react/</link>
+      <pubDate>Wed, 29 Apr 2020 10:58:39 +0700</pubDate>
+      
+      <guid>/categories/react/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Elixir</title>
+      <link>/categories/elixir/</link>
+      <pubDate>Fri, 24 Apr 2020 21:27:12 +0700</pubDate>
+      
+      <guid>/categories/elixir/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gear</title>
+      <link>/categories/gear/</link>
+      <pubDate>Wed, 22 Nov 2017 06:13:35 +0700</pubDate>
+      
+      <guid>/categories/gear/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>/categories/java/</link>
+      <pubDate>Wed, 08 Nov 2017 04:42:36 +0700</pubDate>
+      
+      <guid>/categories/java/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

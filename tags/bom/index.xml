@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>BOM on Fahri NH</title>
+    <link>/tags/bom/</link>
+    <description>Recent content in BOM on Fahri NH</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2021 &lt;a href=&#34;https://fahri.id&#34;&gt;Fahri NH&lt;/a&gt;
+</copyright>
+    <lastBuildDate>Wed, 08 Nov 2017 04:42:36 +0700</lastBuildDate><atom:link href="/tags/bom/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)</title>
+      <link>/posts/java-how-to-autodetect-the-charset/</link>
+      <pubDate>Wed, 08 Nov 2017 04:42:36 +0700</pubDate>
+      
+      <guid>/posts/java-how-to-autodetect-the-charset/</guid>
+      <description>&lt;h2 id=&#34;tldr&#34;&gt;TLDR;&lt;/h2&gt;
+&lt;p&gt;Required dependencies (&lt;code&gt;pom.xml&lt;/code&gt;) :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-xml&#34;&gt;&amp;lt;dependency&amp;gt;
+    &amp;lt;groupId&amp;gt;com.ibm.icu&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;icu4j&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;60.1&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&amp;lt;dependency&amp;gt;
+      &amp;lt;groupId&amp;gt;commons-io&amp;lt;/groupId&amp;gt;
+      &amp;lt;artifactId&amp;gt;commons-io&amp;lt;/artifactId&amp;gt;
+      &amp;lt;version&amp;gt;2.6&amp;lt;/version&amp;gt;
+&amp;lt;/dependency&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Autodetect the charset encoding of a text file or input stream then &amp;lsquo;remove&amp;rsquo; (skip) Byte Order Mark (BOM) while reading based on detected charset  :&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&#34;language-java&#34;&gt;File inputFile = new File(&amp;quot;/Users/fahri/Downloads/UNKNOWN_TEXT.txt&amp;quot;);
+
+BOMInputStream bomInputStream = new BOMInputStream(new BufferedInputStream(new FileInputStream(inputFile)),
+        ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
+
+System.out.println(&amp;quot;HAS BOM : &amp;quot; + bomInputStream.hasBOM());
+
+CharsetDetector detector = new CharsetDetector();
+detector.setText(bomInputStream);
+
+CharsetMatch charsetMatch = detector.detect();
+System.out.println(&amp;quot;CHARSET MATCH : &amp;quot; + charsetMatch.getName());
+
+BufferedReader br = new BufferedReader(new InputStreamReader(bomInputStream, charsetMatch.getName()));
+for (String line = br.readLine(); line != null; line = br.readLine()) {
+    System.out.println(line);
+}
+br.close();
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

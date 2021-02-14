@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>/id/categories/</loc>
+    <lastmod>2017-07-23T06:26:06+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="id"
+                href="/id/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>/id/tags/docker/</loc>
+    <lastmod>2017-07-23T06:26:06+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/</loc>
+    <lastmod>2017-07-23T06:26:06+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="id"
+                href="/id/"
+                />
+  </url>
+  
+  <url>
+    <loc>/id/categories/mini-tips/</loc>
+    <lastmod>2017-07-23T06:26:06+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/tags/oracle/</loc>
+    <lastmod>2017-07-23T06:26:06+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/posts/oracle-xe-11g-on-docker/</loc>
+    <lastmod>2017-07-23T06:26:06+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/posts/</loc>
+    <lastmod>2017-07-23T06:26:06+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/posts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="id"
+                href="/id/posts/"
+                />
+  </url>
+  
+  <url>
+    <loc>/id/tags/</loc>
+    <lastmod>2017-07-23T06:26:06+07:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="id"
+                href="/id/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>/id/tags/github-pages/</loc>
+    <lastmod>2017-07-22T21:02:09+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/tags/hugo/</loc>
+    <lastmod>2017-07-22T21:02:09+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/categories/hugo/</loc>
+    <lastmod>2017-07-22T21:02:09+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/posts/static-blogging-with-hugo/</loc>
+    <lastmod>2017-07-22T21:02:09+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/tags/travis-ci/</loc>
+    <lastmod>2017-07-22T21:02:09+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/posts/hello-world/</loc>
+    <lastmod>2017-07-22T16:20:01+07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/id/authors/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/authors/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="id"
+                href="/id/authors/"
+                />
+  </url>
+  
+  <url>
+    <loc>/id/series/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="/series/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="id"
+                href="/id/series/"
+                />
+  </url>
+  
+</urlset>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Fahri NH</title>
+    <link>/id/categories/</link>
+    <description>Recent content in Categories on Fahri NH</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>id</language>
+    <copyright>&amp;copy; 2021 &lt;a href=&#34;https://fahri.id&#34;&gt;Fahri NH&lt;/a&gt;
+</copyright>
+    <lastBuildDate>Sun, 23 Jul 2017 06:26:06 +0700</lastBuildDate><atom:link href="/id/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mini Tips</title>
+      <link>/id/categories/mini-tips/</link>
+      <pubDate>Sun, 23 Jul 2017 06:26:06 +0700</pubDate>
+      
+      <guid>/id/categories/mini-tips/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>/id/categories/hugo/</link>
+      <pubDate>Sat, 22 Jul 2017 21:02:09 +0700</pubDate>
+      
+      <guid>/id/categories/hugo/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang='en' ><meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+<title>Generate Sequential UUIDv4 in Elixir | Fahri NH</title>
+<link rel="stylesheet" href="/css/eureka.min.css">
+<script defer src="/js/eureka.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload"
+  href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+  as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/github.min.css"
+   media="print"
+  onload="this.media='all';this.onload=null" crossorigin>
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js"
+   crossorigin></script>
+
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/elixir.min.js"
+     crossorigin></script>
+
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/javascript.min.js"
+     crossorigin></script>
+
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js"
+     crossorigin></script>
+
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/xml.min.js"
+     crossorigin></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js"
+   integrity="sha256-uNYoXefWRqv&#43;PsIF/OflNmwtKM4lStn9yrz2gVl6ymo="  crossorigin></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+   integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3&#43;Aro6EYUG4&#43;cU&#43;KJWu/X"  media="print"
+  onload="this.media='all';this.onload=null" crossorigin>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" 
+  integrity="sha384-g7c&#43;Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI&#43;sEnkvrMWph2EDg4"  crossorigin></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+   integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC&#43;Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa"  crossorigin></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true }
+      ],
+    });
+  });
+</script>
+<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-92345605-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'UA-92345605-1');
+</script>
+
+
+<link rel="icon" type="image/png" sizes="32x32" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_32x32_fill_box_center_2.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_180x180_fill_box_center_2.png">
+
+<meta name="description"
+  content="The idea is simple. Sequential UUIDv4 (128 bit) consists of unix timestamp (32 bit) &#43; random bytes (96 bit)">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1 ,
+      "name":"Posts",
+      "item":"/posts/"},{
+      "@type": "ListItem",
+      "position": 2 ,
+      "name":"Generate Sequential UUIDv4 in Elixir",
+      "item":"/posts/generate-sequential-uuidv4-in-elixir/"}]
+}
+</script>
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "/posts/generate-sequential-uuidv4-in-elixir/"
+    },
+    "headline": "Generate Sequential UUIDv4 in Elixir | Fahri NH","datePublished": "2020-04-19T12:38:13+07:00",
+    "dateModified": "2020-04-19T12:38:13+07:00",
+    "wordCount":  207 ,
+    "publisher": {
+        "@type": "Person",
+        "name": "Fahri Nurul Hidayat",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "/images/icon.png"
+        }
+        },
+    "description": "\u003cp\u003eThe idea is simple. Sequential UUIDv4 (128 bit) consists of \u003ccode\u003eunix timestamp (32 bit) \u002b random bytes (96 bit)\u003c\/code\u003e\u003c\/p\u003e"
+}
+</script><meta property="og:title" content="Generate Sequential UUIDv4 in Elixir | Fahri NH" />
+<meta property="og:type" content="article" />
+
+
+<meta property="og:image" content="/images/icon.png">
+
+
+<meta property="og:url" content="/posts/generate-sequential-uuidv4-in-elixir/" />
+
+
+
+
+<meta property="og:description" content="The idea is simple. Sequential UUIDv4 (128 bit) consists of unix timestamp (32 bit) &#43; random bytes (96 bit)" />
+
+
+
+
+<meta property="og:locale" content="en" />
+
+
+
+
+<meta property="og:site_name" content="Fahri NH" />
+
+
+
+
+
+
+<meta property="article:published_time" content="2020-04-19T12:38:13&#43;07:00" />
+
+
+<meta property="article:modified_time" content="2020-04-19T12:38:13&#43;07:00" />
+
+
+
+<meta property="article:section" content="posts" />
+
+
+<meta property="article:tag" content="UUIDv4" />
+
+
+
+
+
+<body class="flex flex-col min-h-screen">
+  <header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+    <div class="w-full max-w-screen-xl mx-auto"><script>
+    let storageColorScheme = localStorage.getItem("lightDarkMode")
+    if (((storageColorScheme == 'Auto' || storageColorScheme == null) && window.matchMedia("(prefers-color-scheme: dark)").matches) || storageColorScheme == "Dark") {
+        document.getElementsByTagName('html')[0].classList.add('dark')
+    }
+</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+    <a href="/" class="mr-6 text-primary-text text-xl font-bold">Fahri NH</a>
+    <button id="navbar-btn" class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div id="target"
+        class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+        <div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+            <a href="/#about" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">About</a>
+            <a href="/posts/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  selected-menu-item  mr-4">Posts</a>
+            <a href="/categories/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Categories</a>
+            <a href="/tags/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Tags</a>
+        </div>
+
+        <div class="flex">
+            <div class="relative pt-4 md:pt-0">
+                <div class="cursor-pointer hover:text-eureka" id="lightDarkMode">
+                    <i class="fas fa-adjust"></i>
+                </div>
+                <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id="is-open">
+                </div>
+                <div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40"
+                    id='lightDarkOptions'>
+                    <span class="px-4 py-1 hover:text-eureka">Light</span>
+                    <span class="px-4 py-1 hover:text-eureka">Dark</span>
+                    <span class="px-4 py-1 hover:text-eureka">Auto</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id="is-open-mobile">
+    </div>
+
+</nav>
+<script>
+    let element = document.getElementById('lightDarkMode')
+    if (storageColorScheme == null || storageColorScheme == 'Auto') {
+        document.addEventListener('DOMContentLoaded', () => {
+            switchMode('Auto')
+        })
+    } else if (storageColorScheme == "Light") {
+        element.firstElementChild.classList.remove('fa-adjust')
+        element.firstElementChild.setAttribute("data-icon", 'sun')
+        element.firstElementChild.classList.add('fa-sun')
+    } else if (storageColorScheme == "Dark") {
+        element.firstElementChild.classList.remove('fa-adjust')
+        element.firstElementChild.setAttribute("data-icon", 'moon')
+        element.firstElementChild.classList.add('fa-moon')
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        getcolorscheme();
+        switchBurger();
+    });
+</script></div>
+  </header>
+  <main class="flex-grow pt-16">
+    <div class="pl-scrollbar">
+      <div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+
+
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+    <div
+        class="col-span-2  lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+        <h1 class="font-bold text-3xl text-primary-text">Generate Sequential UUIDv4 in Elixir</h1>
+        <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+    <div class="mr-6 my-2">
+        <i class="fas fa-calendar mr-1"></i>
+        <span>2020-04-19</span>
+    </div>
+    <div class="mr-6 my-2">
+        <i class="fas fa-clock mr-1"></i>
+        <span>1 min read</span>
+    </div>
+    
+    
+    <div class="mr-6 my-2">
+        <i class="fas fa-folder mr-1"></i>
+        
+        <a href="/categories/elixir/" class="hover:text-eureka">Elixir</a>
+        
+    </div>
+    
+
+    
+</div>
+        
+        
+        
+
+        <div class="content">
+            <p>The idea is simple. Sequential UUIDv4 (128 bit) consists of <code>unix timestamp (32 bit) + random bytes (96 bit)</code></p>
+<h2 id="uuidv4">UUIDv4</h2>
+<p>Basic form of normal UUIDv4 (128 bit) in hex numbers (32 digits) <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> :</p>
+<pre><code class="language-text">xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+</code></pre>
+<ul>
+<li>Each digit is 4 bit.</li>
+<li><code>x</code> is any random hexadecimal digit</li>
+<li><code>y</code> is either <code>8</code>, <code>9</code>, <code>A</code>, or <code>B</code></li>
+<li><code>4</code> and <code>y</code> are version flags indicate version 4 UUID <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup>
+<ul>
+<li><code>y</code> is 4 bit: <code>10zz</code> where <code>z</code> is random bit. Hence, the possible value of <code>y</code> is <code>1000</code> (<code>8</code>), <code>1001</code> (<code>9</code>), <code>1010</code> (<code>A</code>), <code>1011</code> (<code>B</code>)</li>
+</ul>
+</li>
+</ul>
+<h2 id="sequential-uuidv4">Sequential UUIDv4</h2>
+<p>A bit modification on normal form where first 32 bits are UNIX timestamp (or 8 digit in hex number) and remaining bits comply with UUIDv4 spec as explained above.</p>
+<pre><code class="language-text">tttttttt-xxxx-4xxx-yxxx-xxxxxxxxxxxx
+</code></pre>
+<ul>
+<li><code>t</code> is UNIX timestamp in hex digit</li>
+</ul>
+<p>Or in binary representation, the 128-bit sequential UUIDv4 consists of five segments:</p>
+<pre><code class="language-text">[unixtime:32][random:16]['4':4][random:12]['2'(first two bits of `y`):2][random:62]
+</code></pre>
+<h3 id="implementation-in-elixir">Implementation in Elixir</h3>
+<p>Thanks to binary pattern matching. The implementation in Elixir is trivial.</p>
+<pre><code class="language-elixir">defmodule SeqUUIDv4 do
+  def generate() do
+    unix_time = DateTime.utc_now() |&gt; DateTime.to_unix()
+
+    &lt;&lt;_r0::32, r1::16, _r2::4, r3::12, _r4::2, r5::62&gt;&gt; = :crypto.strong_rand_bytes(16)
+    &lt;&lt;unix_time::32, r1::16, 4::4, r3::12, 2::2, r5::62&gt;&gt;
+  end
+end
+</code></pre>
+<p>The output of <code>generate/0</code> is binary.
+To encode as hex numbers use <code>Base.encode16/1</code>:</p>
+<pre><code class="language-elixir">SeqUUIDv4.generate() |&gt; Base.encode16()
+</code></pre>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://stackoverflow.com/questions/19989481/how-to-determine-if-a-string-is-a-valid-v4-uuid/19989922#19989922">https://stackoverflow.com/questions/19989481/how-to-determine-if-a-string-is-a-valid-v4-uuid/19989922#19989922</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="http://tools.ietf.org/html/rfc4122#section-4.4">http://tools.ietf.org/html/rfc4122#section-4.4</a> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+        </div>
+        
+        <div class="my-4">
+    
+    <a href="/tags/uuidv4/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#UUIDv4</a>
+    
+</div>
+        
+        
+        
+        
+        
+        
+        
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+    <div>
+        
+        <span class="block font-bold">Previous</span>
+        <a href="/posts/how-to-build-watermelondb-sync-backend-in-elixir/" class="block">How to Build WatermelonDB Sync Backend in Elixir</a>
+        
+    </div>
+    <div class="md:text-right mt-4 md:mt-0">
+        
+        <span class="block font-bold">Next</span>
+        <a href="/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/" class="block">File Downloading in Headless Chrome Using ChromeDriver and Hound</a>
+        
+    </div>
+</div>
+
+        
+
+<script id="dsq-count-scr" src="//fahri-blog.disqus.com/count.js" async=""></script>
+<div class="disqus-comments">
+    <div id="showcom" class="flex justify-center my-4">
+        <button id="show-comments" class="bg-tertiary-bg rounded block m-auto m-0 px-3 py-1" type="button">
+            Show <span class="disqus-comment-count" data-disqus-url="posts/generate-sequential-uuidv4-in-elixir">comments</span>
+        </button>
+    </div>
+    <div id="disqus_thread"></div>
+</div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        document.getElementById('show-comments').onclick = function () {
+            var d = document, s = d.createElement('script'); s.async = true;
+            s.src = '//' + "fahri-blog" + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            this.parentNode.parentNode.removeChild(document.getElementById('showcom'));
+        }
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+    </div>
+    
+    <div class="col-span-2">
+        
+        
+        <div class="sticky top-16 z-10 hidden lg:block px-6 py-4  bg-primary-bg ">
+    <span class="text-lg font-semibold">On This Page</span>
+</div>
+<div class="sticky-toc hidden lg:block px-6 pb-6 ">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#uuidv4">UUIDv4</a></li>
+        <li><a href="#sequential-uuidv4">Sequential UUIDv4</a>
+          <ul>
+            <li><a href="#implementation-in-elixir">Implementation in Elixir</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+</div>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        enableStickyToc();
+    });
+</script>
+        
+    </div>
+    
+
+    
+    
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+        hljs.initHighlightingOnLoad();
+    })
+</script>
+
+      </div>
+    </div>
+    
+  </main>
+  <footer class="pl-scrollbar">
+    <div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+    <p class="text-sm text-tertiary-text">&copy; 2021 <a href="https://fahri.id">Fahri NH</a>
+ &middot;  Powered by the <a href="https://github.com/wangchucheng/hugo-eureka" class="hover:text-eureka">Eureka</a> theme for <a href="https://gohugo.io" class="hover:text-eureka">Hugo</a></p>
+</div></div>
+  </footer>
+</body>
+
+</html>

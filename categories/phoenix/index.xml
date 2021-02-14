@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Phoenix on Fahri NH</title>
+    <link>/categories/phoenix/</link>
+    <description>Recent content in Phoenix on Fahri NH</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2021 &lt;a href=&#34;https://fahri.id&#34;&gt;Fahri NH&lt;/a&gt;
+</copyright>
+    <lastBuildDate>Wed, 29 Apr 2020 10:58:39 +0700</lastBuildDate><atom:link href="/categories/phoenix/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir)</title>
+      <link>/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/</link>
+      <pubDate>Wed, 29 Apr 2020 10:58:39 +0700</pubDate>
+      
+      <guid>/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/</guid>
+      <description>&lt;p&gt;We will build a web application that supports local db synced with remote db. This post is a continuation from the previous post: &lt;a href=&#34;/posts/how-to-build-watermelondb-sync-backend-in-elixir/&#34;&gt;How to Build WatermelonDB Sync Backend in Elixir&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>How to Build WatermelonDB Sync Backend in Elixir</title>
+      <link>/posts/how-to-build-watermelondb-sync-backend-in-elixir/</link>
+      <pubDate>Fri, 24 Apr 2020 21:27:12 +0700</pubDate>
+      
+      <guid>/posts/how-to-build-watermelondb-sync-backend-in-elixir/</guid>
+      <description>WatermelonDB is a reactive database for React frontend application that supports data synchronization. This tutorial explains the concept and shows step by step how to build sync backend using Phoenix (Elixir)</description>
+    </item>
+    
+  </channel>
+</rss>

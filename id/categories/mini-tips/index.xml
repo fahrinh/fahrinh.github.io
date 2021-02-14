@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mini Tips on Fahri NH</title>
+    <link>/id/categories/mini-tips/</link>
+    <description>Recent content in Mini Tips on Fahri NH</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>id</language>
+    <copyright>&amp;copy; 2021 &lt;a href=&#34;https://fahri.id&#34;&gt;Fahri NH&lt;/a&gt;
+</copyright>
+    <lastBuildDate>Sun, 23 Jul 2017 06:26:06 +0700</lastBuildDate><atom:link href="/id/categories/mini-tips/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Oracle XE 11g dengan Docker</title>
+      <link>/id/posts/oracle-xe-11g-on-docker/</link>
+      <pubDate>Sun, 23 Jul 2017 06:26:06 +0700</pubDate>
+      
+      <guid>/id/posts/oracle-xe-11g-on-docker/</guid>
+      <description>&lt;pre&gt;&lt;code class=&#34;language-shell&#34;&gt;$ docker pull wnameless/oracle-xe-11g
+$ docker run -d -p 1022:22 -p 1521:1521 -e ORACLE_ALLOW_REMOTE=true wnameless/oracle-xe-11g
+$ docker ps -a
+CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS                    PORTS               NAMES
+4fe7a1024ed3        wnameless/oracle-xe-11g   &amp;quot;/bin/sh -c &#39;/usr/...&amp;quot;   5 weeks ago         Exited (137) 4 days ago                       practical_williams
+$ docker start practical_williams
+# or
+$ docker start 4fe7a1024ed3
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

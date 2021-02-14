@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang='en' ><meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+
+
+<title>How to Build WatermelonDB Sync Backend in Elixir | Fahri NH</title>
+<link rel="stylesheet" href="/css/eureka.min.css">
+<script defer src="/js/eureka.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload"
+  href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap"
+  as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/github.min.css"
+   media="print"
+  onload="this.media='all';this.onload=null" crossorigin>
+<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js"
+   crossorigin></script>
+
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/elixir.min.js"
+     crossorigin></script>
+
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/javascript.min.js"
+     crossorigin></script>
+
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js"
+     crossorigin></script>
+
+  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/xml.min.js"
+     crossorigin></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js"
+   integrity="sha256-uNYoXefWRqv&#43;PsIF/OflNmwtKM4lStn9yrz2gVl6ymo="  crossorigin></script>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
+   integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3&#43;Aro6EYUG4&#43;cU&#43;KJWu/X"  media="print"
+  onload="this.media='all';this.onload=null" crossorigin>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" 
+  integrity="sha384-g7c&#43;Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI&#43;sEnkvrMWph2EDg4"  crossorigin></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
+   integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC&#43;Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa"  crossorigin></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: "$$", right: "$$", display: true },
+        { left: "$", right: "$", display: false },
+        { left: "\\(", right: "\\)", display: false },
+        { left: "\\[", right: "\\]", display: true }
+      ],
+    });
+  });
+</script>
+<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-92345605-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'UA-92345605-1');
+</script>
+
+
+<link rel="icon" type="image/png" sizes="32x32" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_32x32_fill_box_center_2.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_180x180_fill_box_center_2.png">
+
+<meta name="description"
+  content="WatermelonDB is a reactive database for React frontend application that supports data synchronization. This tutorial explains the concept and shows step by step how to build sync backend using Phoenix (Elixir)">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+      "@type": "ListItem",
+      "position": 1 ,
+      "name":"Posts",
+      "item":"/posts/"},{
+      "@type": "ListItem",
+      "position": 2 ,
+      "name":"How to Build WatermelonDB Sync Backend in Elixir",
+      "item":"/posts/how-to-build-watermelondb-sync-backend-in-elixir/"}]
+}
+</script>
+
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "/posts/how-to-build-watermelondb-sync-backend-in-elixir/"
+    },
+    "headline": "How to Build WatermelonDB Sync Backend in Elixir | Fahri NH","datePublished": "2020-04-24T21:27:12+07:00",
+    "dateModified": "2020-04-24T21:27:12+07:00",
+    "wordCount":  2218 ,
+    "publisher": {
+        "@type": "Person",
+        "name": "Fahri Nurul Hidayat",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "/images/icon.png"
+        }
+        },
+    "description": "WatermelonDB is a reactive database for React frontend application that supports data synchronization. This tutorial explains the concept and shows step by step how to build sync backend using Phoenix (Elixir)"
+}
+</script><meta property="og:title" content="How to Build WatermelonDB Sync Backend in Elixir | Fahri NH" />
+<meta property="og:type" content="article" />
+
+
+<meta property="og:image" content="/images/icon.png">
+
+
+<meta property="og:url" content="/posts/how-to-build-watermelondb-sync-backend-in-elixir/" />
+
+
+
+
+<meta property="og:description" content="WatermelonDB is a reactive database for React frontend application that supports data synchronization. This tutorial explains the concept and shows step by step how to build sync backend using Phoenix (Elixir)" />
+
+
+
+
+<meta property="og:locale" content="en" />
+
+
+
+
+<meta property="og:site_name" content="Fahri NH" />
+
+
+
+
+
+
+<meta property="article:published_time" content="2020-04-24T21:27:12&#43;07:00" />
+
+
+<meta property="article:modified_time" content="2020-04-24T21:27:12&#43;07:00" />
+
+
+
+<meta property="article:section" content="posts" />
+
+
+<meta property="article:tag" content="WatermelonDB" />
+
+<meta property="article:tag" content="Sync Backend" />
+
+
+
+
+
+<body class="flex flex-col min-h-screen">
+  <header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
+    <div class="w-full max-w-screen-xl mx-auto"><script>
+    let storageColorScheme = localStorage.getItem("lightDarkMode")
+    if (((storageColorScheme == 'Auto' || storageColorScheme == null) && window.matchMedia("(prefers-color-scheme: dark)").matches) || storageColorScheme == "Dark") {
+        document.getElementsByTagName('html')[0].classList.add('dark')
+    }
+</script>
+<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
+    <a href="/" class="mr-6 text-primary-text text-xl font-bold">Fahri NH</a>
+    <button id="navbar-btn" class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div id="target"
+        class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
+        <div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
+            <a href="/#about" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">About</a>
+            <a href="/posts/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  selected-menu-item  mr-4">Posts</a>
+            <a href="/categories/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Categories</a>
+            <a href="/tags/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Tags</a>
+        </div>
+
+        <div class="flex">
+            <div class="relative pt-4 md:pt-0">
+                <div class="cursor-pointer hover:text-eureka" id="lightDarkMode">
+                    <i class="fas fa-adjust"></i>
+                </div>
+                <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id="is-open">
+                </div>
+                <div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40"
+                    id='lightDarkOptions'>
+                    <span class="px-4 py-1 hover:text-eureka">Light</span>
+                    <span class="px-4 py-1 hover:text-eureka">Dark</span>
+                    <span class="px-4 py-1 hover:text-eureka">Auto</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id="is-open-mobile">
+    </div>
+
+</nav>
+<script>
+    let element = document.getElementById('lightDarkMode')
+    if (storageColorScheme == null || storageColorScheme == 'Auto') {
+        document.addEventListener('DOMContentLoaded', () => {
+            switchMode('Auto')
+        })
+    } else if (storageColorScheme == "Light") {
+        element.firstElementChild.classList.remove('fa-adjust')
+        element.firstElementChild.setAttribute("data-icon", 'sun')
+        element.firstElementChild.classList.add('fa-sun')
+    } else if (storageColorScheme == "Dark") {
+        element.firstElementChild.classList.remove('fa-adjust')
+        element.firstElementChild.setAttribute("data-icon", 'moon')
+        element.firstElementChild.classList.add('fa-moon')
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        getcolorscheme();
+        switchBurger();
+    });
+</script></div>
+  </header>
+  <main class="flex-grow pt-16">
+    <div class="pl-scrollbar">
+      <div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
+
+
+<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
+    <div
+        class="col-span-2  lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
+        <h1 class="font-bold text-3xl text-primary-text">How to Build WatermelonDB Sync Backend in Elixir</h1>
+        <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
+    <div class="mr-6 my-2">
+        <i class="fas fa-calendar mr-1"></i>
+        <span>2020-04-24</span>
+    </div>
+    <div class="mr-6 my-2">
+        <i class="fas fa-clock mr-1"></i>
+        <span>11 min read</span>
+    </div>
+    
+    
+    <div class="mr-6 my-2">
+        <i class="fas fa-folder mr-1"></i>
+        
+        <a href="/categories/elixir/" class="hover:text-eureka">Elixir</a>
+        
+        
+        <span>, </span>
+        <a href="/categories/phoenix/" class="hover:text-eureka">Phoenix</a>
+        
+    </div>
+    
+
+    
+</div>
+        
+        
+        
+
+        <div class="content">
+            <h1 id="watermelondb">WatermelonDB</h1>
+<p><a href="https://github.com/Nozbe/WatermelonDB">WatermelonDB</a> is a reactive database for React frontend application that supports data synchronization.</p>
+<p><img src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/watermelondb.plantuml" alt="WatermelonDB"></p>
+<p>What I like about this database is you can bring your own sync backend (HTTP-based) as long as it complies with this spec:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th style="text-align:center">Request Params / Body</th>
+<th style="text-align:center">Response Body</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pull</td>
+<td style="text-align:center">- <code>lastPulledAt</code>: <em>integer, Unix time in milliseconds (ms)</em></td>
+<td style="text-align:center">- <code>changes</code>: <em>(JSON)</em> <br/> - <code>timestamp</code>: <em>integer, Unix time in milliseconds (ms)</em></td>
+</tr>
+<tr>
+<td>Push</td>
+<td style="text-align:center">- <code>changes</code>: <em>(JSON)</em> <br/> - <code>lastPulledAt</code>: <em>integer, Unix time in milliseconds (ms)</em></td>
+<td style="text-align:center"><em>X</em></td>
+</tr>
+</tbody>
+</table>
+<p>The following is a brief how pull and push operation works. Please refer to <a href="https://nozbe.github.io/WatermelonDB/Advanced/Sync.html">Sync documentation</a> for the details</p>
+<h2 id="pull-operation">Pull Operation</h2>
+<p>Request:</p>
+<ul>
+<li><code>lastPulledAt</code> is a timestamp retrieved in the last/previous pull operation</li>
+</ul>
+<p>Response:</p>
+<ul>
+<li><code>changes</code> is a JSON containing changes of data (created, updated, deleted) since <code>lastPulledAt</code> at server</li>
+<li><code>timestamp</code> is a timestamp that will replace <code>lastPulledAt</code> for the next pull operation.</li>
+</ul>
+<h2 id="push-operation">Push Operation</h2>
+<p>Request:</p>
+<ul>
+<li><code>changes</code> is a JSON containing data changes on the client (local) that will be applied by server on server DB.</li>
+<li><code>lastPulledAt</code> is a timestamp retrieved in the last/previous pull operation. This is for conflict detection. Server compare modification time of each row of <code>changes</code> on server DB with <code>lastPulledAt</code>. If it is greater, there is a conflict.</li>
+</ul>
+<p>Response:</p>
+<ul>
+<li>No specified response</li>
+</ul>
+<h2 id="changes-example"><code>changes</code> Example</h2>
+<pre><code class="language-json">{
+    &quot;posts&quot;: {
+        &quot;created&quot;: [
+            {
+                &quot;id&quot;: &quot;d1633195-156f-4f9d-9ccf-7740203b080e&quot;,
+                &quot;_status&quot;: &quot;created&quot;,
+                &quot;_changed&quot;: &quot;&quot;,
+                &quot;title&quot;: &quot;Phoenix&quot;,
+                &quot;content&quot;: &quot;Phoenix is a web framework for Elixir&quot;,
+                &quot;likes&quot;: 200,
+                &quot;created_at&quot;: 1588400731806,
+                &quot;updated_at&quot;: 1588400731806
+            }
+        ],
+        &quot;updated&quot;: [
+            {
+                &quot;id&quot;: &quot;2d7c6a82-eb04-47b1-be52-6f8f6cf806ff&quot;,
+                &quot;_status&quot;: &quot;updated&quot;,
+                &quot;_changed&quot;: &quot;updated_at,title,content,likes&quot;,
+                &quot;title&quot;: &quot;Elixir&quot;,
+                &quot;content&quot;: &quot;Elixir is amazing&quot;,
+                &quot;likes&quot;: 100,
+                &quot;created_at&quot;: 1588389279195,
+                &quot;updated_at&quot;: 1588400691047
+            }
+        ],
+        &quot;deleted&quot;: [
+            &quot;2b130e52-079d-4b31-9f42-ce257cf546f0&quot;
+        ]
+    },
+    &quot;comments&quot;: {
+        &quot;created&quot;: [],
+        &quot;updated&quot;: [
+            {
+                &quot;id&quot;: &quot;1e945c88-baf2-4db7-aa39-286b6865b3fb&quot;,
+                &quot;comment&quot;: &quot;That's good!&quot;
+            }
+        ],
+        &quot;deleted&quot;: []
+    }
+}
+</code></pre>
+<ul>
+<li><code>created</code> and <code>updated</code> is an array of object containing created / updated records</li>
+<li><code>deleted</code> is an array of string of deleted IDs</li>
+</ul>
+<h2 id="sync-flow">Sync Flow</h2>
+<p>Based on the documentation and <a href="(https://nozbe.github.io/WatermelonDB/Advanced/Sync.html#using-synchronize)">sync code example (<code>synchronize()</code>) on client side</a>, this is what will be expected from sync backend:</p>
+<p><img src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/watermelondb-sync-flow.plantuml" alt="WatermelonDB Sync Flow"></p>
+<h1 id="proposed-alternative-sync-approach">Proposed Alternative Sync Approach</h1>
+<p>While in iterations of prototyping sync backend, I took another approach for tracking changes and made a workaround for an issue in regard to WatermelonDB sync behaviour on client side.</p>
+<h2 id="using-auto-incrementing-counter-version--timestamp-for-tracking-changes">Using Auto-incrementing Counter (Version) + Timestamp for Tracking Changes</h2>
+<p>WatermelonDB sync documentation is good enough to gives a tips for implementing sync backend by using timestamp. It also states:</p>
+<blockquote>
+<p>This protects against weird edge cases related to server clock time changes (NTP time sync, leap seconds, etc.) (<strong>Alternatively, instead of using timestamps, you could use auto-incrementing couters, but you&rsquo;d have to ensure they are consistent across the whole database, not just one table</strong>)</p>
+</blockquote>
+<p>I followed its suggestion to use auto-incrementing counter. In my approach, for tracking changes, it needs these server DB setup: a global sequence (<code>version_seq</code>) &amp; each table have columns: <code>version</code> (int), <code>version_created</code> (int), <code>created_at_server</code> (timestamp), <code>updated_at_server</code> (timestamp), and <code>deleted_at_server</code> (timestamp).</p>
+<p>Please see <a href="#database-design">Database Design</a> to know how this is implemented in practice.</p>
+<h2 id="workaround-for-sync-on-client-side">Workaround for Sync on Client Side</h2>
+<p>There is a problem if we use <a href="https://nozbe.github.io/WatermelonDB/Advanced/Sync.html#using-synchronize">sync code example (<code>synchronize()</code>) for client side on the documentation</a>.</p>
+<p>Please look again at <a href="#sync-flow">Sync Flow diagram</a> above.</p>
+<p>In <strong>8</strong>, after WatermelonDB receives <code>changes</code> &amp; <code>timestamp</code>, internally, <code>timestamp</code> value is set as <code>lastPulledAt</code> for the next pull operation. That is not problem.</p>
+<p>At first, I assume it will have same mechanism for push operation.
+We got new <code>timestamp</code> that will be become the next <code>lastPulledAt</code>.
+But I am wrong.
+Look at <strong>15</strong>.
+No response at all for push operation AND no way to explicitly set <code>lastPulledAt</code> on the push operation.
+It means for the next pull operation, we will get changes that we&rsquo;ve just pushed on previous push operation. Well, it actually mentioned <a href="https://nozbe.github.io/WatermelonDB/Advanced/Sync.html#current-limitations">in the documentation</a>:</p>
+<blockquote>
+<p>Current limitations</p>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>During next sync pull, changes we&rsquo;ve just pushed will be pulled again, which is unnecessary. It would be better if server, during push, also pulled local changes since <code>lastPulledAt</code> and responded with NEW timestamp to be treated as <code>lastPulledAt</code>.</li>
+</ol>
+</blockquote>
+<p>I don&rsquo;t know why this library designed to behave like this. It raised <a href="https://github.com/Nozbe/WatermelonDB/issues/649">an issue complaining/questioning about that</a>.</p>
+<h3 id="sync-flow-workaround">Sync Flow Workaround</h3>
+<p>So this is what I did for a temporary solution/workaround:</p>
+<p><img src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/watermelondb-sync-flow-workaround.plantuml" alt="WatermelonDB Sync Flow Workaround"></p>
+<ul>
+<li>introduce variable <code>latestVersionOfSession</code> &amp; <code>changesOfSession</code> (<strong>1</strong>)</li>
+<li>call <code>synchronize()</code> twice (<strong>2</strong> &amp; <strong>20</strong>)</li>
+<li>on first <code>synchronize()</code>, pull &amp; push operation retrieve <code>latestVersion</code> &amp; <code>changes</code> (<strong>8</strong> &amp; <strong>19</strong>) then set it as <code>latestVersionOfSession</code> &amp; <code>changesOfSession</code> value</li>
+<li>on second <code>synchronize()</code>, pull operation only set <code>lastPulledAt = latestVersionOfSession</code> &amp; <code>changes = changesOfSession</code> to be applied on LocalDB (<strong>22</strong>). Push operation does nothing.</li>
+</ul>
+<p>This is workaround for the client side. The code is available on <a href="/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/">the next post</a>.</p>
+<h1 id="application-example-blogapp">Application Example: BlogApp</h1>
+<p>Let&rsquo;s say we want to build a blog app (web based) that supports data synchronization.
+User can submit, edit, and delete a post content. If user click Sync button, data located on current browser will be synced to server. So if user open another browser (another client device), data will be automically synced and available on that browser.</p>
+<p>This tutorial only covers how to build sync backend implementation. Frontend (ReactJS) implementation is available on the next post: <a href="/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/">Building an Offline First React Web App Using WatermelonDB in Phoenix (Elixir)</a>.</p>
+<h2 id="database-design">Database Design</h2>
+<table>
+<thead>
+  <tr>
+    <th colspan="2">LocalDB</th>
+    <th colspan="3">ServerDB</th>
+  </tr>
+  <tr>
+    <th colspan="2">WatermelonDB</br><code>posts</code> table</th>
+    <th colspan="3">PostgreSQL</br><code>posts</code> table</th>
+  </tr>
+  <tr>
+    <th>Column</th>
+    <th>Type</th>
+    <th>Column</th>
+    <th>Type</th>
+    <th>Default</th>
+  </tr>
+</thead>
+<tbody>
+  <tr align="center">
+    <td><code>id</code></td>
+    <td>string (UUID format)</td>
+    <td><code>id</code></td>
+    <td>uuid (binary)</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td><code>title</code></td>
+    <td>string</td>
+    <td><code>title</code></td>
+    <td>varchar</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td><code>content</code></td>
+    <td>string</td>
+    <td><code>content</code></td>
+    <td>varchar</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td><code>likes</code></td>
+    <td>number</td>
+    <td><code>likes</code></td>
+    <td>integer</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td><code>created_at</code></td>
+    <td>number</br>(UNIX timestamp in ms)</td>
+    <td><code>created_at</code></td>
+    <td>timestamp (in μs)</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td><code>updated_at</code></td>
+    <td>number</br>(UNIX timestamp in ms)</td>
+    <td><code>updated_at</code></td>
+    <td>timestamp (in μs)</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td>-</td>
+    <td>-</td>
+    <td><code>created_at_server</code></td>
+    <td>timestamp (in μs)</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td>-</td>
+    <td>-</td>
+    <td><code>updated_at_server</code></td>
+    <td>timestamp (in μs)</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td>-</td>
+    <td>-</td>
+    <td><code>deleted_at_server</code></td>
+    <td>timestamp (in μs)</td>
+    <td>-</td>
+  </tr>
+  <tr align="center">
+    <td>-</td>
+    <td>-</td>
+    <td><code>version</code></td>
+    <td>bigint</td>
+    <td><code>nextval('version_seq')</code></td>
+  </tr>
+  <tr align="center">
+    <td>-</td>
+    <td>-</td>
+    <td><code>version_created</code></td>
+    <td>bigint</td>
+    <td><code>nextval('version_seq')</code></td>
+  </tr>
+</tbody>
+</table>
+<h2 id="determining-data-changes">Determining Data Changes</h2>
+<p>For push operation:</p>
+<ul>
+<li>when a new data is created:
+<ul>
+<li><code>version = nextval('version_seq')</code></li>
+<li><code>version_created = nextval('version_seq')</code></li>
+<li><code>created_at_server = current time</code></li>
+<li><code>updated_at_server = current time</code></li>
+</ul>
+</li>
+<li>when a data is updated:
+<ul>
+<li><code>version = nextval('version_seq')</code></li>
+<li><code>updated_at_server = current time</code></li>
+</ul>
+</li>
+<li>when a data is deleted:
+<ul>
+<li><code>version = nextval('version_seq')</code></li>
+<li><code>deleted_at_server = current time</code></li>
+</ul>
+</li>
+</ul>
+<p>For pull operation:</p>
+<ul>
+<li>
+<p>retrieve all data that were changed since <code>lastPulledVersion</code>:</p>
+<p><code>SELECT * FROM posts WHERE version_created &gt; &lt;lastPulledVersion&gt; OR version &gt; &lt;lastPulledVersion&gt;</code></p>
+</li>
+<li>
+<p>Then categorize which records were created, updated, or deleted :</p>
+<ul>
+<li>
+<p>created</p>
+<p><code>version_created &gt; &lt;lastPulledVersion&gt; AND deleted_at_server IS NULL</code></p>
+</li>
+<li>
+<p>updated</p>
+<p><code>created_at_server != updated_at_server AND deleted_at_server IS NULL</code></p>
+</li>
+<li>
+<p>deleted</p>
+<p><code>deleted_at_server IS NOT NULL</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="sync-backend-implementation">Sync Backend Implementation</h1>
+<p>Sync Backend consists of four main components: <code>SyncController</code>, <code>Sync</code> context, <code>Blog</code> context, and <code>Repo</code>. If you come from another framework, <em>context</em> is kind of like <em>service</em>.</p>
+<p><img src="https://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/blog-app-architecture.plantuml" alt="BlogApp Architecture"></p>
+<p>We will build sync backend using Elixir 1.10 and Phoenix 1.5.1</p>
+<p>Install Phoenix 1.5.1:</p>
+<pre><code class="language-shell">$ mix archive.uninstall phx_new
+$ mix archive.install hex phx_new 1.5.1
+</code></pre>
+<p>Generate a new Phoenix web app:</p>
+<pre><code class="language-shell">$ mix phx.new blog_app
+</code></pre>
+<p>We will use PostgreSQL on Docker with password and database name specified on <code>config/dev.exs</code>:</p>
+<pre><code class="language-shell">$ docker run --name blog-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=blog_app_dev -d -p 5432:5432 postgres:12.2
+</code></pre>
+<p>Create the database:</p>
+<pre><code class="language-shell">$ cd blog_app
+$ mix ecto.create
+</code></pre>
+<p>Create <code>version_seq</code> sequence that will generate version for each data changes :</p>
+<pre><code class="language-shell">$ mix ecto.gen.migration create_version_seq
+</code></pre>
+<pre><code class="language-elixir"># priv/repo/migrations/xxx_create_version_seq.exs
+defmodule BlogApp.Repo.Migrations.CreateVersionSeq do
+  use Ecto.Migration
+
+  def change do
+    execute &quot;CREATE SEQUENCE version_seq&quot;
+  end
+end
+</code></pre>
+<pre><code class="language-shell">$ mix ecto.migrate
+</code></pre>
+<p>Generate <code>Post</code> schema:</p>
+<pre><code class="language-shell">$ mix phx.gen.schema Blog.Post posts title:string content:string likes:integer push_id:integer created_at:utc_datetime_usec updated_at:utc_datetime_usec created_at_server:utc_datetime_usec updated_at_server:utc_datetime_usec deleted_at_server:utc_datetime_usec version:integer version_created:integer --binary-id
+</code></pre>
+<p>Set default value of <code>version*</code> columns with a incremental number generated by <code>version_seq</code>.
+As it may increase overtime, change <code>version*</code> columns type to <code>bigint</code> to support bigger value.
+We don&rsquo;t need <code>inserted_at</code> and <code>updated_at</code> columns generated by Phoenix so we omit <code>timestamps()</code>.
+Edit <code>xxx_create_posts.exs</code>:</p>
+<pre><code class="language-diff"># priv/repo/migrations/xxx_create_posts.exs
+defmodule BlogApp.Repo.Migrations.CreatePosts do
+  use Ecto.Migration
+
+  def change do
+    create table(:posts, primary_key: false) do
+      add :id, :binary_id, primary_key: true
+      add :title, :string
+      add :content, :string
+      add :likes, :integer
+      add :created_at, :utc_datetime_usec
+      add :updated_at, :utc_datetime_usec
+      add :created_at_server, :utc_datetime_usec
+      add :updated_at_server, :utc_datetime_usec
+      add :deleted_at_server, :utc_datetime_usec
+      add :push_id, :integer
+-     add :version, :integer
++     add :version, :bigint, default: fragment(&quot;nextval('version_seq')&quot;)
+-     add :version_created, :integer
++     add :version_created, :bigint, default: fragment(&quot;nextval('version_seq')&quot;)
+
+-     timestamps()
+    end
+  end
+end
+</code></pre>
+<p>To enable JSON encoding for <code>Post</code> schema, annotate it with <code>@derive</code> <code>Jason.Encoder</code> for certain columns only:</p>
+<pre><code class="language-diff"># lib/blog_app/blog/post.ex
+defmodule BlogApp.Blog.Post do
+  use Ecto.Schema
+  import Ecto.Changeset
+
+  @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
++ @derive {Jason.Encoder, only: [:id, :title, :content, :likes]}
+  schema &quot;posts&quot; do
+    field :title, :string
+    field :content, :string
+    field :likes, :integer
+    field :created_at, :utc_datetime_usec
+    field :updated_at, :utc_datetime_usec
+    field :created_at_server, :utc_datetime_usec
+    field :updated_at_server, :utc_datetime_usec
+    field :deleted_at_server, :utc_datetime_usec
+    field :push_id, :integer
+    field :version, :integer
+    field :version_created, :integer
+
+-   timestamps()
+  end
+  # ...
+end
+</code></pre>
+<pre><code class="language-shell">$ mix ecto.migrate
+</code></pre>
+<h2 id="sync-endpoint">Sync Endpoint</h2>
+<p>Sync endpoint will be handled by:</p>
+<ul>
+<li>push: <code>POST /api/sync/push?lastPulledVersion=&lt;lastPulledVersion&gt;</code></li>
+<li>pull: <code>GET /api/sync/pull?lastPulledVersion=&lt;lastPulledVersion&gt;</code></li>
+</ul>
+<p>Edit <code>lib/blog_app_web/router.ex</code></p>
+<pre><code class="language-elixir"># lib/blog_app_web/router.ex
+defmodule BlogAppWeb.Router do
+    # ...
+    scope &quot;/api&quot;, BlogAppWeb do
+      pipe_through :api
+
+      post &quot;/sync/push&quot;, SyncController, :push
+      get &quot;/sync/pull&quot;, SyncController, :pull
+    end
+    # ...
+end
+</code></pre>
+<h3 id="controller">Controller</h3>
+<p>Create <code>lib/blog_app_web/controllers/sync_controller.ex</code></p>
+<pre><code class="language-elixir"># lib/blog_app_web/controllers/sync_controller.ex
+defmodule BlogAppWeb.SyncController do
+  use BlogAppWeb, :controller
+  alias BlogApp.Sync
+
+  def push(
+        %Plug.Conn{
+          body_params: req_body,
+          query_params: %{&quot;lastPulledVersion&quot; =&gt; last_pulled_version}
+        } = conn,
+        _params
+      ) do
+
+    resp =  Sync.push(req_body, String.to_integer(last_pulled_version))
+    json(conn, resp)
+  end
+
+  def pull(
+        %Plug.Conn{
+          query_params: %{&quot;lastPulledVersion&quot; =&gt; last_pulled_version}
+        } = conn,
+        _params
+      ) do
+
+    resp = Sync.pull(String.to_integer(last_pulled_version))
+    json(conn, resp)
+  end
+end
+</code></pre>
+<h2 id="push">Push</h2>
+<p>Changes have to be recorded in a DB transaction.
+If there is a failed data operation, every operation must be rolled back.</p>
+<p>In a push operation, data that will be recorded are also annotated with a <code>push_id</code>.
+Later on, after push operation has been successfully applied, all changes since <code>last_pulled_version</code> are retrieved to become push response except those have already been applied (filtered with <code>push_id</code>).</p>
+<p><code>BlogApp.Sync.push/2</code>:</p>
+<pre><code class="language-elixir"># lib/blog_app/sync.ex
+defmodule BlogApp.Sync do
+  alias BlogApp.{Repo, Blog}
+
+  def push(changes, last_pulled_version) do
+    push_id = Enum.random(1..1_000_000_000)
+
+    Ecto.Multi.new()
+    |&gt; Blog.record_posts(changes[&quot;posts&quot;], last_pulled_version, push_id)
+    |&gt; Repo.transaction()
+
+    pull(last_pulled_version, push_id)
+  end
+  # ...
+end
+</code></pre>
+<p><code>BlogApp.Blog.record_posts/4</code>:</p>
+<pre><code class="language-elixir"># lib/blog_app/blog.ex
+defmodule BlogApp.Blog do
+  import Ecto.Query
+  alias Ecto.Multi
+  alias BlogApp.Repo
+  alias BlogApp.Blog.Post
+
+  def record_posts(%Multi{} = multi, post_changes, last_pulled_version, push_id) do
+    multi
+    |&gt; Multi.run(:check_conflict_posts, fn _, _changes -&gt;
+      case check_conflict_version_posts(post_changes, last_pulled_version) do
+        :no_conflict -&gt; {:ok, :no_conflict}
+        :conflict -&gt; {:error, :conflict}
+      end
+    end)
+    |&gt; record_created_posts(post_changes[&quot;created&quot;] |&gt; set_push_id(push_id))
+    |&gt; record_updated_posts(post_changes[&quot;updated&quot;] |&gt; set_push_id(push_id))
+    |&gt; record_deleted_posts(post_changes[&quot;deleted&quot;], push_id)
+  end
+  # ...
+  defp set_push_id(posts, push_id) do
+    posts
+    |&gt; Enum.map(fn post -&gt; post |&gt; Map.put(&quot;push_id&quot;, push_id) end)
+  end
+  # ...
+end
+</code></pre>
+<h3 id="conflict-detection">Conflict Detection</h3>
+<p>Conflict happens when other users/clients have modified data that we&rsquo;re pushing.</p>
+<p><code>Blog.check_conflict_version_posts/2</code> :</p>
+<pre><code class="language-elixir"># lib/blog_app/blog.ex
+defmodule BlogApp.Blog do
+  # ...
+  def check_conflict_version_posts(post_changes, last_pulled_version) do
+    ids =
+      Enum.concat(post_changes[&quot;created&quot;], post_changes[&quot;updated&quot;])
+      |&gt; Enum.map(fn post -&gt; post[&quot;id&quot;] end)
+      |&gt; Enum.concat(post_changes[&quot;deleted&quot;])
+
+    count =
+      Post
+      |&gt; select([p], count(p.version))
+      |&gt; where([p], p.id in ^ids)
+      |&gt; where([p], p.version &gt; ^last_pulled_version or p.version_created &gt; ^last_pulled_version)
+      |&gt; Repo.one()
+
+    case count do
+      0 -&gt; :no_conflict
+      _ -&gt; :conflict
+    end
+  end
+  # ...
+end
+</code></pre>
+<h3 id="storing-record-changes">Storing Record Changes</h3>
+<p>Data changes are saved on database in bulk using <code>INSERT INTO CONFLICT</code> on PostgreSQL.
+This is also known as UPSERT (update or insert).</p>
+<p><code>Blog.upsert_posts/3</code> handle both create &amp; update case.
+<code>Blog.record_created_posts/2</code> &amp; <code>Blog.record_updated_posts/2</code> :</p>
+<pre><code class="language-elixir"># lib/blog_app/blog.ex
+defmodule BlogApp.Blog do
+  # ...
+  def record_created_posts(%Multi{} = multi, created_changes),
+    do: upsert_posts(multi, :create_posts, created_changes)
+
+  def record_updated_posts(%Multi{} = multi, updated_changes),
+    do: upsert_posts(multi, :update_posts, updated_changes)
+
+  def upsert_posts(%Multi{} = multi, _name, changes) when is_nil(changes),
+    do: multi
+
+  def upsert_posts(%Multi{} = multi, name, changes) do
+    now = DateTime.utc_now()
+
+    posts =
+      changes
+      |&gt; Enum.map(fn row -&gt;
+        row
+        |&gt; Map.put(&quot;created_at&quot;, row[&quot;created_at&quot;] * 1000 |&gt; DateTime.from_unix!(:microsecond))
+        |&gt; Map.put(&quot;updated_at&quot;, row[&quot;updated_at&quot;] * 1000 |&gt; DateTime.from_unix!(:microsecond))
+        |&gt; Map.put(&quot;created_at_server&quot;, now)
+        |&gt; Map.put(&quot;updated_at_server&quot;, now)
+        |&gt; Map.take([&quot;id&quot;, &quot;title&quot;, &quot;content&quot;, &quot;likes&quot;, &quot;created_at&quot;, &quot;updated_at&quot;, &quot;created_at_server&quot;, &quot;updated_at_server&quot;, &quot;push_id&quot;])
+        |&gt; key_to_atom()
+      end)
+
+    Multi.insert_all(multi, name, Post, posts,
+      conflict_target: :id,
+      on_conflict: {:replace_all_except, [:id, :version_created, :created_at_server, :deleted_at_server]},
+      returning: true
+    )
+  end
+
+  def key_to_atom(map) do
+    Enum.reduce(map, %{}, fn
+      {key, value}, acc when is_atom(key) -&gt; Map.put(acc, key, value)
+      {key, value}, acc when is_binary(key) -&gt; Map.put(acc, String.to_existing_atom(key), value)
+    end)
+  end
+  # ...
+end
+</code></pre>
+<p><code>Blog.record_deleted_posts/3</code> :</p>
+<pre><code class="language-elixir"># lib/blog_app/blog.ex
+defmodule BlogApp.Blog do
+  # ...
+  def record_deleted_posts(%Multi{} = multi, deleted_ids, _push_id) when is_nil(deleted_ids),
+    do: multi
+
+  def record_deleted_posts(%Multi{} = multi, deleted_ids, push_id) do
+    now = DateTime.utc_now()
+
+    posts =
+      deleted_ids
+      |&gt; Enum.map(fn id -&gt;
+        %{id: id, deleted_at_server: now, push_id: push_id}
+      end)
+
+    Multi.insert_all(multi, :delete_posts, Post, posts,
+      conflict_target: :id,
+      on_conflict: {:replace, [:deleted_at_server, :version, :push_id]},
+      returning: true
+    )
+  end
+  # ...
+end
+</code></pre>
+<h2 id="pull">Pull</h2>
+<p>Pull endpoint calls <code>Sync.pull</code> without <code>push_id</code> specified.
+It means all data changes since <code>last_pulled_version</code> become the response of pull operation.</p>
+<pre><code class="language-elixir"># lib/blog_app/sync.ex
+defmodule BlogApp.Sync do
+  # ...
+  def pull(last_pulled_version, push_id \\ nil) do
+    %{latest_version: latest_version_posts, changes: posts_changes} =
+      Blog.list_posts_changes(last_pulled_version, push_id)
+
+    latest_version =
+      [last_pulled_version, latest_version_posts]
+      |&gt; Enum.max()
+
+    %{
+      &quot;latestVersion&quot; =&gt; latest_version,
+      &quot;changes&quot; =&gt; %{
+        &quot;posts&quot; =&gt; posts_changes
+      }
+    }
+  end
+end
+</code></pre>
+<p><code>Blog.list_posts_changes/2</code>:</p>
+<pre><code class="language-elixir"># lib/blog_app/blog.ex
+defmodule BlogApp.Blog do
+  # ...
+  def list_posts_changes(last_pulled_version, push_id) do
+    posts_latest =
+      Post
+      |&gt; where([p], p.version_created &gt; ^last_pulled_version or p.version &gt; ^last_pulled_version)
+      |&gt; Repo.all()
+
+    posts_changes =
+      posts_latest
+      |&gt; Enum.reject(fn post -&gt; is_just_pushed(post, push_id) end)
+      |&gt; Enum.group_by(fn post -&gt;
+        cond do
+          post.version_created &gt; last_pulled_version and is_nil(post.deleted_at_server) -&gt; :created
+          post.created_at_server != post.updated_at_server and is_nil(post.deleted_at_server) -&gt; :updated
+          not is_nil(post.deleted_at_server) -&gt; :deleted
+        end
+      end)
+      |&gt; Map.update(:created, [], fn posts -&gt; posts end)
+      |&gt; Map.update(:updated, [], fn posts -&gt; posts end)
+      |&gt; Map.update(:deleted, [], fn posts -&gt; posts |&gt; Enum.map(fn post -&gt; post.id end) end)
+
+    latest_version = find_latest_version(posts_latest)
+
+    %{latest_version: latest_version, changes: posts_changes}
+  end
+
+  defp find_latest_version(posts) do
+    posts
+    |&gt; Enum.flat_map(fn post -&gt; [post.version, post.version_created] end)
+    |&gt; Enum.max(fn -&gt; 0 end)
+  end
+  # ...
+  defp is_just_pushed(_post, push_id) when is_nil(push_id), do: false
+  defp is_just_pushed(post, push_id), do: post.push_id == push_id
+end
+</code></pre>
+<h2 id="run-the-backend">Run the Backend</h2>
+<pre><code class="language-shell">$ mix phx.server
+</code></pre>
+<p>Sync endpoint will be available on</p>
+<ul>
+<li>push: <code>POST http://localhost:4000/api/sync/push?lastPulledVersion=&lt;lastPulledVersion&gt;</code></li>
+<li>pull: <code>GET http://localhost:4000/api/sync/pull?lastPulledVersion=&lt;lastPulledVersion&gt;</code></li>
+</ul>
+<h1 id="whats-next-">What&rsquo;s Next ?</h1>
+<p>We have build a sync backend for WatermelonDB frontend application.
+On the next post, we will continue to code the frontend application with sync capability: <a href="/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/">Building an Offline First React Web App Using WatermelonDB in Phoenix (Elixir)</a></p>
+
+        </div>
+        
+        <div class="my-4">
+    
+    <a href="/tags/watermelondb/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#WatermelonDB</a>
+    
+    <a href="/tags/sync-backend/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Sync Backend</a>
+    
+</div>
+        
+        
+        
+        
+        
+        
+        
+<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
+    <div>
+        
+        <span class="block font-bold">Previous</span>
+        <a href="/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/" class="block">Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir)</a>
+        
+    </div>
+    <div class="md:text-right mt-4 md:mt-0">
+        
+        <span class="block font-bold">Next</span>
+        <a href="/posts/generate-sequential-uuidv4-in-elixir/" class="block">Generate Sequential UUIDv4 in Elixir</a>
+        
+    </div>
+</div>
+
+        
+
+<script id="dsq-count-scr" src="//fahri-blog.disqus.com/count.js" async=""></script>
+<div class="disqus-comments">
+    <div id="showcom" class="flex justify-center my-4">
+        <button id="show-comments" class="bg-tertiary-bg rounded block m-auto m-0 px-3 py-1" type="button">
+            Show <span class="disqus-comment-count" data-disqus-url="posts/how-to-build-watermelondb-sync-backend-in-elixir">comments</span>
+        </button>
+    </div>
+    <div id="disqus_thread"></div>
+</div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        document.getElementById('show-comments').onclick = function () {
+            var d = document, s = d.createElement('script'); s.async = true;
+            s.src = '//' + "fahri-blog" + '.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+            this.parentNode.parentNode.removeChild(document.getElementById('showcom'));
+        }
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
+    </div>
+    
+    <div class="col-span-2">
+        
+        
+        <div class="sticky top-16 z-10 hidden lg:block px-6 py-4  bg-primary-bg ">
+    <span class="text-lg font-semibold">On This Page</span>
+</div>
+<div class="sticky-toc hidden lg:block px-6 pb-6 ">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#watermelondb">WatermelonDB</a>
+      <ul>
+        <li><a href="#pull-operation">Pull Operation</a></li>
+        <li><a href="#push-operation">Push Operation</a></li>
+        <li><a href="#changes-example"><code>changes</code> Example</a></li>
+        <li><a href="#sync-flow">Sync Flow</a></li>
+      </ul>
+    </li>
+    <li><a href="#proposed-alternative-sync-approach">Proposed Alternative Sync Approach</a>
+      <ul>
+        <li><a href="#using-auto-incrementing-counter-version--timestamp-for-tracking-changes">Using Auto-incrementing Counter (Version) + Timestamp for Tracking Changes</a></li>
+        <li><a href="#workaround-for-sync-on-client-side">Workaround for Sync on Client Side</a>
+          <ul>
+            <li><a href="#sync-flow-workaround">Sync Flow Workaround</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#application-example-blogapp">Application Example: BlogApp</a>
+      <ul>
+        <li><a href="#database-design">Database Design</a></li>
+        <li><a href="#determining-data-changes">Determining Data Changes</a></li>
+      </ul>
+    </li>
+    <li><a href="#sync-backend-implementation">Sync Backend Implementation</a>
+      <ul>
+        <li><a href="#sync-endpoint">Sync Endpoint</a>
+          <ul>
+            <li><a href="#controller">Controller</a></li>
+          </ul>
+        </li>
+        <li><a href="#push">Push</a>
+          <ul>
+            <li><a href="#conflict-detection">Conflict Detection</a></li>
+            <li><a href="#storing-record-changes">Storing Record Changes</a></li>
+          </ul>
+        </li>
+        <li><a href="#pull">Pull</a></li>
+        <li><a href="#run-the-backend">Run the Backend</a></li>
+      </ul>
+    </li>
+    <li><a href="#whats-next-">What&rsquo;s Next ?</a></li>
+  </ul>
+</nav>
+</div>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        enableStickyToc();
+    });
+</script>
+        
+    </div>
+    
+
+    
+    
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+        hljs.initHighlightingOnLoad();
+    })
+</script>
+
+      </div>
+    </div>
+    
+  </main>
+  <footer class="pl-scrollbar">
+    <div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
+    <p class="text-sm text-tertiary-text">&copy; 2021 <a href="https://fahri.id">Fahri NH</a>
+ &middot;  Powered by the <a href="https://github.com/wangchucheng/hugo-eureka" class="hover:text-eureka">Eureka</a> theme for <a href="https://gohugo.io" class="hover:text-eureka">Hugo</a></p>
+</div></div>
+  </footer>
+</body>
+
+</html>
