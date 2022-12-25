@@ -1,44 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Elixir on Fahri NH</title>
-    <link>/categories/elixir/</link>
-    <description>Recent content in Elixir on Fahri NH</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>&amp;copy; 2021 &lt;a href=&#34;https://fahri.id&#34;&gt;Fahri NH&lt;/a&gt;
-</copyright>
-    <lastBuildDate>Fri, 24 Apr 2020 21:27:12 +0700</lastBuildDate><atom:link href="/categories/elixir/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>How to Build WatermelonDB Sync Backend in Elixir</title>
-      <link>/posts/how-to-build-watermelondb-sync-backend-in-elixir/</link>
-      <pubDate>Fri, 24 Apr 2020 21:27:12 +0700</pubDate>
-      
-      <guid>/posts/how-to-build-watermelondb-sync-backend-in-elixir/</guid>
-      <description>WatermelonDB is a reactive database for React frontend application that supports data synchronization. This tutorial explains the concept and shows step by step how to build sync backend using Phoenix (Elixir)</description>
-    </item>
-    
-    <item>
-      <title>Generate Sequential UUIDv4 in Elixir</title>
-      <link>/posts/generate-sequential-uuidv4-in-elixir/</link>
-      <pubDate>Sun, 19 Apr 2020 12:38:13 +0700</pubDate>
-      
-      <guid>/posts/generate-sequential-uuidv4-in-elixir/</guid>
-      <description>&lt;p&gt;The idea is simple. Sequential UUIDv4 (128 bit) consists of &lt;code&gt;unix timestamp (32 bit) + random bytes (96 bit)&lt;/code&gt;&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>File Downloading in Headless Chrome Using ChromeDriver and Hound</title>
-      <link>/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</link>
-      <pubDate>Mon, 16 Sep 2019 13:10:45 +0700</pubDate>
-      
-      <guid>/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</guid>
-      <description>&lt;p&gt;Recently, I am making a simple Elixir application performing some actions to a website in an automated way.&lt;/p&gt;
-&lt;p&gt;The automated testing tool is a perfect candidate to be used to help to build application like that.
-I use &lt;a href=&#34;https://github.com/HashNuke/hound&#34;&gt;Hound&lt;/a&gt; as browser automation library
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Elixir - Category - Fahri NH</title><link>https://fahri.id/categories/elixir/</link><description>Elixir - Category - Fahri NH</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 24 Apr 2020 21:27:12 +0700</lastBuildDate><atom:link href="https://fahri.id/categories/elixir/" rel="self" type="application/rss+xml"/><item><title>How to Build WatermelonDB Sync Backend in Elixir</title><link>https://fahri.id/posts/how-to-build-watermelondb-sync-backend-in-elixir/</link><pubDate>Fri, 24 Apr 2020 21:27:12 +0700</pubDate><author><name>Fahri</name></author><guid>https://fahri.id/posts/how-to-build-watermelondb-sync-backend-in-elixir/</guid><description>WatermelonDB is a reactive database for React frontend application that supports data synchronization. This tutorial explains the concept and shows step by step how to build sync backend using Phoenix (Elixir)</description></item><item><title>Generate Sequential UUIDv4 in Elixir</title><link>https://fahri.id/posts/generate-sequential-uuidv4-in-elixir/</link><pubDate>Sun, 19 Apr 2020 12:38:13 +0700</pubDate><author><name>Fahri</name></author><guid>https://fahri.id/posts/generate-sequential-uuidv4-in-elixir/</guid><description>&lt;p>The idea is simple. Sequential UUIDv4 (128 bit) consists of &lt;code>unix timestamp (32 bit) + random bytes (96 bit)&lt;/code>&lt;/p></description></item><item><title>File Downloading in Headless Chrome Using ChromeDriver and Hound</title><link>https://fahri.id/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</link><pubDate>Mon, 16 Sep 2019 13:10:45 +0700</pubDate><author><name>Fahri</name></author><guid>https://fahri.id/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</guid><description><![CDATA[<p>Recently, I am making a simple Elixir application performing some actions to a website in an automated way.</p>
+<p>The automated testing tool is a perfect candidate to be used to help to build application like that.
+I use <a href="https://github.com/HashNuke/hound" target="_blank" rel="noopener noreferrer">Hound</a> as browser automation library
 and Chrome as a controlled browser.
-For the browser driver, I use &lt;a href=&#34;https://chromedriver.chromium.org/&#34;&gt;ChromeDriver&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-  </channel>
-</rss>
+For the browser driver, I use <a href="https://chromedriver.chromium.org/" target="_blank" rel="noopener noreferrer">ChromeDriver</a>.</p>]]></description></item></channel></rss>

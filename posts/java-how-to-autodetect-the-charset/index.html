@@ -1,537 +1,116 @@
-<!DOCTYPE html>
-<html lang='en' ><meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-
-
-<title>Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM) | Fahri NH</title>
-<link rel="stylesheet" href="/css/eureka.min.css">
-<script defer src="/js/eureka.min.js"></script>
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload"
-  href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap"
-  as="style" onload="this.onload=null;this.rel='stylesheet'">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/github.min.css"
-   media="print"
-  onload="this.media='all';this.onload=null" crossorigin>
-<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js"
-   crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/elixir.min.js"
-     crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/javascript.min.js"
-     crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js"
-     crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/xml.min.js"
-     crossorigin></script>
-
-<script defer src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js"
-   integrity="sha256-uNYoXefWRqv&#43;PsIF/OflNmwtKM4lStn9yrz2gVl6ymo="  crossorigin></script>
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
-   integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3&#43;Aro6EYUG4&#43;cU&#43;KJWu/X"  media="print"
-  onload="this.media='all';this.onload=null" crossorigin>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" 
-  integrity="sha384-g7c&#43;Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI&#43;sEnkvrMWph2EDg4"  crossorigin></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-   integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC&#43;Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa"  crossorigin></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    renderMathInElement(document.body, {
-      delimiters: [
-        { left: "$$", right: "$$", display: true },
-        { left: "$", right: "$", display: false },
-        { left: "\\(", right: "\\)", display: false },
-        { left: "\\[", right: "\\]", display: true }
-      ],
-    });
-  });
-</script>
-<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-92345605-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'UA-92345605-1');
-</script>
-
-
-<link rel="icon" type="image/png" sizes="32x32" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_32x32_fill_box_center_2.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_180x180_fill_box_center_2.png">
-
-<meta name="description"
-  content="TLDR;
-Required dependencies (pom.xml) :
-&lt;dependency&gt;
-    &lt;groupId&gt;com.ibm.icu&lt;/groupId&gt;
-    &lt;artifactId&gt;icu4j&lt;/artifactId&gt;
-    &lt;version&gt;60.1&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-      &lt;groupId&gt;commons-io&lt;/groupId&gt;
-      &lt;artifactId&gt;commons-io&lt;/artifactId&gt;
-      &lt;version&gt;2.6&lt;/version&gt;
-&lt;/dependency&gt;
-
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM) - Fahri NH</title><meta name=Description content><meta property="og:title" content="Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)"><meta property="og:description" content="
+    TLDR;Required dependencies (pom.xml) :
+<dependency>
+    <groupId>com.ibm.icu</groupId>
+    <artifactId>icu4j</artifactId>
+    <version>60.1</version>
+</dependency>
+<dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
+</dependency>
 Autodetect the charset encoding of a text file or input stream then &lsquo;remove&rsquo; (skip) Byte Order Mark (BOM) while reading based on detected charset  :
-File inputFile = new File(&quot;/Users/fahri/Downloads/UNKNOWN_TEXT.txt&quot;);
+File inputFile = new File(&#34;/Users/fahri/Downloads/UNKNOWN_TEXT.txt&#34;);
 
 BOMInputStream bomInputStream = new BOMInputStream(new BufferedInputStream(new FileInputStream(inputFile)),
         ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
 
-System.out.println(&quot;HAS BOM : &quot; &#43; bomInputStream.hasBOM());
+System.out.println(&#34;HAS BOM : &#34; + bomInputStream.hasBOM());
 
 CharsetDetector detector = new CharsetDetector();
 detector.setText(bomInputStream);
 
 CharsetMatch charsetMatch = detector.detect();
-System.out.println(&quot;CHARSET MATCH : &quot; &#43; charsetMatch.getName());
+System.out.println(&#34;CHARSET MATCH : &#34; + charsetMatch.getName());
 
 BufferedReader br = new BufferedReader(new InputStreamReader(bomInputStream, charsetMatch.getName()));
 for (String line = br.readLine(); line != null; line = br.readLine()) {
     System.out.println(line);
 }
 br.close();
-">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [{
-      "@type": "ListItem",
-      "position": 1 ,
-      "name":"Posts",
-      "item":"/posts/"},{
-      "@type": "ListItem",
-      "position": 2 ,
-      "name":"Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)",
-      "item":"/posts/java-how-to-autodetect-the-charset/"}]
-}
-</script>
-
-
-
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "/posts/java-how-to-autodetect-the-charset/"
-    },
-    "headline": "Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM) | Fahri NH","datePublished": "2017-11-08T04:42:36+07:00",
-    "dateModified": "2017-11-08T04:42:36+07:00",
-    "wordCount":  480 ,
-    "publisher": {
-        "@type": "Person",
-        "name": "Fahri Nurul Hidayat",
-        "logo": {
-            "@type": "ImageObject",
-            "url": "/images/icon.png"
-        }
-        },
-    "description": "\u003ch2 id=\u0022tldr\u0022\u003eTLDR;\u003c\/h2\u003e\n\u003cp\u003eRequired dependencies (\u003ccode\u003epom.xml\u003c\/code\u003e) :\u003c\/p\u003e\n\u003cpre\u003e\u003ccode class=\u0022language-xml\u0022\u003e\u0026lt;dependency\u0026gt;\n    \u0026lt;groupId\u0026gt;com.ibm.icu\u0026lt;\/groupId\u0026gt;\n    \u0026lt;artifactId\u0026gt;icu4j\u0026lt;\/artifactId\u0026gt;\n    \u0026lt;version\u0026gt;60.1\u0026lt;\/version\u0026gt;\n\u0026lt;\/dependency\u0026gt;\n\u0026lt;dependency\u0026gt;\n      \u0026lt;groupId\u0026gt;commons-io\u0026lt;\/groupId\u0026gt;\n      \u0026lt;artifactId\u0026gt;commons-io\u0026lt;\/artifactId\u0026gt;\n      \u0026lt;version\u0026gt;2.6\u0026lt;\/version\u0026gt;\n\u0026lt;\/dependency\u0026gt;\n\u003c\/code\u003e\u003c\/pre\u003e\n\u003cp\u003eAutodetect the charset encoding of a text file or input stream then \u0026lsquo;remove\u0026rsquo; (skip) Byte Order Mark (BOM) while reading based on detected charset  :\u003c\/p\u003e\n\u003cpre\u003e\u003ccode class=\u0022language-java\u0022\u003eFile inputFile = new File(\u0026quot;\/Users\/fahri\/Downloads\/UNKNOWN_TEXT.txt\u0026quot;);\n\nBOMInputStream bomInputStream = new BOMInputStream(new BufferedInputStream(new FileInputStream(inputFile)),\n        ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);\n\nSystem.out.println(\u0026quot;HAS BOM : \u0026quot; \u002b bomInputStream.hasBOM());\n\nCharsetDetector detector = new CharsetDetector();\ndetector.setText(bomInputStream);\n\nCharsetMatch charsetMatch = detector.detect();\nSystem.out.println(\u0026quot;CHARSET MATCH : \u0026quot; \u002b charsetMatch.getName());\n\nBufferedReader br = new BufferedReader(new InputStreamReader(bomInputStream, charsetMatch.getName()));\nfor (String line = br.readLine(); line != null; line = br.readLine()) {\n    System.out.println(line);\n}\nbr.close();\n\u003c\/code\u003e\u003c\/pre\u003e"
-}
-</script><meta property="og:title" content="Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM) | Fahri NH" />
-<meta property="og:type" content="article" />
-
-
-<meta property="og:image" content="/images/icon.png">
-
-
-<meta property="og:url" content="/posts/java-how-to-autodetect-the-charset/" />
-
-
-
-
-<meta property="og:description" content="TLDR;
-Required dependencies (pom.xml) :
-&lt;dependency&gt;
-    &lt;groupId&gt;com.ibm.icu&lt;/groupId&gt;
-    &lt;artifactId&gt;icu4j&lt;/artifactId&gt;
-    &lt;version&gt;60.1&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-      &lt;groupId&gt;commons-io&lt;/groupId&gt;
-      &lt;artifactId&gt;commons-io&lt;/artifactId&gt;
-      &lt;version&gt;2.6&lt;/version&gt;
-&lt;/dependency&gt;
-
+"><meta property="og:type" content="article"><meta property="og:url" content="https://fahri.id/posts/java-how-to-autodetect-the-charset/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2017-11-08T04:42:36+07:00"><meta property="article:modified_time" content="2017-11-08T04:42:36+07:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)"><meta name=twitter:description content="
+    TLDR;Required dependencies (pom.xml) :
+<dependency>
+    <groupId>com.ibm.icu</groupId>
+    <artifactId>icu4j</artifactId>
+    <version>60.1</version>
+</dependency>
+<dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
+</dependency>
 Autodetect the charset encoding of a text file or input stream then &lsquo;remove&rsquo; (skip) Byte Order Mark (BOM) while reading based on detected charset  :
-File inputFile = new File(&quot;/Users/fahri/Downloads/UNKNOWN_TEXT.txt&quot;);
+File inputFile = new File(&#34;/Users/fahri/Downloads/UNKNOWN_TEXT.txt&#34;);
 
 BOMInputStream bomInputStream = new BOMInputStream(new BufferedInputStream(new FileInputStream(inputFile)),
         ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
 
-System.out.println(&quot;HAS BOM : &quot; &#43; bomInputStream.hasBOM());
+System.out.println(&#34;HAS BOM : &#34; + bomInputStream.hasBOM());
 
 CharsetDetector detector = new CharsetDetector();
 detector.setText(bomInputStream);
 
 CharsetMatch charsetMatch = detector.detect();
-System.out.println(&quot;CHARSET MATCH : &quot; &#43; charsetMatch.getName());
+System.out.println(&#34;CHARSET MATCH : &#34; + charsetMatch.getName());
 
 BufferedReader br = new BufferedReader(new InputStreamReader(bomInputStream, charsetMatch.getName()));
 for (String line = br.readLine(); line != null; line = br.readLine()) {
     System.out.println(line);
 }
 br.close();
-" />
-
-
-
-
-<meta property="og:locale" content="en" />
-
-
-
-
-<meta property="og:site_name" content="Fahri NH" />
-
-
-
-
-
-
-<meta property="article:published_time" content="2017-11-08T04:42:36&#43;07:00" />
-
-
-<meta property="article:modified_time" content="2017-11-08T04:42:36&#43;07:00" />
-
-
-
-<meta property="article:section" content="posts" />
-
-
-<meta property="article:tag" content="BOM" />
-
-<meta property="article:tag" content="Byte Order Mark" />
-
-<meta property="article:tag" content="Charset Encoding" />
-
-
-
-
-
-<body class="flex flex-col min-h-screen">
-  <header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-    <div class="w-full max-w-screen-xl mx-auto"><script>
-    let storageColorScheme = localStorage.getItem("lightDarkMode")
-    if (((storageColorScheme == 'Auto' || storageColorScheme == null) && window.matchMedia("(prefers-color-scheme: dark)").matches) || storageColorScheme == "Dark") {
-        document.getElementsByTagName('html')[0].classList.add('dark')
-    }
-</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-    <a href="/" class="mr-6 text-primary-text text-xl font-bold">Fahri NH</a>
-    <button id="navbar-btn" class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <div id="target"
-        class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-        <div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-            <a href="/#about" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">About</a>
-            <a href="/posts/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  selected-menu-item  mr-4">Posts</a>
-            <a href="/categories/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Categories</a>
-            <a href="/tags/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Tags</a>
-        </div>
-
-        <div class="flex">
-            <div class="relative pt-4 md:pt-0">
-                <div class="cursor-pointer hover:text-eureka" id="lightDarkMode">
-                    <i class="fas fa-adjust"></i>
-                </div>
-                <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id="is-open">
-                </div>
-                <div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40"
-                    id='lightDarkOptions'>
-                    <span class="px-4 py-1 hover:text-eureka">Light</span>
-                    <span class="px-4 py-1 hover:text-eureka">Dark</span>
-                    <span class="px-4 py-1 hover:text-eureka">Auto</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id="is-open-mobile">
-    </div>
-
-</nav>
-<script>
-    let element = document.getElementById('lightDarkMode')
-    if (storageColorScheme == null || storageColorScheme == 'Auto') {
-        document.addEventListener('DOMContentLoaded', () => {
-            switchMode('Auto')
-        })
-    } else if (storageColorScheme == "Light") {
-        element.firstElementChild.classList.remove('fa-adjust')
-        element.firstElementChild.setAttribute("data-icon", 'sun')
-        element.firstElementChild.classList.add('fa-sun')
-    } else if (storageColorScheme == "Dark") {
-        element.firstElementChild.classList.remove('fa-adjust')
-        element.firstElementChild.setAttribute("data-icon", 'moon')
-        element.firstElementChild.classList.add('fa-moon')
-    }
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        getcolorscheme();
-        switchBurger();
-    });
-</script></div>
-  </header>
-  <main class="flex-grow pt-16">
-    <div class="pl-scrollbar">
-      <div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-
-
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-    <div
-        class="col-span-2  lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-        <h1 class="font-bold text-3xl text-primary-text">Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)</h1>
-        <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-    <div class="mr-6 my-2">
-        <i class="fas fa-calendar mr-1"></i>
-        <span>2017-11-08</span>
-    </div>
-    <div class="mr-6 my-2">
-        <i class="fas fa-clock mr-1"></i>
-        <span>3 min read</span>
-    </div>
-    
-    
-    <div class="mr-6 my-2">
-        <i class="fas fa-folder mr-1"></i>
-        
-        <a href="/categories/java/" class="hover:text-eureka">Java</a>
-        
-    </div>
-    
-
-    
-</div>
-        
-        
-        
-
-        <div class="content">
-            <h2 id="tldr">TLDR;</h2>
-<p>Required dependencies (<code>pom.xml</code>) :</p>
-<pre><code class="language-xml">&lt;dependency&gt;
-    &lt;groupId&gt;com.ibm.icu&lt;/groupId&gt;
-    &lt;artifactId&gt;icu4j&lt;/artifactId&gt;
-    &lt;version&gt;60.1&lt;/version&gt;
-&lt;/dependency&gt;
-&lt;dependency&gt;
-      &lt;groupId&gt;commons-io&lt;/groupId&gt;
-      &lt;artifactId&gt;commons-io&lt;/artifactId&gt;
-      &lt;version&gt;2.6&lt;/version&gt;
-&lt;/dependency&gt;
-</code></pre>
-<p>Autodetect the charset encoding of a text file or input stream then &lsquo;remove&rsquo; (skip) Byte Order Mark (BOM) while reading based on detected charset  :</p>
-<pre><code class="language-java">File inputFile = new File(&quot;/Users/fahri/Downloads/UNKNOWN_TEXT.txt&quot;);
-
-BOMInputStream bomInputStream = new BOMInputStream(new BufferedInputStream(new FileInputStream(inputFile)),
-        ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
-
-System.out.println(&quot;HAS BOM : &quot; + bomInputStream.hasBOM());
-
-CharsetDetector detector = new CharsetDetector();
-detector.setText(bomInputStream);
-
-CharsetMatch charsetMatch = detector.detect();
-System.out.println(&quot;CHARSET MATCH : &quot; + charsetMatch.getName());
-
-BufferedReader br = new BufferedReader(new InputStreamReader(bomInputStream, charsetMatch.getName()));
-for (String line = br.readLine(); line != null; line = br.readLine()) {
-    System.out.println(line);
-}
-br.close();
-</code></pre>
-<h2 id="problem">Problem</h2>
-<p>You got a text file and you have no idea why your application could not process (parse) that file.</p>
-<p>This is a sample of that file:  <a href="https://github.com/fahrinh/fahrinh.github.io/files/1451863/UNKNOWN_TEXT.txt">UNKNOWN_TEXT.txt</a></p>
-<h2 id="analyze-the-content">Analyze The Content</h2>
-<h3 id="cat"><code>cat</code></h3>
-<p>If we inspect the content using <code>cat</code> :</p>
-<p><img src="https://user-images.githubusercontent.com/55460/32521234-57d76492-c445-11e7-855d-57c95197307e.png" alt="ss-cat-unknown"></p>
-<p>The content looks normal. <em>But, wait</em>.<br>
-What is that weird characters at the beginning and end ? (<code>��</code> and <code>%</code>)</p>
-<!--more-->
-<h3 id="more"><code>more</code></h3>
-<p>Display the content using another tool, <code>more</code> :
-<img src="https://user-images.githubusercontent.com/55460/32521773-6b818124-c447-11e7-965e-eea4cfe6ac17.png" alt="ss-more-unknown"></p>
-<p>It looks weirder. <code>&lt;FF&gt;&lt;FE&gt;</code> at the beginning and <code>^@</code> between the characters.</p>
-<h3 id="file"><code>file</code></h3>
-<p>What <code>file</code> command says ?</p>
-<pre><code class="language-shell">$ file UNKNOWN_TEXT.txt
-UNKNOWN_TEXT.txt: Little-endian UTF-16 Unicode text  
-</code></pre>
-<p>The text file is a Little-Endian UTF-16 text and our viewer (iTerm2 on OSX, in this case) only supports UTF-8. That is why it looks not normal and your application can not process (parse) further.</p>
-<h3 id="hexdump"><code>hexdump</code></h3>
-<p>If we investigate in more detail using <code>hexdump</code> :</p>
-<pre><code class="language-shell">$ hexdump UNKNOWN_TEXT.txt
-0000000 ff fe 31 00 7c 00 43 00 65 00 6c 00 6c 00 32 00
-0000010 31 00 7c 00 31 00 32 00 33 00 34 00 7c 00 32 00
-0000020 30 00 31 00 37 00 2f 00 31 00 30 00 2f 00 32 00
-0000030 30 00 0a 00 32 00 7c 00 43 00 65 00 6c 00 6c 00
-0000040 32 00 32 00 7c 00 35 00 36 00 37 00 38 00 7c 00
-0000050 32 00 30 00 31 00 37 00 2f 00 31 00 30 00 2f 00
-0000060 32 00 30 00
-0000064
-</code></pre>
-<p>We can conclude that <code>&lt;FF&gt;&lt;FE&gt;</code> and <code>^@</code> represents value <code>ff fe</code> and <code>00</code> in hex, respectively.</p>
-<h2 id="endianness">Endianness</h2>
-<p>UTF-16 represents a character using two bytes (2x8 byte=16, make sense, huh?). There are two ways to determine the order of the bytes <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup> :</p>
-<ul>
-<li>Big Endian : you store the most significant byte in the smallest address</li>
-<li>Little Endian : you store the least significant byte in the smallest address</li>
-</ul>
-<p>For the concrete example, these are characters <code>Z</code> in various encoding :</p>
-<pre><code>Character                    : Z
+"><meta name=application-name content="Fahri NH"><meta name=apple-mobile-web-app-title content="Fahri NH"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://fahri.id/posts/java-how-to-autodetect-the-charset/><link rel=next href=https://fahri.id/posts/how-to-update-pomera-dm100-firmware/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.css><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.css></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.css><noscript><link rel=stylesheet href=/lib/animate/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/fahri.id\/posts\/java-how-to-autodetect-the-charset\/"},"genre":"posts","keywords":"BOM, Byte Order Mark, Charset Encoding","wordcount":471,"url":"https:\/\/fahri.id\/posts\/java-how-to-autodetect-the-charset\/","datePublished":"2017-11-08T04:42:36+07:00","dateModified":"2017-11-08T04:42:36+07:00","publisher":{"@type":"Organization","name":"Fahri"},"author":{"@type":"Person","name":"Fahri"},"description":""}</script></head><body header-desktop header-mobile><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else""==="light"||""==="dark"||""==="black"?(setTheme(""),saveTheme("")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Fahri NH">Fahri NH</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/tags/>Tags </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/ title=About>About </a><span class="menu-item delimiter"></span><a href=# onclick=return!1 class="menu-item language" title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+<select class=language-select title="Select Language" id=language-select-desktop onchange="location=this.value"><option value=/posts/java-how-to-autodetect-the-charset/ selected>English</option></select>
+</a><a href=# onclick=return!1 class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Fahri NH">Fahri NH</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/tags/ title>Tags</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title=About>About</a><a href=# onclick=return!1 class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i>
+</a><a href=# onclick=return!1 class=menu-item title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+<select class=language-select title="Select Language" onchange="location=this.value"><option value=/posts/java-how-to-autodetect-the-charset/ selected>English</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class="toc-content always-active" id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#tldr>TLDR;</a></li><li><a href=#problem>Problem</a></li><li><a href=#analyze-the-content>Analyze The Content</a><ul><li><a href=#cat><code>cat</code></a></li><li><a href=#more><code>more</code></a></li><li><a href=#file><code>file</code></a></li><li><a href=#hexdump><code>hexdump</code></a></li></ul></li><li><a href=#endianness>Endianness</a></li><li><a href=#byte-order-mark-bom>Byte Order Mark (BOM)</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=/ title=Author rel=author class=author>Fahri</a>
+</span>&nbsp;<span class=post-category>included in </span>&nbsp;<span class=post-category>category <a href=/categories/java/><i class="far fa-folder fa-fw"></i>Java</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2017-11-08>2017-11-08</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2017-11-08>2017-11-08</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;471 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;3 minutes&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#tldr>TLDR;</a></li><li><a href=#problem>Problem</a></li><li><a href=#analyze-the-content>Analyze The Content</a><ul><li><a href=#cat><code>cat</code></a></li><li><a href=#more><code>more</code></a></li><li><a href=#file><code>file</code></a></li><li><a href=#hexdump><code>hexdump</code></a></li></ul></li><li><a href=#endianness>Endianness</a></li><li><a href=#byte-order-mark-bom>Byte Order Mark (BOM)</a></li></ul></nav></div></div><div class=content id=content><h2 id=tldr class=headerLink><a href=#tldr class=header-mark></a>TLDR;</h2><p>Required dependencies (<code>pom.xml</code>) :</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-xml data-lang=xml><span class=line><span class=cl><span class=nt>&lt;dependency&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;groupId&gt;</span>com.ibm.icu<span class=nt>&lt;/groupId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;artifactId&gt;</span>icu4j<span class=nt>&lt;/artifactId&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=nt>&lt;version&gt;</span>60.1<span class=nt>&lt;/version&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/dependency&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;dependency&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&lt;groupId&gt;</span>commons-io<span class=nt>&lt;/groupId&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&lt;artifactId&gt;</span>commons-io<span class=nt>&lt;/artifactId&gt;</span>
+</span></span><span class=line><span class=cl>      <span class=nt>&lt;version&gt;</span>2.6<span class=nt>&lt;/version&gt;</span>
+</span></span><span class=line><span class=cl><span class=nt>&lt;/dependency&gt;</span>
+</span></span></code></pre></div><p>Autodetect the charset encoding of a text file or input stream then &lsquo;remove&rsquo; (skip) Byte Order Mark (BOM) while reading based on detected charset :</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>File</span> <span class=n>inputFile</span> <span class=o>=</span> <span class=k>new</span> <span class=n>File</span><span class=o>(</span><span class=s>&#34;/Users/fahri/Downloads/UNKNOWN_TEXT.txt&#34;</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>BOMInputStream</span> <span class=n>bomInputStream</span> <span class=o>=</span> <span class=k>new</span> <span class=n>BOMInputStream</span><span class=o>(</span><span class=k>new</span> <span class=n>BufferedInputStream</span><span class=o>(</span><span class=k>new</span> <span class=n>FileInputStream</span><span class=o>(</span><span class=n>inputFile</span><span class=o>)),</span>
+</span></span><span class=line><span class=cl>        <span class=n>ByteOrderMark</span><span class=o>.</span><span class=na>UTF_8</span><span class=o>,</span> <span class=n>ByteOrderMark</span><span class=o>.</span><span class=na>UTF_16BE</span><span class=o>,</span> <span class=n>ByteOrderMark</span><span class=o>.</span><span class=na>UTF_16LE</span><span class=o>,</span> <span class=n>ByteOrderMark</span><span class=o>.</span><span class=na>UTF_32BE</span><span class=o>,</span> <span class=n>ByteOrderMark</span><span class=o>.</span><span class=na>UTF_32LE</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;HAS BOM : &#34;</span> <span class=o>+</span> <span class=n>bomInputStream</span><span class=o>.</span><span class=na>hasBOM</span><span class=o>());</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>CharsetDetector</span> <span class=n>detector</span> <span class=o>=</span> <span class=k>new</span> <span class=n>CharsetDetector</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=n>detector</span><span class=o>.</span><span class=na>setText</span><span class=o>(</span><span class=n>bomInputStream</span><span class=o>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>CharsetMatch</span> <span class=n>charsetMatch</span> <span class=o>=</span> <span class=n>detector</span><span class=o>.</span><span class=na>detect</span><span class=o>();</span>
+</span></span><span class=line><span class=cl><span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=s>&#34;CHARSET MATCH : &#34;</span> <span class=o>+</span> <span class=n>charsetMatch</span><span class=o>.</span><span class=na>getName</span><span class=o>());</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>BufferedReader</span> <span class=n>br</span> <span class=o>=</span> <span class=k>new</span> <span class=n>BufferedReader</span><span class=o>(</span><span class=k>new</span> <span class=n>InputStreamReader</span><span class=o>(</span><span class=n>bomInputStream</span><span class=o>,</span> <span class=n>charsetMatch</span><span class=o>.</span><span class=na>getName</span><span class=o>()));</span>
+</span></span><span class=line><span class=cl><span class=k>for</span> <span class=o>(</span><span class=n>String</span> <span class=n>line</span> <span class=o>=</span> <span class=n>br</span><span class=o>.</span><span class=na>readLine</span><span class=o>();</span> <span class=n>line</span> <span class=o>!=</span> <span class=kc>null</span><span class=o>;</span> <span class=n>line</span> <span class=o>=</span> <span class=n>br</span><span class=o>.</span><span class=na>readLine</span><span class=o>())</span> <span class=o>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>System</span><span class=o>.</span><span class=na>out</span><span class=o>.</span><span class=na>println</span><span class=o>(</span><span class=n>line</span><span class=o>);</span>
+</span></span><span class=line><span class=cl><span class=o>}</span>
+</span></span><span class=line><span class=cl><span class=n>br</span><span class=o>.</span><span class=na>close</span><span class=o>();</span>
+</span></span></code></pre></div><h2 id=problem class=headerLink><a href=#problem class=header-mark></a>Problem</h2><p>You got a text file and you have no idea why your application could not process (parse) that file.</p><p>This is a sample of that file: <a href=https://github.com/fahrinh/fahrinh.github.io/files/1451863/UNKNOWN_TEXT.txt target=_blank rel="noopener noreferrer">UNKNOWN_TEXT.txt</a></p><h2 id=analyze-the-content class=headerLink><a href=#analyze-the-content class=header-mark></a>Analyze The Content</h2><h3 id=cat class=headerLink><a href=#cat class=header-mark></a><code>cat</code></h3><p>If we inspect the content using <code>cat</code> :</p><p><a class=lightgallery href=https://user-images.githubusercontent.com/55460/32521234-57d76492-c445-11e7-855d-57c95197307e.png title=ss-cat-unknown data-thumbnail=https://user-images.githubusercontent.com/55460/32521234-57d76492-c445-11e7-855d-57c95197307e.png><img class=lazyload data-src=https://user-images.githubusercontent.com/55460/32521234-57d76492-c445-11e7-855d-57c95197307e.png data-srcset="https://user-images.githubusercontent.com/55460/32521234-57d76492-c445-11e7-855d-57c95197307e.png, https://user-images.githubusercontent.com/55460/32521234-57d76492-c445-11e7-855d-57c95197307e.png 1.5x, https://user-images.githubusercontent.com/55460/32521234-57d76492-c445-11e7-855d-57c95197307e.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/55460/32521234-57d76492-c445-11e7-855d-57c95197307e.png></a></p><p>The content looks normal. <em>But, wait</em>.<br>What is that weird characters at the beginning and end ? (<code>��</code> and <code>%</code>)</p><h3 id=more class=headerLink><a href=#more class=header-mark></a><code>more</code></h3><p>Display the content using another tool, <code>more</code> :
+<a class=lightgallery href=https://user-images.githubusercontent.com/55460/32521773-6b818124-c447-11e7-965e-eea4cfe6ac17.png title=ss-more-unknown data-thumbnail=https://user-images.githubusercontent.com/55460/32521773-6b818124-c447-11e7-965e-eea4cfe6ac17.png><img class=lazyload data-src=https://user-images.githubusercontent.com/55460/32521773-6b818124-c447-11e7-965e-eea4cfe6ac17.png data-srcset="https://user-images.githubusercontent.com/55460/32521773-6b818124-c447-11e7-965e-eea4cfe6ac17.png, https://user-images.githubusercontent.com/55460/32521773-6b818124-c447-11e7-965e-eea4cfe6ac17.png 1.5x, https://user-images.githubusercontent.com/55460/32521773-6b818124-c447-11e7-965e-eea4cfe6ac17.png 2x" data-sizes=auto alt=https://user-images.githubusercontent.com/55460/32521773-6b818124-c447-11e7-965e-eea4cfe6ac17.png></a></p><p>It looks weirder. <code>&lt;FF>&lt;FE></code> at the beginning and <code>^@</code> between the characters.</p><h3 id=file class=headerLink><a href=#file class=header-mark></a><code>file</code></h3><p>What <code>file</code> command says ?</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ file UNKNOWN_TEXT.txt
+</span></span><span class=line><span class=cl>UNKNOWN_TEXT.txt: Little-endian UTF-16 Unicode text  
+</span></span></code></pre></div><p>The text file is a Little-Endian UTF-16 text and our viewer (iTerm2 on OSX, in this case) only supports UTF-8. That is why it looks not normal and your application can not process (parse) further.</p><h3 id=hexdump class=headerLink><a href=#hexdump class=header-mark></a><code>hexdump</code></h3><p>If we investigate in more detail using <code>hexdump</code> :</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ hexdump UNKNOWN_TEXT.txt
+</span></span><span class=line><span class=cl><span class=m>0000000</span> ff fe <span class=m>31</span> <span class=m>00</span> 7c <span class=m>00</span> <span class=m>43</span> <span class=m>00</span> <span class=m>65</span> <span class=m>00</span> 6c <span class=m>00</span> 6c <span class=m>00</span> <span class=m>32</span> <span class=m>00</span>
+</span></span><span class=line><span class=cl><span class=m>0000010</span> <span class=m>31</span> <span class=m>00</span> 7c <span class=m>00</span> <span class=m>31</span> <span class=m>00</span> <span class=m>32</span> <span class=m>00</span> <span class=m>33</span> <span class=m>00</span> <span class=m>34</span> <span class=m>00</span> 7c <span class=m>00</span> <span class=m>32</span> <span class=m>00</span>
+</span></span><span class=line><span class=cl><span class=m>0000020</span> <span class=m>30</span> <span class=m>00</span> <span class=m>31</span> <span class=m>00</span> <span class=m>37</span> <span class=m>00</span> 2f <span class=m>00</span> <span class=m>31</span> <span class=m>00</span> <span class=m>30</span> <span class=m>00</span> 2f <span class=m>00</span> <span class=m>32</span> <span class=m>00</span>
+</span></span><span class=line><span class=cl><span class=m>0000030</span> <span class=m>30</span> <span class=m>00</span> 0a <span class=m>00</span> <span class=m>32</span> <span class=m>00</span> 7c <span class=m>00</span> <span class=m>43</span> <span class=m>00</span> <span class=m>65</span> <span class=m>00</span> 6c <span class=m>00</span> 6c <span class=m>00</span>
+</span></span><span class=line><span class=cl><span class=m>0000040</span> <span class=m>32</span> <span class=m>00</span> <span class=m>32</span> <span class=m>00</span> 7c <span class=m>00</span> <span class=m>35</span> <span class=m>00</span> <span class=m>36</span> <span class=m>00</span> <span class=m>37</span> <span class=m>00</span> <span class=m>38</span> <span class=m>00</span> 7c <span class=m>00</span>
+</span></span><span class=line><span class=cl><span class=m>0000050</span> <span class=m>32</span> <span class=m>00</span> <span class=m>30</span> <span class=m>00</span> <span class=m>31</span> <span class=m>00</span> <span class=m>37</span> <span class=m>00</span> 2f <span class=m>00</span> <span class=m>31</span> <span class=m>00</span> <span class=m>30</span> <span class=m>00</span> 2f <span class=m>00</span>
+</span></span><span class=line><span class=cl><span class=m>0000060</span> <span class=m>32</span> <span class=m>00</span> <span class=m>30</span> <span class=m>00</span>
+</span></span><span class=line><span class=cl><span class=m>0000064</span>
+</span></span></code></pre></div><p>We can conclude that <code>&lt;FF>&lt;FE></code> and <code>^@</code> represents value <code>ff fe</code> and <code>00</code> in hex, respectively.</p><h2 id=endianness class=headerLink><a href=#endianness class=header-mark></a>Endianness</h2><p>UTF-16 represents a character using two bytes (2x8 byte=16, make sense, huh?). There are two ways to determine the order of the bytes <sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup> :</p><ul><li>Big Endian : you store the most significant byte in the smallest address</li><li>Little Endian : you store the least significant byte in the smallest address</li></ul><p>For the concrete example, these are characters <code>Z</code> in various encoding :</p><pre tabindex=0><code>Character                    : Z
 ASCII (in hex)               : 5A
 UTF16 Little Endian (in hex) : 5A 00
 UTF16 Big Endian (in hex)    : 00 5A
-</code></pre>
-<h2 id="byte-order-mark-bom">Byte Order Mark (BOM)</h2>
-<p>You already know the meaning of <code>00</code>. Then, what exactly is <code>ff fe</code> in the first bytes ?</p>
-<section class="footnotes" role="doc-endnotes">
-<hr>
-<ol>
-<li id="fn:1" role="doc-endnote">
-<p><a href="https://www.cs.umd.edu/class/sum2003/cmsc311/Notes/Data/endian.html">https://www.cs.umd.edu/class/sum2003/cmsc311/Notes/Data/endian.html</a> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
-</li>
-</ol>
-</section>
-        </div>
-        
-        <div class="my-4">
-    
-    <a href="/tags/bom/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#BOM</a>
-    
-    <a href="/tags/byte-order-mark/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Byte Order Mark</a>
-    
-    <a href="/tags/charset-encoding/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Charset Encoding</a>
-    
-</div>
-        
-        
-        
-        
-        
-        
-        
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-    <div>
-        
-        <span class="block font-bold">Previous</span>
-        <a href="/posts/how-to-update-pomera-dm100-firmware/" class="block">How to Update Pomera DM100 Firmware</a>
-        
-    </div>
-    <div class="md:text-right mt-4 md:mt-0">
-        
-    </div>
-</div>
-
-        
-
-<script id="dsq-count-scr" src="//fahri-blog.disqus.com/count.js" async=""></script>
-<div class="disqus-comments">
-    <div id="showcom" class="flex justify-center my-4">
-        <button id="show-comments" class="bg-tertiary-bg rounded block m-auto m-0 px-3 py-1" type="button">
-            Show <span class="disqus-comment-count" data-disqus-url="posts/java-how-to-autodetect-the-charset">comments</span>
-        </button>
-    </div>
-    <div id="disqus_thread"></div>
-</div>
-<script>
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        document.getElementById('show-comments').onclick = function () {
-            var d = document, s = d.createElement('script'); s.async = true;
-            s.src = '//' + "fahri-blog" + '.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            this.parentNode.parentNode.removeChild(document.getElementById('showcom'));
-        }
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-
-
-    </div>
-    
-    <div class="col-span-2">
-        
-        
-        <div class="sticky top-16 z-10 hidden lg:block px-6 py-4  bg-primary-bg ">
-    <span class="text-lg font-semibold">On This Page</span>
-</div>
-<div class="sticky-toc hidden lg:block px-6 pb-6 ">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#tldr">TLDR;</a></li>
-        <li><a href="#problem">Problem</a></li>
-        <li><a href="#analyze-the-content">Analyze The Content</a>
-          <ul>
-            <li><a href="#cat"><code>cat</code></a></li>
-            <li><a href="#more"><code>more</code></a></li>
-            <li><a href="#file"><code>file</code></a></li>
-            <li><a href="#hexdump"><code>hexdump</code></a></li>
-          </ul>
-        </li>
-        <li><a href="#endianness">Endianness</a></li>
-        <li><a href="#byte-order-mark-bom">Byte Order Mark (BOM)</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-</div>
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        enableStickyToc();
-    });
-</script>
-        
-    </div>
-    
-
-    
-    
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', ()=>{
-        hljs.initHighlightingOnLoad();
-    })
-</script>
-
-      </div>
-    </div>
-    
-  </main>
-  <footer class="pl-scrollbar">
-    <div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-    <p class="text-sm text-tertiary-text">&copy; 2021 <a href="https://fahri.id">Fahri NH</a>
- &middot;  Powered by the <a href="https://github.com/wangchucheng/hugo-eureka" class="hover:text-eureka">Eureka</a> theme for <a href="https://gohugo.io" class="hover:text-eureka">Hugo</a></p>
-</div></div>
-  </footer>
-</body>
-
-</html>
+</code></pre><h2 id=byte-order-mark-bom class=headerLink><a href=#byte-order-mark-bom class=header-mark></a>Byte Order Mark (BOM)</h2><p>You already know the meaning of <code>00</code>. Then, what exactly is <code>ff fe</code> in the first bytes ?</p><div class=footnotes role=doc-endnotes><hr><ol><li id=fn:1><p><a href=https://www.cs.umd.edu/class/sum2003/cmsc311/Notes/Data/endian.html target=_blank rel="noopener noreferrer">https://www.cs.umd.edu/class/sum2003/cmsc311/Notes/Data/endian.html</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2017-11-08</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/bom/>BOM</a>,&nbsp;<a href=/tags/byte-order-mark/>Byte Order Mark</a>,&nbsp;<a href=/tags/charset-encoding/>Charset Encoding</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/posts/how-to-update-pomera-dm100-firmware/ class=next rel=next title="How to Update Pomera DM100 Firmware">How to Update Pomera DM100 Firmware<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.109.0">Hugo</a>&nbsp;|&nbsp;Theme - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank rel="noopener noreferrer">Fahri</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/topbar/topbar.min.js></script><script type=text/javascript src=/lib/pjax/pjax.min.js></script><script type=text/javascript src=/js/theme.min.js defer></script></div><div class=pjax-assets><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:1e4},comment:{}}</script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script></div></body></html>

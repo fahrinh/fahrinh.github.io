@@ -1,26 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Hound on Fahri NH</title>
-    <link>/tags/hound/</link>
-    <description>Recent content in Hound on Fahri NH</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <copyright>&amp;copy; 2021 &lt;a href=&#34;https://fahri.id&#34;&gt;Fahri NH&lt;/a&gt;
-</copyright>
-    <lastBuildDate>Mon, 16 Sep 2019 13:10:45 +0700</lastBuildDate><atom:link href="/tags/hound/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>File Downloading in Headless Chrome Using ChromeDriver and Hound</title>
-      <link>/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</link>
-      <pubDate>Mon, 16 Sep 2019 13:10:45 +0700</pubDate>
-      
-      <guid>/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</guid>
-      <description>&lt;p&gt;Recently, I am making a simple Elixir application performing some actions to a website in an automated way.&lt;/p&gt;
-&lt;p&gt;The automated testing tool is a perfect candidate to be used to help to build application like that.
-I use &lt;a href=&#34;https://github.com/HashNuke/hound&#34;&gt;Hound&lt;/a&gt; as browser automation library
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Hound - Tag - Fahri NH</title><link>https://fahri.id/tags/hound/</link><description>Hound - Tag - Fahri NH</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Mon, 16 Sep 2019 13:10:45 +0700</lastBuildDate><atom:link href="https://fahri.id/tags/hound/" rel="self" type="application/rss+xml"/><item><title>File Downloading in Headless Chrome Using ChromeDriver and Hound</title><link>https://fahri.id/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</link><pubDate>Mon, 16 Sep 2019 13:10:45 +0700</pubDate><author><name>Fahri</name></author><guid>https://fahri.id/posts/file-downloading-in-headless-chrome-using-chromedriver-and-hound/</guid><description><![CDATA[<p>Recently, I am making a simple Elixir application performing some actions to a website in an automated way.</p>
+<p>The automated testing tool is a perfect candidate to be used to help to build application like that.
+I use <a href="https://github.com/HashNuke/hound" target="_blank" rel="noopener noreferrer">Hound</a> as browser automation library
 and Chrome as a controlled browser.
-For the browser driver, I use &lt;a href=&#34;https://chromedriver.chromium.org/&#34;&gt;ChromeDriver&lt;/a&gt;.&lt;/p&gt;</description>
-    </item>
-    
-  </channel>
-</rss>
+For the browser driver, I use <a href="https://chromedriver.chromium.org/" target="_blank" rel="noopener noreferrer">ChromeDriver</a>.</p>]]></description></item></channel></rss>

@@ -1,74 +1,5 @@
-<!DOCTYPE html>
-<html lang='id' ><meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-
-
-<title>Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare) | Fahri NH</title>
-<link rel="stylesheet" href="/css/eureka.min.css">
-<script defer src="/js/eureka.min.js"></script>
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload"
-  href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap"
-  as="style" onload="this.onload=null;this.rel='stylesheet'">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/github.min.css"
-   media="print"
-  onload="this.media='all';this.onload=null" crossorigin>
-<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js"
-   crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/elixir.min.js"
-     crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/javascript.min.js"
-     crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js"
-     crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/xml.min.js"
-     crossorigin></script>
-
-<script defer src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js"
-   integrity="sha256-uNYoXefWRqv&#43;PsIF/OflNmwtKM4lStn9yrz2gVl6ymo="  crossorigin></script>
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
-   integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3&#43;Aro6EYUG4&#43;cU&#43;KJWu/X"  media="print"
-  onload="this.media='all';this.onload=null" crossorigin>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" 
-  integrity="sha384-g7c&#43;Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI&#43;sEnkvrMWph2EDg4"  crossorigin></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-   integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC&#43;Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa"  crossorigin></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    renderMathInElement(document.body, {
-      delimiters: [
-        { left: "$$", right: "$$", display: true },
-        { left: "$", right: "$", display: false },
-        { left: "\\(", right: "\\)", display: false },
-        { left: "\\[", right: "\\]", display: true }
-      ],
-    });
-  });
-</script>
-<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-92345605-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'UA-92345605-1');
-</script>
-
-
-<link rel="icon" type="image/png" sizes="32x32" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_32x32_fill_box_center_2.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_180x180_fill_box_center_2.png">
-
-<meta name="description"
-  content="Github
-
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare) - Fahri NH</title><meta name=Description content><meta property="og:title" content="Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare)"><meta property="og:description" content="
+    Github
 
 Buat dua repositori di Github :
 
@@ -82,60 +13,8 @@ Buat Personal Access Token di https://github.com/settings/tokens dengan scope re
 
 Pastikan ada file CNAME dengan isi custom domain blog pada repo https://github.com/fahrinh/my-site
 
-">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [{
-      "@type": "ListItem",
-      "position": 1 ,
-      "name":"Posts",
-      "item":"/id/posts/"},{
-      "@type": "ListItem",
-      "position": 2 ,
-      "name":"Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare)",
-      "item":"/id/posts/static-blogging-with-hugo/"}]
-}
-</script>
-
-
-
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "/id/posts/static-blogging-with-hugo/"
-    },
-    "headline": "Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare) | Fahri NH","datePublished": "2017-07-22T21:02:09+07:00",
-    "dateModified": "2017-07-22T21:02:09+07:00",
-    "wordCount":  242 ,
-    "publisher": {
-        "@type": "Person",
-        "name": "Fahri Nurul Hidayat",
-        "logo": {
-            "@type": "ImageObject",
-            "url": "/images/icon.png"
-        }
-        },
-    "description": "\u003ch1 id=\u0022github\u0022\u003eGithub\u003c\/h1\u003e\n\u003cul\u003e\n\u003cli\u003e\n\u003cp\u003eBuat dua repositori di Github :\u003c\/p\u003e\n\u003cul\u003e\n\u003cli\u003eRepo sumber konten (hasil dari \u003ccode\u003ehugo new site\u003c\/code\u003e) : \u003ca href=\u0022https:\/\/github.com\/fahrinh\/my-site\u0022\u003ehttps:\/\/github.com\/fahrinh\/my-site\u003c\/a\u003e\u003c\/li\u003e\n\u003cli\u003eRepo utama web pages (hasil generate \u003ccode\u003ehugo\u003c\/code\u003e) : \u003ca href=\u0022https:\/\/github.com\/fahrinh\/fahrinh.github.io\u0022\u003ehttps:\/\/github.com\/fahrinh\/fahrinh.github.io\u003c\/a\u003e\u003c\/li\u003e\n\u003c\/ul\u003e\n\u003c\/li\u003e\n\u003cli\u003e\n\u003cp\u003eBuat Personal Access Token di \u003ca href=\u0022https:\/\/github.com\/settings\/tokens\u0022\u003ehttps:\/\/github.com\/settings\/tokens\u003c\/a\u003e dengan scope \u003cstrong\u003erepo\u003c\/strong\u003e. Copy token tersebut ke clipboard.\u003c\/p\u003e\n\u003c\/li\u003e\n\u003cli\u003e\n\u003cp\u003ePastikan ada file \u003ccode\u003eCNAME\u003c\/code\u003e dengan isi custom domain blog pada repo \u003ca href=\u0022https:\/\/github.com\/fahrinh\/my-site\u0022\u003ehttps:\/\/github.com\/fahrinh\/my-site\u003c\/a\u003e\u003c\/p\u003e\n\u003c\/li\u003e\n\u003c\/ul\u003e"
-}
-</script><meta property="og:title" content="Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare) | Fahri NH" />
-<meta property="og:type" content="article" />
-
-
-<meta property="og:image" content="/images/icon.png">
-
-
-<meta property="og:url" content="/id/posts/static-blogging-with-hugo/" />
-
-
-
-
-<meta property="og:description" content="Github
-
+"><meta property="og:type" content="article"><meta property="og:url" content="https://fahri.id/id/posts/static-blogging-with-hugo/"><meta property="article:section" content="posts"><meta property="article:published_time" content="2017-07-22T21:02:09+07:00"><meta property="article:modified_time" content="2017-07-22T21:02:09+07:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare)"><meta name=twitter:description content="
+    Github
 
 Buat dua repositori di Github :
 
@@ -149,314 +28,40 @@ Buat Personal Access Token di https://github.com/settings/tokens dengan scope re
 
 Pastikan ada file CNAME dengan isi custom domain blog pada repo https://github.com/fahrinh/my-site
 
-" />
-
-
-
-
-<meta property="og:locale" content="id" />
-
-
-
-
-<meta property="og:site_name" content="Fahri NH" />
-
-
-
-
-
-
-<meta property="article:published_time" content="2017-07-22T21:02:09&#43;07:00" />
-
-
-<meta property="article:modified_time" content="2017-07-22T21:02:09&#43;07:00" />
-
-
-
-<meta property="article:section" content="posts" />
-
-
-<meta property="article:tag" content="Hugo" />
-
-<meta property="article:tag" content="Github Pages" />
-
-<meta property="article:tag" content="Travis CI" />
-
-
-
-
-
-<body class="flex flex-col min-h-screen">
-  <header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-    <div class="w-full max-w-screen-xl mx-auto"><script>
-    let storageColorScheme = localStorage.getItem("lightDarkMode")
-    if (((storageColorScheme == 'Auto' || storageColorScheme == null) && window.matchMedia("(prefers-color-scheme: dark)").matches) || storageColorScheme == "Dark") {
-        document.getElementsByTagName('html')[0].classList.add('dark')
-    }
-</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-    <a href="/id" class="mr-6 text-primary-text text-xl font-bold">Fahri NH</a>
-    <button id="navbar-btn" class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <div id="target"
-        class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-        <div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-            <a href="/id/#about" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">About</a>
-            <a href="/id/posts/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  selected-menu-item  mr-4">Posts</a>
-            <a href="/id/categories/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Categories</a>
-            <a href="/id/tags/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Tags</a>
-        </div>
-
-        <div class="flex">
-            <div class="relative pt-4 md:pt-0">
-                <div class="cursor-pointer hover:text-eureka" id="lightDarkMode">
-                    <i class="fas fa-adjust"></i>
-                </div>
-                <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id="is-open">
-                </div>
-                <div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40"
-                    id='lightDarkOptions'>
-                    <span class="px-4 py-1 hover:text-eureka">Light</span>
-                    <span class="px-4 py-1 hover:text-eureka">Dark</span>
-                    <span class="px-4 py-1 hover:text-eureka">Auto</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id="is-open-mobile">
-    </div>
-
-</nav>
-<script>
-    let element = document.getElementById('lightDarkMode')
-    if (storageColorScheme == null || storageColorScheme == 'Auto') {
-        document.addEventListener('DOMContentLoaded', () => {
-            switchMode('Auto')
-        })
-    } else if (storageColorScheme == "Light") {
-        element.firstElementChild.classList.remove('fa-adjust')
-        element.firstElementChild.setAttribute("data-icon", 'sun')
-        element.firstElementChild.classList.add('fa-sun')
-    } else if (storageColorScheme == "Dark") {
-        element.firstElementChild.classList.remove('fa-adjust')
-        element.firstElementChild.setAttribute("data-icon", 'moon')
-        element.firstElementChild.classList.add('fa-moon')
-    }
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        getcolorscheme();
-        switchBurger();
-    });
-</script></div>
-  </header>
-  <main class="flex-grow pt-16">
-    <div class="pl-scrollbar">
-      <div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-
-
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-    <div
-        class="col-span-2  lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-        <h1 class="font-bold text-3xl text-primary-text">Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare)</h1>
-        <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-    <div class="mr-6 my-2">
-        <i class="fas fa-calendar mr-1"></i>
-        <span>2017-07-22</span>
-    </div>
-    <div class="mr-6 my-2">
-        <i class="fas fa-clock mr-1"></i>
-        <span>2 min read</span>
-    </div>
-    
-    
-    <div class="mr-6 my-2">
-        <i class="fas fa-folder mr-1"></i>
-        
-        <a href="/id/categories/hugo/" class="hover:text-eureka">Hugo</a>
-        
-    </div>
-    
-
-    
-</div>
-        
-        
-        
-
-        <div class="content">
-            <h1 id="github">Github</h1>
-<ul>
-<li>
-<p>Buat dua repositori di Github :</p>
-<ul>
-<li>Repo sumber konten (hasil dari <code>hugo new site</code>) : <a href="https://github.com/fahrinh/my-site">https://github.com/fahrinh/my-site</a></li>
-<li>Repo utama web pages (hasil generate <code>hugo</code>) : <a href="https://github.com/fahrinh/fahrinh.github.io">https://github.com/fahrinh/fahrinh.github.io</a></li>
-</ul>
-</li>
-<li>
-<p>Buat Personal Access Token di <a href="https://github.com/settings/tokens">https://github.com/settings/tokens</a> dengan scope <strong>repo</strong>. Copy token tersebut ke clipboard.</p>
-</li>
-<li>
-<p>Pastikan ada file <code>CNAME</code> dengan isi custom domain blog pada repo <a href="https://github.com/fahrinh/my-site">https://github.com/fahrinh/my-site</a></p>
-</li>
-</ul>
-<h1 id="travis-ci">Travis CI</h1>
-<ul>
-<li>Buat file konfigurasi <code>.travis.yml</code> pada repo <a href="https://github.com/fahrinh/my-site/">https://github.com/fahrinh/my-site/</a> dengan isi :</li>
-</ul>
-<pre><code class="language-yaml">language: go
-
-go:
-  - master # This uses automatically the latest version of go
-
-install:
-  - pip install --user pygments
-  - go get github.com/spf13/hugo # This provides the latest version of Hugo to Travis CI
-
-script:
-  - hugo version
-  - hugo --theme=hugo-pacman-theme # This commands builds your website on travis
-  - cp CNAME public
-  - ls public
-
-deploy:
-  local_dir: public # Default static site output dir for Hugo
-  repo: fahrinh/fahrinh.github.io # This is the slug of the repo you want to deploy your site to
-  target_branch: master # GitHub pages branch to deploy to (in other cases it can be gh-pages)
-  provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN # This is the authentication which you will setup in the next step in travis-ci dashboard
-  email: fahri.cyber@gmail.com
-  name: &quot;Fahri Nurul Hidayat&quot;
-  on:
-    branch: master
-</code></pre>
-<ul>
-<li>Buat <strong>Environment Variables</strong> <code>GITHUB_TOKEN</code> di <a href="https://travis-ci.org/fahrinh/my-site/settings">https://travis-ci.org/fahrinh/my-site/settings</a> dengan value yaitu Personal Acces Token yang sudah dibuat sebelumnya.</li>
-</ul>
-<h1 id="cloudflare">Cloudflare</h1>
-<ul>
-<li>Setup DNS pertama kali dengan root domain <code>nurul.id</code></li>
-<li>Ganti nameserver hosting provider Anda dengan nameserver milik Cloudflare</li>
-<li>Pada <strong>Crypto</strong>, enable <strong>Always use HTTPS</strong> dan <strong>Automatic HTTPS Rewrites</strong></li>
-</ul>
-<p>Sumber: <a href="https://martinkaptein.github.io/blog/hugo-with-travis-ci-on-gh-pages/">https://martinkaptein.github.io/blog/hugo-with-travis-ci-on-gh-pages/</a></p>
-        </div>
-        
-        <div class="my-4">
-    
-    <a href="/id/tags/hugo/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Hugo</a>
-    
-    <a href="/id/tags/github-pages/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Github Pages</a>
-    
-    <a href="/id/tags/travis-ci/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Travis CI</a>
-    
-</div>
-        
-        
-        
-        
-        
-        
-        
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-    <div>
-        
-        <span class="block font-bold">Previous</span>
-        <a href="/id/posts/oracle-xe-11g-on-docker/" class="block">Oracle XE 11g dengan Docker</a>
-        
-    </div>
-    <div class="md:text-right mt-4 md:mt-0">
-        
-        <span class="block font-bold">Next</span>
-        <a href="/id/posts/hello-world/" class="block">Hello World</a>
-        
-    </div>
-</div>
-
-        
-
-<script id="dsq-count-scr" src="//fahri-blog.disqus.com/count.js" async=""></script>
-<div class="disqus-comments">
-    <div id="showcom" class="flex justify-center my-4">
-        <button id="show-comments" class="bg-tertiary-bg rounded block m-auto m-0 px-3 py-1" type="button">
-            Show <span class="disqus-comment-count" data-disqus-url="id/posts/static-blogging-with-hugo">comments</span>
-        </button>
-    </div>
-    <div id="disqus_thread"></div>
-</div>
-<script>
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        document.getElementById('show-comments').onclick = function () {
-            var d = document, s = d.createElement('script'); s.async = true;
-            s.src = '//' + "fahri-blog" + '.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            this.parentNode.parentNode.removeChild(document.getElementById('showcom'));
-        }
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-
-
-    </div>
-    
-    <div class="col-span-2">
-        
-        
-        <div class="sticky top-16 z-10 hidden lg:block px-6 py-4  bg-primary-bg ">
-    <span class="text-lg font-semibold">On This Page</span>
-</div>
-<div class="sticky-toc hidden lg:block px-6 pb-6 ">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#github">Github</a></li>
-    <li><a href="#travis-ci">Travis CI</a></li>
-    <li><a href="#cloudflare">Cloudflare</a></li>
-  </ul>
-</nav>
-</div>
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        enableStickyToc();
-    });
-</script>
-        
-    </div>
-    
-
-    
-    
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', ()=>{
-        hljs.initHighlightingOnLoad();
-    })
-</script>
-
-      </div>
-    </div>
-    
-  </main>
-  <footer class="pl-scrollbar">
-    <div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-    <p class="text-sm text-tertiary-text">&copy; 2021 <a href="https://fahri.id">Fahri NH</a>
- &middot;  Powered by the <a href="https://github.com/wangchucheng/hugo-eureka" class="hover:text-eureka">Eureka</a> theme for <a href="https://gohugo.io" class="hover:text-eureka">Hugo</a></p>
-</div></div>
-  </footer>
-</body>
-
-</html>
+"><meta name=application-name content="Fahri NH"><meta name=apple-mobile-web-app-title content="Fahri NH"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://fahri.id/id/posts/static-blogging-with-hugo/><link rel=prev href=https://fahri.id/id/posts/hello-world/><link rel=next href=https://fahri.id/id/posts/oracle-xe-11g-on-docker/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.css><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.css></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.css><noscript><link rel=stylesheet href=/lib/animate/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare)","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/fahri.id\/id\/posts\/static-blogging-with-hugo\/"},"genre":"posts","keywords":"Hugo, Github Pages, Travis CI","wordcount":242,"url":"https:\/\/fahri.id\/id\/posts\/static-blogging-with-hugo\/","datePublished":"2017-07-22T21:02:09+07:00","dateModified":"2017-07-22T21:02:09+07:00","publisher":{"@type":"Organization","name":"Fahri"},"author":{"@type":"Person","name":"Fahri"},"description":""}</script></head><body header-desktop header-mobile><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else""==="light"||""==="dark"||""==="black"?(setTheme(""),saveTheme("")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/id/ title="Fahri NH">Fahri NH</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/id/posts/>Posts </a><a class=menu-item href=/id/tags/>Tags </a><a class=menu-item href=/id/categories/>Categories </a><span class="menu-item delimiter"></span><a href=# onclick=return!1 class="menu-item language" title="Select Language">Bahasa<i class="fas fa-chevron-right fa-fw"></i>
+<select class=language-select title="Select Language" id=language-select-desktop onchange="location=this.value"><option value=/id/posts/static-blogging-with-hugo/ selected>Bahasa</option></select>
+</a><a href=# onclick=return!1 class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/id/ title="Fahri NH">Fahri NH</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/id/posts/ title>Posts</a><a class=menu-item href=/id/tags/ title>Tags</a><a class=menu-item href=/id/categories/ title>Categories</a><a href=# onclick=return!1 class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i>
+</a><a href=# onclick=return!1 class=menu-item title="Select Language">Bahasa<i class="fas fa-chevron-right fa-fw"></i>
+<select class=language-select title="Select Language" onchange="location=this.value"><option value=/id/posts/static-blogging-with-hugo/ selected>Bahasa</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class="toc-content always-active" id=toc-content-auto><nav id=TableOfContents></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare)</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=/id/ title=Author rel=author class=author>Fahri</a>
+</span>&nbsp;<span class=post-category>included in </span>&nbsp;<span class=post-category>category <a href=/id/categories/hugo/><i class="far fa-folder fa-fw"></i>Hugo</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2017-07-22>2017-07-22</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2017-07-22>2017-07-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;242 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;2 minutes&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents></nav></div></div><div class=content id=content><h1 id=github class=headerLink><a href=#github class=header-mark></a>Github</h1><ul><li><p>Buat dua repositori di Github :</p><ul><li>Repo sumber konten (hasil dari <code>hugo new site</code>) : <a href=https://github.com/fahrinh/my-site target=_blank rel="noopener noreferrer">https://github.com/fahrinh/my-site</a></li><li>Repo utama web pages (hasil generate <code>hugo</code>) : <a href=https://github.com/fahrinh/fahrinh.github.io target=_blank rel="noopener noreferrer">https://github.com/fahrinh/fahrinh.github.io</a></li></ul></li><li><p>Buat Personal Access Token di <a href=https://github.com/settings/tokens target=_blank rel="noopener noreferrer">https://github.com/settings/tokens</a> dengan scope <strong>repo</strong>. Copy token tersebut ke clipboard.</p></li><li><p>Pastikan ada file <code>CNAME</code> dengan isi custom domain blog pada repo <a href=https://github.com/fahrinh/my-site target=_blank rel="noopener noreferrer">https://github.com/fahrinh/my-site</a></p></li></ul><h1 id=travis-ci class=headerLink><a href=#travis-ci class=header-mark></a>Travis CI</h1><ul><li>Buat file konfigurasi <code>.travis.yml</code> pada repo <a href=https://github.com/fahrinh/my-site/ target=_blank rel="noopener noreferrer">https://github.com/fahrinh/my-site/</a> dengan isi :</li></ul><div class=highlight><pre tabindex=0 class=chroma><code class=language-yaml data-lang=yaml><span class=line><span class=cl><span class=nt>language</span><span class=p>:</span><span class=w> </span><span class=l>go</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>go</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=l>master</span><span class=w> </span><span class=c># This uses automatically the latest version of go</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>install</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=l>pip install --user pygments</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=l>go get github.com/spf13/hugo</span><span class=w> </span><span class=c># This provides the latest version of Hugo to Travis CI</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>script</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=l>hugo version</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=l>hugo --theme=hugo-pacman-theme</span><span class=w> </span><span class=c># This commands builds your website on travis</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=l>cp CNAME public</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span>- <span class=l>ls public</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=nt>deploy</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>local_dir</span><span class=p>:</span><span class=w> </span><span class=l>public</span><span class=w> </span><span class=c># Default static site output dir for Hugo</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>repo</span><span class=p>:</span><span class=w> </span><span class=l>fahrinh/fahrinh.github.io</span><span class=w> </span><span class=c># This is the slug of the repo you want to deploy your site to</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>target_branch</span><span class=p>:</span><span class=w> </span><span class=l>master</span><span class=w> </span><span class=c># GitHub pages branch to deploy to (in other cases it can be gh-pages)</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>provider</span><span class=p>:</span><span class=w> </span><span class=l>pages</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>skip_cleanup</span><span class=p>:</span><span class=w> </span><span class=kc>true</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>github_token</span><span class=p>:</span><span class=w> </span><span class=l>$GITHUB_TOKEN</span><span class=w> </span><span class=c># This is the authentication which you will setup in the next step in travis-ci dashboard</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>email</span><span class=p>:</span><span class=w> </span><span class=l>fahri.cyber@gmail.com</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>name</span><span class=p>:</span><span class=w> </span><span class=s2>&#34;Fahri Nurul Hidayat&#34;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>  </span><span class=nt>on</span><span class=p>:</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=nt>branch</span><span class=p>:</span><span class=w> </span><span class=l>master</span><span class=w>
+</span></span></span></code></pre></div><ul><li>Buat <strong>Environment Variables</strong> <code>GITHUB_TOKEN</code> di <a href=https://travis-ci.org/fahrinh/my-site/settings target=_blank rel="noopener noreferrer">https://travis-ci.org/fahrinh/my-site/settings</a> dengan value yaitu Personal Acces Token yang sudah dibuat sebelumnya.</li></ul><h1 id=cloudflare class=headerLink><a href=#cloudflare class=header-mark></a>Cloudflare</h1><ul><li>Setup DNS pertama kali dengan root domain <code>nurul.id</code></li><li>Ganti nameserver hosting provider Anda dengan nameserver milik Cloudflare</li><li>Pada <strong>Crypto</strong>, enable <strong>Always use HTTPS</strong> dan <strong>Automatic HTTPS Rewrites</strong></li></ul><p>Sumber: <a href=https://martinkaptein.github.io/blog/hugo-with-travis-ci-on-gh-pages/ target=_blank rel="noopener noreferrer">https://martinkaptein.github.io/blog/hugo-with-travis-ci-on-gh-pages/</a></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2017-07-22</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/id/tags/hugo/>Hugo</a>,&nbsp;<a href=/id/tags/github-pages/>Github Pages</a>,&nbsp;<a href=/id/tags/travis-ci/>Travis CI</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/id/>Home</a></span></section></div><div class=post-nav><a href=/id/posts/hello-world/ class=prev rel=prev title="Hello World"><i class="fas fa-angle-left fa-fw"></i>Hello World</a>
+<a href=/id/posts/oracle-xe-11g-on-docker/ class=next rel=next title="Oracle XE 11g dengan Docker">Oracle XE 11g dengan Docker<i class="fas fa-angle-right fa-fw"></i></a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.109.0">Hugo</a>&nbsp;|&nbsp;Theme - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/id/ target=_blank rel="noopener noreferrer">Fahri</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/topbar/topbar.min.js></script><script type=text/javascript src=/lib/pjax/pjax.min.js></script><script type=text/javascript src=/js/theme.min.js defer></script></div><div class=pjax-assets><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:1e4},comment:{}}</script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script></div></body></html>

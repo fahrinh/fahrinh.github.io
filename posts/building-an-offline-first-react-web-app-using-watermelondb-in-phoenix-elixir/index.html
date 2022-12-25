@@ -1,764 +1,326 @@
-<!DOCTYPE html>
-<html lang='en' ><meta charset="utf-8">
-<meta name="viewport" content="width=device-width">
-
-
-<title>Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir) | Fahri NH</title>
-<link rel="stylesheet" href="/css/eureka.min.css">
-<script defer src="/js/eureka.min.js"></script>
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload"
-  href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Noto+Serif+SC:wght@400;600;700&display=swap"
-  as="style" onload="this.onload=null;this.rel='stylesheet'">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/styles/github.min.css"
-   media="print"
-  onload="this.media='all';this.onload=null" crossorigin>
-<script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/highlight.min.js"
-   crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/elixir.min.js"
-     crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/javascript.min.js"
-     crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/dart.min.js"
-     crossorigin></script>
-
-  <script defer src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.1.0/build/languages/xml.min.js"
-     crossorigin></script>
-
-<script defer src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14.0/js/all.min.js"
-   integrity="sha256-uNYoXefWRqv&#43;PsIF/OflNmwtKM4lStn9yrz2gVl6ymo="  crossorigin></script>
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css"
-   integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3&#43;Aro6EYUG4&#43;cU&#43;KJWu/X"  media="print"
-  onload="this.media='all';this.onload=null" crossorigin>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" 
-  integrity="sha384-g7c&#43;Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI&#43;sEnkvrMWph2EDg4"  crossorigin></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js"
-   integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC&#43;Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa"  crossorigin></script>
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    renderMathInElement(document.body, {
-      delimiters: [
-        { left: "$$", right: "$$", display: true },
-        { left: "$", right: "$", display: false },
-        { left: "\\(", right: "\\)", display: false },
-        { left: "\\[", right: "\\]", display: true }
-      ],
-    });
-  });
-</script>
-<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-92345605-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag() { dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'UA-92345605-1');
-</script>
-
-
-<link rel="icon" type="image/png" sizes="32x32" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_32x32_fill_box_center_2.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/icon_huf7f4b7f080fcbdcb9fca560cf17ef1af_17267_180x180_fill_box_center_2.png">
-
-<meta name="description"
-  content="We will build a web application that supports local db synced with remote db. This post is a continuation from the previous post: How to Build WatermelonDB Sync Backend in Elixir.">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [{
-      "@type": "ListItem",
-      "position": 1 ,
-      "name":"Posts",
-      "item":"/posts/"},{
-      "@type": "ListItem",
-      "position": 2 ,
-      "name":"Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir)",
-      "item":"/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/"}]
-}
-</script>
-
-
-
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/"
-    },
-    "headline": "Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir) | Fahri NH","datePublished": "2020-04-29T10:58:39+07:00",
-    "dateModified": "2020-04-29T10:58:39+07:00",
-    "wordCount":  1044 ,
-    "publisher": {
-        "@type": "Person",
-        "name": "Fahri Nurul Hidayat",
-        "logo": {
-            "@type": "ImageObject",
-            "url": "/images/icon.png"
-        }
-        },
-    "description": "\u003cp\u003eWe will build a web application that supports local db synced with remote db. This post is a continuation from the previous post: \u003ca href=\u0022\/posts\/how-to-build-watermelondb-sync-backend-in-elixir\/\u0022\u003eHow to Build WatermelonDB Sync Backend in Elixir\u003c\/a\u003e.\u003c\/p\u003e"
-}
-</script><meta property="og:title" content="Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir) | Fahri NH" />
-<meta property="og:type" content="article" />
-
-
-<meta property="og:image" content="/images/icon.png">
-
-
-<meta property="og:url" content="/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/" />
-
-
-
-
-<meta property="og:description" content="We will build a web application that supports local db synced with remote db. This post is a continuation from the previous post: How to Build WatermelonDB Sync Backend in Elixir." />
-
-
-
-
-<meta property="og:locale" content="en" />
-
-
-
-
-<meta property="og:site_name" content="Fahri NH" />
-
-
-
-
-
-
-<meta property="article:published_time" content="2020-04-29T10:58:39&#43;07:00" />
-
-
-<meta property="article:modified_time" content="2020-04-29T10:58:39&#43;07:00" />
-
-
-
-<meta property="article:section" content="posts" />
-
-
-<meta property="article:tag" content="WatermelonDB" />
-
-<meta property="article:tag" content="Offline First App" />
-
-
-
-
-
-<meta property="og:see_also" content="/posts/how-to-build-watermelondb-sync-backend-in-elixir/" />
-
-
-
-<body class="flex flex-col min-h-screen">
-  <header class="fixed flex items-center w-full min-h-16 pl-scrollbar z-50 bg-secondary-bg shadow-sm">
-    <div class="w-full max-w-screen-xl mx-auto"><script>
-    let storageColorScheme = localStorage.getItem("lightDarkMode")
-    if (((storageColorScheme == 'Auto' || storageColorScheme == null) && window.matchMedia("(prefers-color-scheme: dark)").matches) || storageColorScheme == "Dark") {
-        document.getElementsByTagName('html')[0].classList.add('dark')
-    }
-</script>
-<nav class="flex items-center justify-between flex-wrap px-4 py-4 md:py-0">
-    <a href="/" class="mr-6 text-primary-text text-xl font-bold">Fahri NH</a>
-    <button id="navbar-btn" class="md:hidden flex items-center px-3 py-2" aria-label="Open Navbar">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <div id="target"
-        class="hidden block md:flex md:flex-grow md:justify-between md:items-center w-full md:w-auto text-primary-text z-20">
-        <div class="md:flex md:h-16 text-sm md:flex-grow pb-4 md:pb-0 border-b md:border-b-0">
-            <a href="/#about" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">About</a>
-            <a href="/posts/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  selected-menu-item  mr-4">Posts</a>
-            <a href="/categories/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Categories</a>
-            <a href="/tags/" class="block mt-4 md:inline-block md:mt-0 md:h-(16-4px) md:leading-(16-4px) box-border md:border-t-2 md:border-b-2  border-transparent  mr-4">Tags</a>
-        </div>
-
-        <div class="flex">
-            <div class="relative pt-4 md:pt-0">
-                <div class="cursor-pointer hover:text-eureka" id="lightDarkMode">
-                    <i class="fas fa-adjust"></i>
-                </div>
-                <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-30" id="is-open">
-                </div>
-                <div class="absolute flex flex-col left-0 md:left-auto right-auto md:right-0 hidden bg-secondary-bg w-48 rounded py-2 border border-tertiary-bg cursor-pointer z-40"
-                    id='lightDarkOptions'>
-                    <span class="px-4 py-1 hover:text-eureka">Light</span>
-                    <span class="px-4 py-1 hover:text-eureka">Dark</span>
-                    <span class="px-4 py-1 hover:text-eureka">Auto</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="fixed hidden inset-0 opacity-0 h-full w-full cursor-default z-0" id="is-open-mobile">
-    </div>
-
-</nav>
-<script>
-    let element = document.getElementById('lightDarkMode')
-    if (storageColorScheme == null || storageColorScheme == 'Auto') {
-        document.addEventListener('DOMContentLoaded', () => {
-            switchMode('Auto')
-        })
-    } else if (storageColorScheme == "Light") {
-        element.firstElementChild.classList.remove('fa-adjust')
-        element.firstElementChild.setAttribute("data-icon", 'sun')
-        element.firstElementChild.classList.add('fa-sun')
-    } else if (storageColorScheme == "Dark") {
-        element.firstElementChild.classList.remove('fa-adjust')
-        element.firstElementChild.setAttribute("data-icon", 'moon')
-        element.firstElementChild.classList.add('fa-moon')
-    }
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        getcolorscheme();
-        switchBurger();
-    });
-</script></div>
-  </header>
-  <main class="flex-grow pt-16">
-    <div class="pl-scrollbar">
-      <div class="w-full max-w-screen-xl lg:px-4 xl:px-8 mx-auto">
-
-
-<div class="grid grid-cols-2 lg:grid-cols-8 gap-4 lg:pt-12">
-    <div
-        class="col-span-2  lg:col-span-6 bg-secondary-bg rounded px-6 py-8">
-        <h1 class="font-bold text-3xl text-primary-text">Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir)</h1>
-        <div class="flex flex-wrap flex-row items-center mt-2 text-tertiary-text">
-    <div class="mr-6 my-2">
-        <i class="fas fa-calendar mr-1"></i>
-        <span>2020-04-29</span>
-    </div>
-    <div class="mr-6 my-2">
-        <i class="fas fa-clock mr-1"></i>
-        <span>5 min read</span>
-    </div>
-    
-    
-    <div class="mr-6 my-2">
-        <i class="fas fa-folder mr-1"></i>
-        
-        <a href="/categories/react/" class="hover:text-eureka">React</a>
-        
-        
-        <span>, </span>
-        <a href="/categories/phoenix/" class="hover:text-eureka">Phoenix</a>
-        
-    </div>
-    
-
-    
-</div>
-        
-        
-        
-
-        <div class="content">
-            <p>We will build a web application that supports local db synced with remote db. This post is a continuation from the previous post: <a href="/posts/how-to-build-watermelondb-sync-backend-in-elixir/">How to Build WatermelonDB Sync Backend in Elixir</a>.</p>
-<h2 id="installing-dependencies">Installing Dependencies</h2>
-<pre><code class="language-shell">$ cd assets
-$ npm i react react-dom uuid @nozbe/watermelondb @nozbe/with-observables
-$ npm i -D @babel/preset-react @babel/plugin-proposal-decorators @babel/plugin-proposal-class-properties @babel/plugin-transform-runtime
-</code></pre>
-<p>Configure <code>assets/.babelrc</code>:</p>
-<pre><code class="language-js">{
-    &quot;presets&quot;: [
-        &quot;@babel/preset-env&quot;, &quot;@babel/preset-react&quot;
-    ],
-    &quot;plugins&quot;: [
-        [&quot;@babel/plugin-proposal-decorators&quot;, { &quot;legacy&quot;: true }],
-        [&quot;@babel/plugin-proposal-class-properties&quot;, { &quot;loose&quot;: true }],
-        [
-          &quot;@babel/plugin-transform-runtime&quot;,
-           {
-             &quot;helpers&quot;: true,
-             &quot;regenerator&quot;: true
-           }
-        ]
-      ]
-}
-</code></pre>
-<h2 id="lets-code">Let&rsquo;s Code</h2>
-<p>Remove entirely <code>lib/blog_app_web/templates/page/index.html.eex</code> and replace it with this code:</p>
-<pre><code class="language-html">&lt;div id=&quot;blog-app&quot; /&gt;
-</code></pre>
-<p>All frontend code related to blog app will be located in <code>assets/js/blog</code>.
-So, we will import entry point of blog app in <code>assets/js/app.js</code>:</p>
-<pre><code class="language-js">// assets/js/app.js
-import &quot;../css/app.scss&quot;
-import &quot;phoenix_html&quot;
-import &quot;./blog&quot;
-</code></pre>
-<h2 id="setup-database">Setup <code>Database</code></h2>
-<pre><code class="language-js">// assets/js/blog/index.js
-import React from 'react';
-import { render } from 'react-dom';
-import { Database } from '@nozbe/watermelondb'
-import LokiJSAdapter from '@nozbe/watermelondb/adapters/lokijs'
-import DatabaseProvider from '@nozbe/watermelondb/DatabaseProvider'
-
-import schema from './model/schema'
-import Post from './model/Post'
-
-import App from './App'
-
-const adapter = new LokiJSAdapter({
-  schema,
-  useWebWorker: false,
-  useIncrementalIndexedDB: true,
-  onIndexedDBVersionChange: () =&gt; {
-    if (checkIfUserIsLoggedIn()) {
-      window.location.reload()
-    }
-  },
-})
-
-const database = new Database({
-  adapter,
-  modelClasses: [
-    Post,
-  ],
-  actionsEnabled: true,
-})
-
-const rootElement = document.getElementById('blog-app');
-
-render(
-  &lt;DatabaseProvider database={database}&gt;
-    &lt;App /&gt;
-  &lt;/DatabaseProvider&gt;,
-  rootElement);
-</code></pre>
-<h3 id="schema">Schema</h3>
-<pre><code class="language-js">// assets/js/blog/model/schema.js
-import { appSchema, tableSchema } from '@nozbe/watermelondb'
-
-const mySchema = appSchema({
-    version: 1,
-    tables: [
-        tableSchema({
-            name: 'posts',
-            columns: [
-                { name: 'title', type: 'string' },
-                { name: 'content', type: 'string' },
-                { name: 'likes', type: 'number' },
-                { name: 'created_at', type: 'number' },
-                { name: 'updated_at', type: 'number' },
-            ]
-        })
-    ]
-})
-
-export default mySchema
-</code></pre>
-<h3 id="model">Model</h3>
-<pre><code class="language-js">// assets/js/blog/model/Post.js
-import { Model } from '@nozbe/watermelondb'
-import { field, date, readonly } from '@nozbe/watermelondb/decorators'
-
-export default class Post extends Model {
-    static table = 'posts'
-
-    @field('title') title
-    @field('content') content
-    @field('likes') likes
-    @readonly @date('created_at') createdAt
-    @readonly @date('updated_at') updatedAt
-}
-</code></pre>
-<h2 id="appjs"><code>App.js</code></h2>
-<p><img src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/blog-app-mockup.plantuml" alt="BlogApp Mockup"></p>
-<p><code>&lt;App/&gt;</code> consists of:</p>
-<ul>
-<li><code>&lt;PostForm/&gt;</code></li>
-<li><code>&lt;PostList/&gt;</code>
-<ul>
-<li><code>&lt;PostRow/&gt;</code> for each row data</li>
-</ul>
-</li>
-</ul>
-<p>As parent component, <code>App</code> handles all actions related to form (<code>Add New/Reset</code>, <code>Save</code>, <code>Sync</code>) and row data (<code>Edit</code>, <code>Delete</code>).</p>
-<pre><code class="language-js">// assets/js/blog/App.js
-import React, { useState } from 'react';
-import { useDatabase } from '@nozbe/watermelondb/hooks'
-import { v4 as uuidv4 } from 'uuid';
-
-import syncData from './sync'
-import PostList from './PostList'
-import PostForm from './PostForm'
-
-export default function App() {
-    const database = useDatabase()
-    const [post, setPost] = useState()
-    const postsCollection = database.collections.get(&quot;posts&quot;);
-
-    function clearPost() {
-        setPost(undefined)
-    }
-
-    function onEdit(selectedPost) {
-        setPost(selectedPost)
-    }
-
-    async function onDelete(selectedPost) {
-        await database.action(async () =&gt; {
-            await selectedPost.markAsDeleted()
-        })
-    }
-
-    async function createPost(inputtedForm) {
-        await database.action(async () =&gt; {
-            const newPost = await postsCollection.create(post =&gt; {
-                post._raw.id = uuidv4()
-                post.title = inputtedForm.title
-                post.content = inputtedForm.content
-                post.likes = inputtedForm.likes
-            });
-        })
-    }
-
-    async function updatePost(currentPost, inputtedForm) {
-        await database.action(async () =&gt; {
-            await currentPost.update(post =&gt; {
-                post.title = inputtedForm.title
-                post.content = inputtedForm.content
-                post.likes = inputtedForm.likes
-            });
-        })
-    }
-
-    return (
-        &lt;div&gt;
-            &lt;PostForm post={post} clearPost={clearPost} createPost={createPost} updatePost={updatePost} syncData={() =&gt; syncData(database)} /&gt;
-            &lt;PostList onEdit={onEdit} onDelete={onDelete} /&gt;
-        &lt;/div&gt;
-    )
-}
-</code></pre>
-<h2 id="postformjs"><code>PostForm.js</code></h2>
-<pre><code class="language-js">// assets/js/blog/PostForm.js
-import React, { useState, useEffect } from 'react';
-
-export default function PostForm({ post, clearPost, createPost, updatePost, syncData }) {
-    const [title, setTitle] = useState(post ? post.title : &quot;&quot;)
-    const [content, setContent] = useState(post ? post.content : &quot;&quot;)
-    const [likes, setLikes] = useState(post ? post.likes : &quot;&quot;)
-
-    useEffect(() =&gt; {
-        setTitle(post ? post.title : &quot;&quot;)
-        setContent(post ? post.content : &quot;&quot;)
-        setLikes(post ? post.likes : &quot;&quot;)
-    }, [post])
-
-    const onReset = (e) =&gt; {
-        e.preventDefault()
-        clearForm()
-    }
-
-    const onSync = (e) =&gt; {
-        e.preventDefault()
-        syncData()
-    }
-
-    const onSubmit = async (e) =&gt; {
-        e.preventDefault()
-
-        const inputtedForm = { title, content, likes: parseInt(likes) }
-
-        if (post) {
-            await updatePost(post, inputtedForm)
-        } else {
-            await createPost(inputtedForm)
-            clearForm()
-        }
-    }
-
-    const clearForm = () =&gt; {
-        setTitle(&quot;&quot;)
-        setContent(&quot;&quot;)
-        setLikes(&quot;&quot;)
-        clearPost()
-    }
-
-    return (
-        &lt;form&gt;
-            &lt;label&gt;
-                Title:
-                &lt;input type=&quot;text&quot; value={title} onChange={(e) =&gt; setTitle(e.target.value)} /&gt;
-            &lt;/label&gt;
-            &lt;label&gt;
-                Content:
-                &lt;input type=&quot;text&quot; value={content} onChange={(e) =&gt; setContent(e.target.value)} /&gt;
-            &lt;/label&gt;
-            &lt;label&gt;
-                Likes:
-                &lt;input type=&quot;number&quot; value={likes} onChange={(e) =&gt; setLikes(e.target.value)} /&gt;
-            &lt;/label&gt;
-            &lt;button className=&quot;button button-outline&quot; onClick={onReset}&gt;Add New / Reset&lt;/button&gt;
-            &lt;button onClick={onSubmit}&gt;Save&lt;/button&gt;
-            &lt;button className=&quot;button button-clear&quot; onClick={onSync}&gt;Sync&lt;/button&gt;
-        &lt;/form&gt;
-    )
-}
-</code></pre>
-<h2 id="postlistjs"><code>PostList.js</code></h2>
-<p><code>PostList</code> is enhanced component wrapped with <code>withObservables</code> to become reactive whenever data in <code>posts</code> get added or deleted.</p>
-<pre><code class="language-js">// assets/js/blog/PostList.js
-import React from 'react';
-import withObservables from &quot;@nozbe/with-observables&quot;;
-import { withDatabase } from '@nozbe/watermelondb/DatabaseProvider'
-import PostRow from './PostRow'
-
-const PostList = ({ posts, onEdit, onDelete }) =&gt; (
-    &lt;table&gt;
-        &lt;thead&gt;
-            &lt;tr&gt;
-                &lt;th&gt;Title&lt;/th&gt;
-                &lt;th&gt;Content&lt;/th&gt;
-                &lt;th&gt;Likes&lt;/th&gt;
-                &lt;th&gt;Created At&lt;/th&gt;
-                &lt;th&gt;Updated At&lt;/th&gt;
-                &lt;th&gt;Actions&lt;/th&gt;
-            &lt;/tr&gt;
-        &lt;/thead&gt;
-        &lt;tbody&gt;
-            {posts.map(post =&gt; &lt;PostRow key={post._raw.id} post={post} onEdit={onEdit} onDelete={onDelete} /&gt;)}
-        &lt;/tbody&gt;
-    &lt;/table&gt;
-)
-
-export default withDatabase(withObservables([], ({ database }) =&gt; ({
-    posts: database.collections.get('posts').query().observe(),
-}))(PostList))
-</code></pre>
-<h2 id="postrowjs"><code>PostRow.js</code></h2>
-<p><code>PostRow</code> is also reactive component. It will automatically rerender the component whenever data changes (i.e. <code>post</code> get updated).</p>
-<pre><code class="language-js">// assets/js/blog/PostRow.js
-import React from 'react';
-import withObservables from &quot;@nozbe/with-observables&quot;;
-
-const PostRow = ({ post, onEdit, onDelete }) =&gt; (
-    &lt;tr key={post._raw.id}&gt;
-        &lt;td&gt;{post.title}&lt;/td&gt;
-        &lt;td&gt;{post.content}&lt;/td&gt;
-        &lt;td&gt;{post.likes}&lt;/td&gt;
-        &lt;td&gt;{post.createdAt.toString()}&lt;/td&gt;
-        &lt;td&gt;{post.updatedAt.toString()}&lt;/td&gt;
-        &lt;td&gt;
-            &lt;button onClick={(e) =&gt; {onEdit(post)}}&gt;Edit&lt;/button&gt;
-            &lt;button onClick={(e) =&gt; {onDelete(post)}}&gt;Delete&lt;/button&gt;
-        &lt;/td&gt;
-    &lt;/tr&gt;
-)
-
-export default withObservables([&quot;post&quot;], ({ post }) =&gt; ({
-    post: post.observe()
-}))(PostRow)
-</code></pre>
-<h2 id="syncjs"><code>sync.js</code></h2>
-<p>Along with the backend, this is the core of sync capability in our app.
-On <a href="/posts/how-to-build-watermelondb-sync-backend-in-elixir/#workaround-for-sync-on-client-side">the previous post</a>, I have explained in detail why it needs a workaround.
-Please read that first.</p>
-<pre><code class="language-js">// assets/js/blog/sync.js
-import { synchronize } from '@nozbe/watermelondb/sync'
-
-export default async function syncData(database) {
-    let latestVersionOfSession = 0
-    let changesOfSession = {}
-
-    await synchronize({
-        database,
-        pullChanges: async ({ lastPulledAt }) =&gt; {
-            const response = await fetch(`http://localhost:4000/api/sync/pull?lastPulledVersion=${lastPulledAt || 0}`)
-            if (!response.ok) {
-                throw new Error(await response.text())
-            }
-
-            const { changes, latestVersion } = await response.json()
-            latestVersionOfSession = latestVersion
-            changesOfSession = changes
-
-            return { changes, timestamp: latestVersion }
-        },
-        pushChanges: async ({ changes, lastPulledAt }) =&gt; {
-            const response = await fetch(`http://localhost:4000/api/sync/push?lastPulledVersion=${lastPulledAt || 0}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(changes)
-            })
-            if (!response.ok) {
-                throw new Error(await response.text())
-            }
-            const { changes: changesFromPush, latestVersion } = await response.json()
-            latestVersionOfSession = latestVersion
-            changesOfSession = changesFromPush
-        },
-    })
-
-    await synchronize({
-        database,
-        pullChanges: async ({ lastPulledAt }) =&gt; {
-            return { changes: changesOfSession, timestamp: latestVersionOfSession }
-        },
-        pushChanges: async ({ changes, lastPulledAt }) =&gt; {
-            throw new Error(await response.text())
-        },
-    })
-}
-</code></pre>
-<h2 id="run-the-application">Run the Application</h2>
-<pre><code class="language-shell">$ cd ../ # cd to project directory (blog_app)
-$ mix phx.server
-</code></pre>
-<p>Open <a href="http://localhost:4000">http://localhost:4000</a></p>
-<h2 id="final-source-code">Final Source Code</h2>
-<p>All code (sync backend and frontend app) is available on <a href="https://github.com/fahrinh/blog-labs/tree/master/2020-04-24/blog_app">https://github.com/fahrinh/blog-labs/tree/master/2020-04-24/blog_app</a></p>
-        </div>
-        
-        <div class="my-4">
-    
-    <a href="/tags/watermelondb/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#WatermelonDB</a>
-    
-    <a href="/tags/offline-first-app/" class="inline-block bg-tertiary-bg text-sm rounded px-3 py-1 my-1 mr-2 hover:text-eureka">#Offline First App</a>
-    
-</div>
-        
-        
-        
-        
-        
-        
-        
-<div class="flex flex-col md:flex-row md:justify-between -mx-2 mt-4 px-2 pt-4 border-t">
-    <div>
-        
-    </div>
-    <div class="md:text-right mt-4 md:mt-0">
-        
-        <span class="block font-bold">Next</span>
-        <a href="/posts/how-to-build-watermelondb-sync-backend-in-elixir/" class="block">How to Build WatermelonDB Sync Backend in Elixir</a>
-        
-    </div>
-</div>
-
-        
-
-<script id="dsq-count-scr" src="//fahri-blog.disqus.com/count.js" async=""></script>
-<div class="disqus-comments">
-    <div id="showcom" class="flex justify-center my-4">
-        <button id="show-comments" class="bg-tertiary-bg rounded block m-auto m-0 px-3 py-1" type="button">
-            Show <span class="disqus-comment-count" data-disqus-url="posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir">comments</span>
-        </button>
-    </div>
-    <div id="disqus_thread"></div>
-</div>
-<script>
-    var disqus_config = function () {
-    
-    
-    
-    };
-    (function() {
-        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
-            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
-            return;
-        }
-        document.getElementById('show-comments').onclick = function () {
-            var d = document, s = d.createElement('script'); s.async = true;
-            s.src = '//' + "fahri-blog" + '.disqus.com/embed.js';
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-            this.parentNode.parentNode.removeChild(document.getElementById('showcom'));
-        }
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-
-
-    </div>
-    
-    <div class="col-span-2">
-        
-        
-        <div class="sticky top-16 z-10 hidden lg:block px-6 py-4  bg-primary-bg ">
-    <span class="text-lg font-semibold">On This Page</span>
-</div>
-<div class="sticky-toc hidden lg:block px-6 pb-6 ">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#installing-dependencies">Installing Dependencies</a></li>
-        <li><a href="#lets-code">Let&rsquo;s Code</a></li>
-        <li><a href="#setup-database">Setup <code>Database</code></a>
-          <ul>
-            <li><a href="#schema">Schema</a></li>
-            <li><a href="#model">Model</a></li>
-          </ul>
-        </li>
-        <li><a href="#appjs"><code>App.js</code></a></li>
-        <li><a href="#postformjs"><code>PostForm.js</code></a></li>
-        <li><a href="#postlistjs"><code>PostList.js</code></a></li>
-        <li><a href="#postrowjs"><code>PostRow.js</code></a></li>
-        <li><a href="#syncjs"><code>sync.js</code></a></li>
-        <li><a href="#run-the-application">Run the Application</a></li>
-        <li><a href="#final-source-code">Final Source Code</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-</div>
-<script>
-    window.addEventListener('DOMContentLoaded', () => {
-        enableStickyToc();
-    });
-</script>
-        
-    </div>
-    
-
-    
-    
-    <div
-        class="col-span-2  lg:col-span-6 bg-secondary-bg rounded p-6">
-        <h2 class="text-lg font-semibold mb-4">See Also</h2>
-        <div class="content">
-            
-            <a href="/posts/how-to-build-watermelondb-sync-backend-in-elixir/">How to Build WatermelonDB Sync Backend in Elixir</a>
-            <br />
-            
-        </div>
-    </div>
-    
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', ()=>{
-        hljs.initHighlightingOnLoad();
-    })
-</script>
-
-      </div>
-    </div>
-    
-  </main>
-  <footer class="pl-scrollbar">
-    <div class="w-full max-w-screen-xl mx-auto"><div class="text-center p-6 pin-b">
-    <p class="text-sm text-tertiary-text">&copy; 2021 <a href="https://fahri.id">Fahri NH</a>
- &middot;  Powered by the <a href="https://github.com/wangchucheng/hugo-eureka" class="hover:text-eureka">Eureka</a> theme for <a href="https://gohugo.io" class="hover:text-eureka">Hugo</a></p>
-</div></div>
-  </footer>
-</body>
-
-</html>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir) - Fahri NH</title><meta name=Description content><meta property="og:title" content="Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir)"><meta property="og:description" content="We will build a web application that supports local db synced with remote db. This post is a continuation from the previous post: How to Build WatermelonDB Sync Backend in Elixir."><meta property="og:type" content="article"><meta property="og:url" content="https://fahri.id/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/"><meta property="og:image" content="https://fahri.id/images/blog-app-mockup.png"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-04-29T10:58:39+07:00"><meta property="article:modified_time" content="2020-04-29T10:58:39+07:00"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://fahri.id/images/blog-app-mockup.png"><meta name=twitter:title content="Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir)"><meta name=twitter:description content="We will build a web application that supports local db synced with remote db. This post is a continuation from the previous post: How to Build WatermelonDB Sync Backend in Elixir."><meta name=application-name content="Fahri NH"><meta name=apple-mobile-web-app-title content="Fahri NH"><meta name=theme-color content="#f8f8f8"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=canonical href=https://fahri.id/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/><link rel=prev href=https://fahri.id/posts/how-to-build-watermelondb-sync-backend-in-elixir/><link rel=stylesheet href=/lib/normalize/normalize.min.css><link rel=stylesheet href=/css/style.min.css><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/fontawesome-free/all.min.css><noscript><link rel=stylesheet href=/lib/fontawesome-free/all.min.css></noscript><link rel=preload as=style onload='this.onload=null,this.rel="stylesheet"' href=/lib/animate/animate.min.css><noscript><link rel=stylesheet href=/lib/animate/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir)","inLanguage":"en","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/fahri.id\/posts\/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir\/"},"genre":"posts","keywords":"WatermelonDB, Offline First App","wordcount":1033,"url":"https:\/\/fahri.id\/posts\/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir\/","datePublished":"2020-04-29T10:58:39+07:00","dateModified":"2020-04-29T10:58:39+07:00","publisher":{"@type":"Organization","name":"Fahri"},"author":{"@type":"Person","name":"Fahri"},"description":""}</script></head><body header-desktop header-mobile><script type=text/javascript>function setTheme(e){document.body.setAttribute("theme",e),document.documentElement.style.setProperty("color-scheme",e==="light"?"light":"dark")}function saveTheme(e){window.localStorage&&localStorage.setItem("theme",e)}function getMeta(e){const t=document.getElementsByTagName("meta");for(let n=0;n<t.length;n++)if(t[n].getAttribute("name")===e)return t[n];return""}if(window.localStorage&&localStorage.getItem("theme")){let e=localStorage.getItem("theme");e==="light"||e==="dark"||e==="black"?setTheme(e):setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")}else""==="light"||""==="dark"||""==="black"?(setTheme(""),saveTheme("")):(saveTheme("auto"),setTheme(window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"));let metaColors={light:"#f8f8f8",dark:"#252627",black:"#000000"};getMeta("theme-color").content=metaColors[document.body.getAttribute("theme")]</script><div id=back-to-top></div><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title="Fahri NH">Fahri NH</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>Posts </a><a class=menu-item href=/tags/>Tags </a><a class=menu-item href=/categories/>Categories </a><a class=menu-item href=/about/ title=About>About </a><span class="menu-item delimiter"></span><a href=# onclick=return!1 class="menu-item language" title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+<select class=language-select title="Select Language" id=language-select-desktop onchange="location=this.value"><option value=/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/ selected>English</option></select>
+</a><a href=# onclick=return!1 class="menu-item theme-switch" title="Switch Theme"><i class="fas fa-adjust fa-fw"></i></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title="Fahri NH">Fahri NH</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><a class=menu-item href=/posts/ title>Posts</a><a class=menu-item href=/tags/ title>Tags</a><a class=menu-item href=/categories/ title>Categories</a><a class=menu-item href=/about/ title=About>About</a><a href=# onclick=return!1 class="menu-item theme-switch" title="Switch Theme">
+<i class="fas fa-adjust fa-fw"></i>
+</a><a href=# onclick=return!1 class=menu-item title="Select Language">English<i class="fas fa-chevron-right fa-fw"></i>
+<select class=language-select title="Select Language" onchange="location=this.value"><option value=/posts/building-an-offline-first-react-web-app-using-watermelondb-in-phoenix-elixir/ selected>English</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>Contents</h2><div class="toc-content always-active" id=toc-content-auto><nav id=TableOfContents><ul><li><a href=#installing-dependencies>Installing Dependencies</a></li><li><a href=#lets-code>Let&rsquo;s Code</a></li><li><a href=#setup-database>Setup <code>Database</code></a><ul><li><a href=#schema>Schema</a></li><li><a href=#model>Model</a></li></ul></li><li><a href=#appjs><code>App.js</code></a></li><li><a href=#postformjs><code>PostForm.js</code></a></li><li><a href=#postlistjs><code>PostList.js</code></a></li><li><a href=#postrowjs><code>PostRow.js</code></a></li><li><a href=#syncjs><code>sync.js</code></a></li><li><a href=#run-the-application>Run the Application</a></li><li><a href=#final-source-code>Final Source Code</a></li></ul></nav></div></div><script>document.getElementsByTagName("main")[0].setAttribute("pageStyle","normal")</script><script>document.getElementsByTagName("main")[0].setAttribute("autoTOC","true")</script><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Building an Offline-First React Web App Using WatermelonDB in Phoenix (Elixir)</h1><div class=post-meta><div class=post-meta-line><span class=post-author><i class="author fas fa-user-circle fa-fw"></i><a href=/ title=Author rel=author class=author>Fahri</a>
+</span>&nbsp;<span class=post-category>included in </span>&nbsp;<span class=post-category>categories <a href=/categories/react/><i class="far fa-folder fa-fw"></i>React</a>&nbsp;<a href=/categories/phoenix/><i class="far fa-folder fa-fw"></i>Phoenix</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime=2020-04-29>2020-04-29</time>&nbsp;<i class="far fa-edit fa-fw"></i>&nbsp;<time datetime=2020-04-29>2020-04-29</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1033 words&nbsp;
+<i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div></div><div class="details toc" id=toc-static kept><div class="details-summary toc-title"><span>Contents</span>
+<span><i class="details-icon fas fa-angle-right"></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#installing-dependencies>Installing Dependencies</a></li><li><a href=#lets-code>Let&rsquo;s Code</a></li><li><a href=#setup-database>Setup <code>Database</code></a><ul><li><a href=#schema>Schema</a></li><li><a href=#model>Model</a></li></ul></li><li><a href=#appjs><code>App.js</code></a></li><li><a href=#postformjs><code>PostForm.js</code></a></li><li><a href=#postlistjs><code>PostList.js</code></a></li><li><a href=#postrowjs><code>PostRow.js</code></a></li><li><a href=#syncjs><code>sync.js</code></a></li><li><a href=#run-the-application>Run the Application</a></li><li><a href=#final-source-code>Final Source Code</a></li></ul></nav></div></div><div class=content id=content><p>We will build a web application that supports local db synced with remote db. This post is a continuation from the previous post: <a href=https://fahri.id/posts/how-to-build-watermelondb-sync-backend-in-elixir/ rel>How to Build WatermelonDB Sync Backend in Elixir</a>.</p><h2 id=installing-dependencies class=headerLink><a href=#installing-dependencies class=header-mark></a>Installing Dependencies</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ <span class=nb>cd</span> assets
+</span></span><span class=line><span class=cl>$ npm i react react-dom uuid @nozbe/watermelondb @nozbe/with-observables
+</span></span><span class=line><span class=cl>$ npm i -D @babel/preset-react @babel/plugin-proposal-decorators @babel/plugin-proposal-class-properties @babel/plugin-transform-runtime
+</span></span></code></pre></div><p>Configure <code>assets/.babelrc</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;presets&#34;</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=s2>&#34;@babel/preset-env&#34;</span><span class=p>,</span> <span class=s2>&#34;@babel/preset-react&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>],</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;plugins&#34;</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span><span class=s2>&#34;@babel/plugin-proposal-decorators&#34;</span><span class=p>,</span> <span class=p>{</span> <span class=s2>&#34;legacy&#34;</span><span class=o>:</span> <span class=kc>true</span> <span class=p>}],</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span><span class=s2>&#34;@babel/plugin-proposal-class-properties&#34;</span><span class=p>,</span> <span class=p>{</span> <span class=s2>&#34;loose&#34;</span><span class=o>:</span> <span class=kc>true</span> <span class=p>}],</span>
+</span></span><span class=line><span class=cl>        <span class=p>[</span>
+</span></span><span class=line><span class=cl>          <span class=s2>&#34;@babel/plugin-transform-runtime&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>           <span class=p>{</span>
+</span></span><span class=line><span class=cl>             <span class=s2>&#34;helpers&#34;</span><span class=o>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>             <span class=s2>&#34;regenerator&#34;</span><span class=o>:</span> <span class=kc>true</span>
+</span></span><span class=line><span class=cl>           <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>]</span>
+</span></span><span class=line><span class=cl>      <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=lets-code class=headerLink><a href=#lets-code class=header-mark></a>Let&rsquo;s Code</h2><p>Remove entirely <code>lib/blog_app_web/templates/page/index.html.eex</code> and replace it with this code:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>div</span> <span class=na>id</span><span class=o>=</span><span class=s>&#34;blog-app&#34;</span> <span class=p>/&gt;</span>
+</span></span></code></pre></div><p>All frontend code related to blog app will be located in <code>assets/js/blog</code>.
+So, we will import entry point of blog app in <code>assets/js/app.js</code>:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=c1>// assets/js/app.js
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=s2>&#34;../css/app.scss&#34;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=s2>&#34;phoenix_html&#34;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=s2>&#34;./blog&#34;</span>
+</span></span></code></pre></div><h2 id=setup-database class=headerLink><a href=#setup-database class=header-mark></a>Setup <code>Database</code></h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=c1>// assets/js/blog/index.js
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=nx>React</span> <span class=nx>from</span> <span class=s1>&#39;react&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>render</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;react-dom&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>Database</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;@nozbe/watermelondb&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>LokiJSAdapter</span> <span class=nx>from</span> <span class=s1>&#39;@nozbe/watermelondb/adapters/lokijs&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>DatabaseProvider</span> <span class=nx>from</span> <span class=s1>&#39;@nozbe/watermelondb/DatabaseProvider&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>schema</span> <span class=nx>from</span> <span class=s1>&#39;./model/schema&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>Post</span> <span class=nx>from</span> <span class=s1>&#39;./model/Post&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>App</span> <span class=nx>from</span> <span class=s1>&#39;./App&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>adapter</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>LokiJSAdapter</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>schema</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>useWebWorker</span><span class=o>:</span> <span class=kc>false</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>useIncrementalIndexedDB</span><span class=o>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>onIndexedDBVersionChange</span><span class=o>:</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=nx>checkIfUserIsLoggedIn</span><span class=p>())</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>      <span class=nb>window</span><span class=p>.</span><span class=nx>location</span><span class=p>.</span><span class=nx>reload</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>database</span> <span class=o>=</span> <span class=k>new</span> <span class=nx>Database</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>  <span class=nx>adapter</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>modelClasses</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=nx>Post</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=nx>actionsEnabled</span><span class=o>:</span> <span class=kc>true</span><span class=p>,</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>rootElement</span> <span class=o>=</span> <span class=nb>document</span><span class=p>.</span><span class=nx>getElementById</span><span class=p>(</span><span class=s1>&#39;blog-app&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>render</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;</span><span class=nt>DatabaseProvider</span> <span class=na>database</span><span class=o>=</span><span class=p>{</span><span class=nx>database</span><span class=p>}&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>App</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>  <span class=p>&lt;/</span><span class=nt>DatabaseProvider</span><span class=p>&gt;,</span>
+</span></span><span class=line><span class=cl>  <span class=nx>rootElement</span><span class=p>);</span>
+</span></span></code></pre></div><h3 id=schema class=headerLink><a href=#schema class=header-mark></a>Schema</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=c1>// assets/js/blog/model/schema.js
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=p>{</span> <span class=nx>appSchema</span><span class=p>,</span> <span class=nx>tableSchema</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;@nozbe/watermelondb&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>mySchema</span> <span class=o>=</span> <span class=nx>appSchema</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>    <span class=nx>version</span><span class=o>:</span> <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=nx>tables</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>        <span class=nx>tableSchema</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>            <span class=nx>name</span><span class=o>:</span> <span class=s1>&#39;posts&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>            <span class=nx>columns</span><span class=o>:</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span> <span class=nx>name</span><span class=o>:</span> <span class=s1>&#39;title&#39;</span><span class=p>,</span> <span class=nx>type</span><span class=o>:</span> <span class=s1>&#39;string&#39;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span> <span class=nx>name</span><span class=o>:</span> <span class=s1>&#39;content&#39;</span><span class=p>,</span> <span class=nx>type</span><span class=o>:</span> <span class=s1>&#39;string&#39;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span> <span class=nx>name</span><span class=o>:</span> <span class=s1>&#39;likes&#39;</span><span class=p>,</span> <span class=nx>type</span><span class=o>:</span> <span class=s1>&#39;number&#39;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span> <span class=nx>name</span><span class=o>:</span> <span class=s1>&#39;created_at&#39;</span><span class=p>,</span> <span class=nx>type</span><span class=o>:</span> <span class=s1>&#39;number&#39;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>                <span class=p>{</span> <span class=nx>name</span><span class=o>:</span> <span class=s1>&#39;updated_at&#39;</span><span class=p>,</span> <span class=nx>type</span><span class=o>:</span> <span class=s1>&#39;number&#39;</span> <span class=p>},</span>
+</span></span><span class=line><span class=cl>            <span class=p>]</span>
+</span></span><span class=line><span class=cl>        <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>mySchema</span>
+</span></span></code></pre></div><h3 id=model class=headerLink><a href=#model class=header-mark></a>Model</h3><div class=highlight><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=c1>// assets/js/blog/model/Post.js
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=p>{</span> <span class=nx>Model</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;@nozbe/watermelondb&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>field</span><span class=p>,</span> <span class=nx>date</span><span class=p>,</span> <span class=nx>readonly</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;@nozbe/watermelondb/decorators&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kr>class</span> <span class=nx>Post</span> <span class=kr>extends</span> <span class=nx>Model</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>static</span> <span class=nx>table</span> <span class=o>=</span> <span class=s1>&#39;posts&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=err>@</span><span class=nx>field</span><span class=p>(</span><span class=s1>&#39;title&#39;</span><span class=p>)</span> <span class=nx>title</span>
+</span></span><span class=line><span class=cl>    <span class=err>@</span><span class=nx>field</span><span class=p>(</span><span class=s1>&#39;content&#39;</span><span class=p>)</span> <span class=nx>content</span>
+</span></span><span class=line><span class=cl>    <span class=err>@</span><span class=nx>field</span><span class=p>(</span><span class=s1>&#39;likes&#39;</span><span class=p>)</span> <span class=nx>likes</span>
+</span></span><span class=line><span class=cl>    <span class=err>@</span><span class=nx>readonly</span> <span class=err>@</span><span class=nx>date</span><span class=p>(</span><span class=s1>&#39;created_at&#39;</span><span class=p>)</span> <span class=nx>createdAt</span>
+</span></span><span class=line><span class=cl>    <span class=err>@</span><span class=nx>readonly</span> <span class=err>@</span><span class=nx>date</span><span class=p>(</span><span class=s1>&#39;updated_at&#39;</span><span class=p>)</span> <span class=nx>updatedAt</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=appjs class=headerLink><a href=#appjs class=header-mark></a><code>App.js</code></h2><p><a class=lightgallery href="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/blog-app-mockup.plantuml" title="BlogApp Mockup" data-thumbnail="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/blog-app-mockup.plantuml"><img class=lazyload data-src="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/blog-app-mockup.plantuml" data-srcset="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/blog-app-mockup.plantuml, http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/blog-app-mockup.plantuml 1.5x, http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/blog-app-mockup.plantuml 2x" data-sizes=auto alt="http://www.plantuml.com/plantuml/proxy?src=https://raw.githubusercontent.com/fahrinh/my-blog/master/diagram/blog-app-mockup.plantuml"></a></p><p><code>&lt;App/></code> consists of:</p><ul><li><code>&lt;PostForm/></code></li><li><code>&lt;PostList/></code><ul><li><code>&lt;PostRow/></code> for each row data</li></ul></li></ul><p>As parent component, <code>App</code> handles all actions related to form (<code>Add New/Reset</code>, <code>Save</code>, <code>Sync</code>) and row data (<code>Edit</code>, <code>Delete</code>).</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=c1>// assets/js/blog/App.js
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=nx>React</span><span class=p>,</span> <span class=p>{</span> <span class=nx>useState</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;react&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>useDatabase</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;@nozbe/watermelondb/hooks&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>v4</span> <span class=nx>as</span> <span class=nx>uuidv4</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;uuid&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>syncData</span> <span class=nx>from</span> <span class=s1>&#39;./sync&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>PostList</span> <span class=nx>from</span> <span class=s1>&#39;./PostList&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>PostForm</span> <span class=nx>from</span> <span class=s1>&#39;./PostForm&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>App</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>database</span> <span class=o>=</span> <span class=nx>useDatabase</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=p>[</span><span class=nx>post</span><span class=p>,</span> <span class=nx>setPost</span><span class=p>]</span> <span class=o>=</span> <span class=nx>useState</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>postsCollection</span> <span class=o>=</span> <span class=nx>database</span><span class=p>.</span><span class=nx>collections</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=s2>&#34;posts&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>function</span> <span class=nx>clearPost</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>setPost</span><span class=p>(</span><span class=kc>undefined</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kd>function</span> <span class=nx>onEdit</span><span class=p>(</span><span class=nx>selectedPost</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>setPost</span><span class=p>(</span><span class=nx>selectedPost</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>async</span> <span class=kd>function</span> <span class=nx>onDelete</span><span class=p>(</span><span class=nx>selectedPost</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>await</span> <span class=nx>database</span><span class=p>.</span><span class=nx>action</span><span class=p>(</span><span class=kr>async</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>await</span> <span class=nx>selectedPost</span><span class=p>.</span><span class=nx>markAsDeleted</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>async</span> <span class=kd>function</span> <span class=nx>createPost</span><span class=p>(</span><span class=nx>inputtedForm</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>await</span> <span class=nx>database</span><span class=p>.</span><span class=nx>action</span><span class=p>(</span><span class=kr>async</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>const</span> <span class=nx>newPost</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>postsCollection</span><span class=p>.</span><span class=nx>create</span><span class=p>(</span><span class=nx>post</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>post</span><span class=p>.</span><span class=nx>_raw</span><span class=p>.</span><span class=nx>id</span> <span class=o>=</span> <span class=nx>uuidv4</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>                <span class=nx>post</span><span class=p>.</span><span class=nx>title</span> <span class=o>=</span> <span class=nx>inputtedForm</span><span class=p>.</span><span class=nx>title</span>
+</span></span><span class=line><span class=cl>                <span class=nx>post</span><span class=p>.</span><span class=nx>content</span> <span class=o>=</span> <span class=nx>inputtedForm</span><span class=p>.</span><span class=nx>content</span>
+</span></span><span class=line><span class=cl>                <span class=nx>post</span><span class=p>.</span><span class=nx>likes</span> <span class=o>=</span> <span class=nx>inputtedForm</span><span class=p>.</span><span class=nx>likes</span>
+</span></span><span class=line><span class=cl>            <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>async</span> <span class=kd>function</span> <span class=nx>updatePost</span><span class=p>(</span><span class=nx>currentPost</span><span class=p>,</span> <span class=nx>inputtedForm</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=kr>await</span> <span class=nx>database</span><span class=p>.</span><span class=nx>action</span><span class=p>(</span><span class=kr>async</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>await</span> <span class=nx>currentPost</span><span class=p>.</span><span class=nx>update</span><span class=p>(</span><span class=nx>post</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>post</span><span class=p>.</span><span class=nx>title</span> <span class=o>=</span> <span class=nx>inputtedForm</span><span class=p>.</span><span class=nx>title</span>
+</span></span><span class=line><span class=cl>                <span class=nx>post</span><span class=p>.</span><span class=nx>content</span> <span class=o>=</span> <span class=nx>inputtedForm</span><span class=p>.</span><span class=nx>content</span>
+</span></span><span class=line><span class=cl>                <span class=nx>post</span><span class=p>.</span><span class=nx>likes</span> <span class=o>=</span> <span class=nx>inputtedForm</span><span class=p>.</span><span class=nx>likes</span>
+</span></span><span class=line><span class=cl>            <span class=p>});</span>
+</span></span><span class=line><span class=cl>        <span class=p>})</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>PostForm</span> <span class=na>post</span><span class=o>=</span><span class=p>{</span><span class=nx>post</span><span class=p>}</span> <span class=na>clearPost</span><span class=o>=</span><span class=p>{</span><span class=nx>clearPost</span><span class=p>}</span> <span class=na>createPost</span><span class=o>=</span><span class=p>{</span><span class=nx>createPost</span><span class=p>}</span> <span class=na>updatePost</span><span class=o>=</span><span class=p>{</span><span class=nx>updatePost</span><span class=p>}</span> <span class=na>syncData</span><span class=o>=</span><span class=p>{()</span> <span class=p>=&gt;</span> <span class=nx>syncData</span><span class=p>(</span><span class=nx>database</span><span class=p>)}</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>PostList</span> <span class=na>onEdit</span><span class=o>=</span><span class=p>{</span><span class=nx>onEdit</span><span class=p>}</span> <span class=na>onDelete</span><span class=o>=</span><span class=p>{</span><span class=nx>onDelete</span><span class=p>}</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=postformjs class=headerLink><a href=#postformjs class=header-mark></a><code>PostForm.js</code></h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=c1>// assets/js/blog/PostForm.js
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=nx>React</span><span class=p>,</span> <span class=p>{</span> <span class=nx>useState</span><span class=p>,</span> <span class=nx>useEffect</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;react&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kd>function</span> <span class=nx>PostForm</span><span class=p>({</span> <span class=nx>post</span><span class=p>,</span> <span class=nx>clearPost</span><span class=p>,</span> <span class=nx>createPost</span><span class=p>,</span> <span class=nx>updatePost</span><span class=p>,</span> <span class=nx>syncData</span> <span class=p>})</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=p>[</span><span class=nx>title</span><span class=p>,</span> <span class=nx>setTitle</span><span class=p>]</span> <span class=o>=</span> <span class=nx>useState</span><span class=p>(</span><span class=nx>post</span> <span class=o>?</span> <span class=nx>post</span><span class=p>.</span><span class=nx>title</span> <span class=o>:</span> <span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=p>[</span><span class=nx>content</span><span class=p>,</span> <span class=nx>setContent</span><span class=p>]</span> <span class=o>=</span> <span class=nx>useState</span><span class=p>(</span><span class=nx>post</span> <span class=o>?</span> <span class=nx>post</span><span class=p>.</span><span class=nx>content</span> <span class=o>:</span> <span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=p>[</span><span class=nx>likes</span><span class=p>,</span> <span class=nx>setLikes</span><span class=p>]</span> <span class=o>=</span> <span class=nx>useState</span><span class=p>(</span><span class=nx>post</span> <span class=o>?</span> <span class=nx>post</span><span class=p>.</span><span class=nx>likes</span> <span class=o>:</span> <span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=nx>useEffect</span><span class=p>(()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>setTitle</span><span class=p>(</span><span class=nx>post</span> <span class=o>?</span> <span class=nx>post</span><span class=p>.</span><span class=nx>title</span> <span class=o>:</span> <span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nx>setContent</span><span class=p>(</span><span class=nx>post</span> <span class=o>?</span> <span class=nx>post</span><span class=p>.</span><span class=nx>content</span> <span class=o>:</span> <span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nx>setLikes</span><span class=p>(</span><span class=nx>post</span> <span class=o>?</span> <span class=nx>post</span><span class=p>.</span><span class=nx>likes</span> <span class=o>:</span> <span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span> <span class=p>[</span><span class=nx>post</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>onReset</span> <span class=o>=</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>e</span><span class=p>.</span><span class=nx>preventDefault</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=nx>clearForm</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>onSync</span> <span class=o>=</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>e</span><span class=p>.</span><span class=nx>preventDefault</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=nx>syncData</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>onSubmit</span> <span class=o>=</span> <span class=kr>async</span> <span class=p>(</span><span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>e</span><span class=p>.</span><span class=nx>preventDefault</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>inputtedForm</span> <span class=o>=</span> <span class=p>{</span> <span class=nx>title</span><span class=p>,</span> <span class=nx>content</span><span class=p>,</span> <span class=nx>likes</span><span class=o>:</span> <span class=nb>parseInt</span><span class=p>(</span><span class=nx>likes</span><span class=p>)</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nx>post</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>await</span> <span class=nx>updatePost</span><span class=p>(</span><span class=nx>post</span><span class=p>,</span> <span class=nx>inputtedForm</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>await</span> <span class=nx>createPost</span><span class=p>(</span><span class=nx>inputtedForm</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=nx>clearForm</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>const</span> <span class=nx>clearForm</span> <span class=o>=</span> <span class=p>()</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>setTitle</span><span class=p>(</span><span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nx>setContent</span><span class=p>(</span><span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nx>setLikes</span><span class=p>(</span><span class=s2>&#34;&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=nx>clearPost</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>form</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>label</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=nx>Title</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>                <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;text&#34;</span> <span class=na>value</span><span class=o>=</span><span class=p>{</span><span class=nx>title</span><span class=p>}</span> <span class=na>onChange</span><span class=o>=</span><span class=p>{(</span><span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>setTitle</span><span class=p>(</span><span class=nx>e</span><span class=p>.</span><span class=nx>target</span><span class=p>.</span><span class=nx>value</span><span class=p>)}</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;/</span><span class=nt>label</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>label</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=nx>Content</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>                <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;text&#34;</span> <span class=na>value</span><span class=o>=</span><span class=p>{</span><span class=nx>content</span><span class=p>}</span> <span class=na>onChange</span><span class=o>=</span><span class=p>{(</span><span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>setContent</span><span class=p>(</span><span class=nx>e</span><span class=p>.</span><span class=nx>target</span><span class=p>.</span><span class=nx>value</span><span class=p>)}</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;/</span><span class=nt>label</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>label</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=nx>Likes</span><span class=o>:</span>
+</span></span><span class=line><span class=cl>                <span class=p>&lt;</span><span class=nt>input</span> <span class=na>type</span><span class=o>=</span><span class=s>&#34;number&#34;</span> <span class=na>value</span><span class=o>=</span><span class=p>{</span><span class=nx>likes</span><span class=p>}</span> <span class=na>onChange</span><span class=o>=</span><span class=p>{(</span><span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=nx>setLikes</span><span class=p>(</span><span class=nx>e</span><span class=p>.</span><span class=nx>target</span><span class=p>.</span><span class=nx>value</span><span class=p>)}</span> <span class=p>/&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;/</span><span class=nt>label</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>button</span> <span class=na>className</span><span class=o>=</span><span class=s>&#34;button button-outline&#34;</span> <span class=na>onClick</span><span class=o>=</span><span class=p>{</span><span class=nx>onReset</span><span class=p>}&gt;</span><span class=nx>Add</span> <span class=nx>New</span> <span class=o>/</span> <span class=nx>Reset</span><span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>button</span> <span class=na>onClick</span><span class=o>=</span><span class=p>{</span><span class=nx>onSubmit</span><span class=p>}&gt;</span><span class=nx>Save</span><span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>button</span> <span class=na>className</span><span class=o>=</span><span class=s>&#34;button button-clear&#34;</span> <span class=na>onClick</span><span class=o>=</span><span class=p>{</span><span class=nx>onSync</span><span class=p>}&gt;</span><span class=nx>Sync</span><span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/</span><span class=nt>form</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=postlistjs class=headerLink><a href=#postlistjs class=header-mark></a><code>PostList.js</code></h2><p><code>PostList</code> is enhanced component wrapped with <code>withObservables</code> to become reactive whenever data in <code>posts</code> get added or deleted.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=c1>// assets/js/blog/PostList.js
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=nx>React</span> <span class=nx>from</span> <span class=s1>&#39;react&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>withObservables</span> <span class=nx>from</span> <span class=s2>&#34;@nozbe/with-observables&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=p>{</span> <span class=nx>withDatabase</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;@nozbe/watermelondb/DatabaseProvider&#39;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>PostRow</span> <span class=nx>from</span> <span class=s1>&#39;./PostRow&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>PostList</span> <span class=o>=</span> <span class=p>({</span> <span class=nx>posts</span><span class=p>,</span> <span class=nx>onEdit</span><span class=p>,</span> <span class=nx>onDelete</span> <span class=p>})</span> <span class=p>=&gt;</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>table</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>thead</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>tr</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=p>&lt;</span><span class=nt>th</span><span class=p>&gt;</span><span class=nx>Title</span><span class=p>&lt;/</span><span class=nt>th</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=p>&lt;</span><span class=nt>th</span><span class=p>&gt;</span><span class=nx>Content</span><span class=p>&lt;/</span><span class=nt>th</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=p>&lt;</span><span class=nt>th</span><span class=p>&gt;</span><span class=nx>Likes</span><span class=p>&lt;/</span><span class=nt>th</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=p>&lt;</span><span class=nt>th</span><span class=p>&gt;</span><span class=nx>Created</span> <span class=nx>At</span><span class=p>&lt;/</span><span class=nt>th</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=p>&lt;</span><span class=nt>th</span><span class=p>&gt;</span><span class=nx>Updated</span> <span class=nx>At</span><span class=p>&lt;/</span><span class=nt>th</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>                <span class=p>&lt;</span><span class=nt>th</span><span class=p>&gt;</span><span class=nx>Actions</span><span class=p>&lt;/</span><span class=nt>th</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;/</span><span class=nt>tr</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/</span><span class=nt>thead</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>tbody</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span><span class=nx>posts</span><span class=p>.</span><span class=nx>map</span><span class=p>(</span><span class=nx>post</span> <span class=p>=&gt;</span> <span class=p>&lt;</span><span class=nt>PostRow</span> <span class=na>key</span><span class=o>=</span><span class=p>{</span><span class=nx>post</span><span class=p>.</span><span class=nx>_raw</span><span class=p>.</span><span class=nx>id</span><span class=p>}</span> <span class=na>post</span><span class=o>=</span><span class=p>{</span><span class=nx>post</span><span class=p>}</span> <span class=na>onEdit</span><span class=o>=</span><span class=p>{</span><span class=nx>onEdit</span><span class=p>}</span> <span class=na>onDelete</span><span class=o>=</span><span class=p>{</span><span class=nx>onDelete</span><span class=p>}</span> <span class=p>/&gt;)}</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/</span><span class=nt>tbody</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>table</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>withDatabase</span><span class=p>(</span><span class=nx>withObservables</span><span class=p>([],</span> <span class=p>({</span> <span class=nx>database</span> <span class=p>})</span> <span class=p>=&gt;</span> <span class=p>({</span>
+</span></span><span class=line><span class=cl>    <span class=nx>posts</span><span class=o>:</span> <span class=nx>database</span><span class=p>.</span><span class=nx>collections</span><span class=p>.</span><span class=nx>get</span><span class=p>(</span><span class=s1>&#39;posts&#39;</span><span class=p>).</span><span class=nx>query</span><span class=p>().</span><span class=nx>observe</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl><span class=p>}))(</span><span class=nx>PostList</span><span class=p>))</span>
+</span></span></code></pre></div><h2 id=postrowjs class=headerLink><a href=#postrowjs class=header-mark></a><code>PostRow.js</code></h2><p><code>PostRow</code> is also reactive component. It will automatically rerender the component whenever data changes (i.e. <code>post</code> get updated).</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-react data-lang=react><span class=line><span class=cl><span class=c1>// assets/js/blog/PostRow.js
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=nx>React</span> <span class=nx>from</span> <span class=s1>&#39;react&#39;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kr>import</span> <span class=nx>withObservables</span> <span class=nx>from</span> <span class=s2>&#34;@nozbe/with-observables&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>const</span> <span class=nx>PostRow</span> <span class=o>=</span> <span class=p>({</span> <span class=nx>post</span><span class=p>,</span> <span class=nx>onEdit</span><span class=p>,</span> <span class=nx>onDelete</span> <span class=p>})</span> <span class=p>=&gt;</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>tr</span> <span class=na>key</span><span class=o>=</span><span class=p>{</span><span class=nx>post</span><span class=p>.</span><span class=nx>_raw</span><span class=p>.</span><span class=nx>id</span><span class=p>}&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>td</span><span class=p>&gt;{</span><span class=nx>post</span><span class=p>.</span><span class=nx>title</span><span class=p>}&lt;/</span><span class=nt>td</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>td</span><span class=p>&gt;{</span><span class=nx>post</span><span class=p>.</span><span class=nx>content</span><span class=p>}&lt;/</span><span class=nt>td</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>td</span><span class=p>&gt;{</span><span class=nx>post</span><span class=p>.</span><span class=nx>likes</span><span class=p>}&lt;/</span><span class=nt>td</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>td</span><span class=p>&gt;{</span><span class=nx>post</span><span class=p>.</span><span class=nx>createdAt</span><span class=p>.</span><span class=nx>toString</span><span class=p>()}&lt;/</span><span class=nt>td</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>td</span><span class=p>&gt;{</span><span class=nx>post</span><span class=p>.</span><span class=nx>updatedAt</span><span class=p>.</span><span class=nx>toString</span><span class=p>()}&lt;/</span><span class=nt>td</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;</span><span class=nt>td</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>button</span> <span class=na>onClick</span><span class=o>=</span><span class=p>{(</span><span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span><span class=nx>onEdit</span><span class=p>(</span><span class=nx>post</span><span class=p>)}}&gt;</span><span class=nx>Edit</span><span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>            <span class=p>&lt;</span><span class=nt>button</span> <span class=na>onClick</span><span class=o>=</span><span class=p>{(</span><span class=nx>e</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span><span class=nx>onDelete</span><span class=p>(</span><span class=nx>post</span><span class=p>)}}&gt;</span><span class=nx>Delete</span><span class=p>&lt;/</span><span class=nt>button</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=p>&lt;/</span><span class=nt>td</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>tr</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=nx>withObservables</span><span class=p>([</span><span class=s2>&#34;post&#34;</span><span class=p>],</span> <span class=p>({</span> <span class=nx>post</span> <span class=p>})</span> <span class=p>=&gt;</span> <span class=p>({</span>
+</span></span><span class=line><span class=cl>    <span class=nx>post</span><span class=o>:</span> <span class=nx>post</span><span class=p>.</span><span class=nx>observe</span><span class=p>()</span>
+</span></span><span class=line><span class=cl><span class=p>}))(</span><span class=nx>PostRow</span><span class=p>)</span>
+</span></span></code></pre></div><h2 id=syncjs class=headerLink><a href=#syncjs class=header-mark></a><code>sync.js</code></h2><p>Along with the backend, this is the core of sync capability in our app.
+On <a href=https://fahri.id/posts/how-to-build-watermelondb-sync-backend-in-elixir/#workaround-for-sync-on-client-side rel>the previous post</a>, I have explained in detail why it needs a workaround.
+Please read that first.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-js data-lang=js><span class=line><span class=cl><span class=c1>// assets/js/blog/sync.js
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=kr>import</span> <span class=p>{</span> <span class=nx>synchronize</span> <span class=p>}</span> <span class=nx>from</span> <span class=s1>&#39;@nozbe/watermelondb/sync&#39;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kr>export</span> <span class=k>default</span> <span class=kr>async</span> <span class=kd>function</span> <span class=nx>syncData</span><span class=p>(</span><span class=nx>database</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>latestVersionOfSession</span> <span class=o>=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>changesOfSession</span> <span class=o>=</span> <span class=p>{}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>synchronize</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>        <span class=nx>database</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>pullChanges</span><span class=o>:</span> <span class=kr>async</span> <span class=p>({</span> <span class=nx>lastPulledAt</span> <span class=p>})</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>const</span> <span class=nx>response</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>fetch</span><span class=p>(</span><span class=sb>`http://localhost:4000/api/sync/pull?lastPulledVersion=</span><span class=si>${</span><span class=nx>lastPulledAt</span> <span class=o>||</span> <span class=mi>0</span><span class=si>}</span><span class=sb>`</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>response</span><span class=p>.</span><span class=nx>ok</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=kr>await</span> <span class=nx>response</span><span class=p>.</span><span class=nx>text</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=kr>const</span> <span class=p>{</span> <span class=nx>changes</span><span class=p>,</span> <span class=nx>latestVersion</span> <span class=p>}</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>response</span><span class=p>.</span><span class=nx>json</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=nx>latestVersionOfSession</span> <span class=o>=</span> <span class=nx>latestVersion</span>
+</span></span><span class=line><span class=cl>            <span class=nx>changesOfSession</span> <span class=o>=</span> <span class=nx>changes</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=p>{</span> <span class=nx>changes</span><span class=p>,</span> <span class=nx>timestamp</span><span class=o>:</span> <span class=nx>latestVersion</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>        <span class=nx>pushChanges</span><span class=o>:</span> <span class=kr>async</span> <span class=p>({</span> <span class=nx>changes</span><span class=p>,</span> <span class=nx>lastPulledAt</span> <span class=p>})</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>const</span> <span class=nx>response</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>fetch</span><span class=p>(</span><span class=sb>`http://localhost:4000/api/sync/push?lastPulledVersion=</span><span class=si>${</span><span class=nx>lastPulledAt</span> <span class=o>||</span> <span class=mi>0</span><span class=si>}</span><span class=sb>`</span><span class=p>,</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=nx>method</span><span class=o>:</span> <span class=s1>&#39;POST&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=nx>headers</span><span class=o>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=s1>&#39;Content-Type&#39;</span><span class=o>:</span> <span class=s1>&#39;application/json&#39;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                <span class=p>},</span>
+</span></span><span class=line><span class=cl>                <span class=nx>body</span><span class=o>:</span> <span class=nx>JSON</span><span class=p>.</span><span class=nx>stringify</span><span class=p>(</span><span class=nx>changes</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>})</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=nx>response</span><span class=p>.</span><span class=nx>ok</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=kr>await</span> <span class=nx>response</span><span class=p>.</span><span class=nx>text</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=kr>const</span> <span class=p>{</span> <span class=nx>changes</span><span class=o>:</span> <span class=nx>changesFromPush</span><span class=p>,</span> <span class=nx>latestVersion</span> <span class=p>}</span> <span class=o>=</span> <span class=kr>await</span> <span class=nx>response</span><span class=p>.</span><span class=nx>json</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>            <span class=nx>latestVersionOfSession</span> <span class=o>=</span> <span class=nx>latestVersion</span>
+</span></span><span class=line><span class=cl>            <span class=nx>changesOfSession</span> <span class=o>=</span> <span class=nx>changesFromPush</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kr>await</span> <span class=nx>synchronize</span><span class=p>({</span>
+</span></span><span class=line><span class=cl>        <span class=nx>database</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=nx>pullChanges</span><span class=o>:</span> <span class=kr>async</span> <span class=p>({</span> <span class=nx>lastPulledAt</span> <span class=p>})</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=p>{</span> <span class=nx>changes</span><span class=o>:</span> <span class=nx>changesOfSession</span><span class=p>,</span> <span class=nx>timestamp</span><span class=o>:</span> <span class=nx>latestVersionOfSession</span> <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>        <span class=nx>pushChanges</span><span class=o>:</span> <span class=kr>async</span> <span class=p>({</span> <span class=nx>changes</span><span class=p>,</span> <span class=nx>lastPulledAt</span> <span class=p>})</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>throw</span> <span class=k>new</span> <span class=nb>Error</span><span class=p>(</span><span class=kr>await</span> <span class=nx>response</span><span class=p>.</span><span class=nx>text</span><span class=p>())</span>
+</span></span><span class=line><span class=cl>        <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>})</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><h2 id=run-the-application class=headerLink><a href=#run-the-application class=header-mark></a>Run the Application</h2><div class=highlight><pre tabindex=0 class=chroma><code class=language-shell data-lang=shell><span class=line><span class=cl>$ <span class=nb>cd</span> ../ <span class=c1># cd to project directory (blog_app)</span>
+</span></span><span class=line><span class=cl>$ mix phx.server
+</span></span></code></pre></div><p>Open <a href=http://localhost:4000 target=_blank rel="noopener noreferrer">http://localhost:4000</a></p><h2 id=final-source-code class=headerLink><a href=#final-source-code class=header-mark></a>Final Source Code</h2><p>All code (sync backend and frontend app) is available on <a href=https://github.com/fahrinh/blog-labs/tree/master/2020-04-24/blog_app target=_blank rel="noopener noreferrer">https://github.com/fahrinh/blog-labs/tree/master/2020-04-24/blog_app</a></p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>Updated on 2020-04-29</span></div><div class=post-info-license></div></div><div class=post-info-line><div class=post-info-md></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw"></i>&nbsp;<a href=/tags/watermelondb/>WatermelonDB</a>,&nbsp;<a href=/tags/offline-first-app/>Offline First App</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>Back</a></span>&nbsp;|&nbsp;<span><a href=/>Home</a></span></section></div><div class=post-nav><a href=/posts/how-to-build-watermelondb-sync-backend-in-elixir/ class=prev rel=prev title="How to Build WatermelonDB Sync Backend in Elixir"><i class="fas fa-angle-left fa-fw"></i>How to Build WatermelonDB Sync Backend in Elixir</a></div></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>Powered by <a href=https://gohugo.io/ target=_blank rel="noopener noreferrer" title="Hugo 0.109.0">Hugo</a>&nbsp;|&nbsp;Theme - <a href=https://github.com/HEIGE-PCloud/DoIt target=_blank rel="noopener noreferrer" title="DoIt 0.2.13"><i class="far fa-edit fa-fw"></i> DoIt</a></div><div class=footer-line><i class="far fa-copyright fa-fw"></i><span itemprop=copyrightYear>2022</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=/ target=_blank rel="noopener noreferrer">Fahri</a></span></div><div class=footer-line></div><div class=footer-line></div></div></footer></div><div id=fixed-buttons><a href=#back-to-top id=back-to-top-button class=fixed-button title="Back to Top"><i class="fas fa-arrow-up fa-fw"></i>
+</a><a href=# id=view-comments class=fixed-button title="View Comments"><i class="fas fa-comment fa-fw"></i></a></div><div class=assets><script type=text/javascript src=/lib/lazysizes/lazysizes.min.js></script><script type=text/javascript src=/lib/topbar/topbar.min.js></script><script type=text/javascript src=/lib/pjax/pjax.min.js></script><script type=text/javascript src=/js/theme.min.js defer></script></div><div class=pjax-assets><script type=text/javascript>window.config={code:{copyTitle:"Copy to clipboard",maxShownLines:1e4},comment:{}}</script><script type=text/javascript src=/lib/clipboard/clipboard.min.js></script></div></body></html>
