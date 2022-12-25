@@ -1,0 +1,16 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Travis CI - Tag - Fahri NH</title><link>https://fahri.id/id/tags/travis-ci/</link><description>Travis CI - Tag - Fahri NH</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 22 Jul 2017 21:02:09 +0700</lastBuildDate><atom:link href="https://fahri.id/id/tags/travis-ci/" rel="self" type="application/rss+xml"/><item><title>Static Blog dengan Hugo, Github Pages (Travis CI, Cloudflare)</title><link>https://fahri.id/id/posts/static-blogging-with-hugo/</link><pubDate>Sat, 22 Jul 2017 21:02:09 +0700</pubDate><author><name>Fahri</name></author><guid>https://fahri.id/id/posts/static-blogging-with-hugo/</guid><description><![CDATA[<h1 id="github" class="headerLink">
+    <a href="#github" class="header-mark"></a>Github</h1><ul>
+<li>
+<p>Buat dua repositori di Github :</p>
+<ul>
+<li>Repo sumber konten (hasil dari <code>hugo new site</code>) : <a href="https://github.com/fahrinh/my-site" target="_blank" rel="noopener noreferrer">https://github.com/fahrinh/my-site</a></li>
+<li>Repo utama web pages (hasil generate <code>hugo</code>) : <a href="https://github.com/fahrinh/fahrinh.github.io" target="_blank" rel="noopener noreferrer">https://github.com/fahrinh/fahrinh.github.io</a></li>
+</ul>
+</li>
+<li>
+<p>Buat Personal Access Token di <a href="https://github.com/settings/tokens" target="_blank" rel="noopener noreferrer">https://github.com/settings/tokens</a> dengan scope <strong>repo</strong>. Copy token tersebut ke clipboard.</p>
+</li>
+<li>
+<p>Pastikan ada file <code>CNAME</code> dengan isi custom domain blog pada repo <a href="https://github.com/fahrinh/my-site" target="_blank" rel="noopener noreferrer">https://github.com/fahrinh/my-site</a></p>
+</li>
+</ul>]]></description></item></channel></rss>
