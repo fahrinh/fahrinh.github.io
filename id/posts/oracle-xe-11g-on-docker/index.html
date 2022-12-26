@@ -1,4 +1,12 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>Oracle XE 11g dengan Docker - Fahri NH</title><meta name=description content><meta property="og:title" content="Oracle XE 11g dengan Docker"><meta property="og:description" content="$ docker pull wnameless/oracle-xe-11g
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>Oracle XE 11g dengan Docker - Fahri NH</title><meta name=description content="$ docker pull wnameless/oracle-xe-11g
+$ docker run -d -p 1022:22 -p 1521:1521 -e ORACLE_ALLOW_REMOTE=true wnameless/oracle-xe-11g
+$ docker ps -a
+CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS                    PORTS               NAMES
+4fe7a1024ed3        wnameless/oracle-xe-11g   &#34;/bin/sh -c '/usr/...&#34;   5 weeks ago         Exited (137) 4 days ago                       practical_williams
+$ docker start practical_williams
+# or
+$ docker start 4fe7a1024ed3
+"><meta property="og:title" content="Oracle XE 11g dengan Docker"><meta property="og:description" content="$ docker pull wnameless/oracle-xe-11g
 $ docker run -d -p 1022:22 -p 1521:1521 -e ORACLE_ALLOW_REMOTE=true wnameless/oracle-xe-11g
 $ docker ps -a
 CONTAINER ID        IMAGE                     COMMAND                  CREATED             STATUS                    PORTS               NAMES

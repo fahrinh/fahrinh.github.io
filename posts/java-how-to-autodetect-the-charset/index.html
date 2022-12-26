@@ -1,4 +1,35 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM) - Fahri NH</title><meta name=description content><meta property="og:title" content="Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)"><meta property="og:description" content="
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title class=pjax-title>Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM) - Fahri NH</title><meta name=description content="
+    TLDR;Required dependencies (pom.xml) :
+<dependency>
+    <groupId>com.ibm.icu</groupId>
+    <artifactId>icu4j</artifactId>
+    <version>60.1</version>
+</dependency>
+<dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>2.6</version>
+</dependency>
+Autodetect the charset encoding of a text file or input stream then &lsquo;remove&rsquo; (skip) Byte Order Mark (BOM) while reading based on detected charset  :
+File inputFile = new File(&#34;/Users/fahri/Downloads/UNKNOWN_TEXT.txt&#34;);
+
+BOMInputStream bomInputStream = new BOMInputStream(new BufferedInputStream(new FileInputStream(inputFile)),
+        ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE, ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
+
+System.out.println(&#34;HAS BOM : &#34; + bomInputStream.hasBOM());
+
+CharsetDetector detector = new CharsetDetector();
+detector.setText(bomInputStream);
+
+CharsetMatch charsetMatch = detector.detect();
+System.out.println(&#34;CHARSET MATCH : &#34; + charsetMatch.getName());
+
+BufferedReader br = new BufferedReader(new InputStreamReader(bomInputStream, charsetMatch.getName()));
+for (String line = br.readLine(); line != null; line = br.readLine()) {
+    System.out.println(line);
+}
+br.close();
+"><meta property="og:title" content="Java: How To Autodetect The Charset Encoding of A Text File and Remove Byte Order Mark (BOM)"><meta property="og:description" content="
     TLDR;Required dependencies (pom.xml) :
 <dependency>
     <groupId>com.ibm.icu</groupId>
